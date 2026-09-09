@@ -20,6 +20,7 @@ import hashlib
 import json
 from typing import Any
 
+# pyrefly: ignore [missing-import]
 from agents import Agent, ModelSettings, RunContextWrapper, function_tool
 
 from agent import db
@@ -123,6 +124,7 @@ def resolve_model(name: str | None) -> Any:
     if name.startswith("gpt-"):
         return name
     litellm_id = LITELLM_COURSE_MODELS.get(name, name)
+    # pyrefly: ignore [missing-import]
     from agents.extensions.models.litellm_model import LitellmModel
 
     return LitellmModel(model=litellm_id)
