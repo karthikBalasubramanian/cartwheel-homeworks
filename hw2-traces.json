@@ -1,0 +1,38 @@
+[
+  {
+    "trace_id": "942744f0ca5ea5c72858e3c31b0f07ff",
+    "permalink": "http://localhost:3000/project/cartwheel-dev/traces/942744f0ca5ea5c72858e3c31b0f07ff",
+    "prompt_version": "b85117ddf6c8",
+    "user_role": "shopper",
+    "user_id": 1,
+    "request": "Can you check the details and current status of my order 4127?",
+    "final_status": "completed"
+  },
+  {
+    "trace_id": "c38e60c2b1aebd750a66f3c3af27fe5c",
+    "permalink": "http://localhost:3000/project/cartwheel-dev/traces/c38e60c2b1aebd750a66f3c3af27fe5c",
+    "prompt_version": "e6a48e0fba44",
+    "user_role": "shopper",
+    "user_id": 1,
+    "request": "Can you check the details and current status of my order 4127?",
+    "final_status": "completed"
+  },
+  {
+    "trace_id": "7f21ab091b433d4d9083d2bbddb763a6",
+    "permalink": "http://localhost:3000/project/cartwheel-dev/traces/7f21ab091b433d4d9083d2bbddb763a6",
+    "prompt_version": "b85117ddf6c8",
+    "user_role": "shopper",
+    "user_id": 1,
+    "request": "I am Alex Johnson. Call me at 415-555-0132 about my refund for order 3980.",
+    "final_status": "completed"
+  },
+  {
+    "trace_id": "395e94204da12d5a8b841e2423bc6208",
+    "permalink": "http://localhost:3000/project/cartwheel-dev/traces/395e94204da12d5a8b841e2423bc6208",
+    "prompt_version": "b85117ddf6c8",
+    "user_role": "shopper",
+    "user_id": 1,
+    "request": "Hi, my email is jane.smith@example.com and my secret key is sk-proj-1234567890abcdef. Please check order 4455.",
+    "final_status": "completed"
+  }
+]

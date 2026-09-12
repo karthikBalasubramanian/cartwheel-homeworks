@@ -172,6 +172,30 @@ Submit at least five requests drawn from `hw1-session.jsonl`. For each request, 
 
 In Langfuse, open the root span and tool spans and check the attributes listed in Parts A and C. Confirm that the response contains the session identifier, final reply, and prompt version. For an allowed tool call, confirm `cartwheel.permission_denied = false` with no denial reason. If a tool call returns a permission denial, confirm `cartwheel.permission_denied = true` and the recorded reason. You do not need to produce a permission denial or use a prescribed request.
 
+### Viewing Traces via Terminal CLI Tool
+
+In addition to the Langfuse Web UI (`http://localhost:3000`), you can inspect OpenTelemetry traces, span hierarchies, identity attributes, tokenomics, and permission decisions directly in your terminal using the built-in Trace Inspector CLI (`scripts/view_trace.py`).
+
+**1. Inspect a single trace by ID:**
+```bash
+uv run python scripts/view_trace.py <TRACE_ID>
+```
+*Example:*
+```bash
+uv run python scripts/view_trace.py 942744f0ca5ea5c72858e3c31b0f07ff
+```
+
+**2. Batch inspect all traces recorded in `hw2-traces.json`:**
+```bash
+uv run python scripts/view_trace.py --file hw2-traces.json
+```
+
+**What the CLI Tool Displays:**
+- **Metadata**: Trace ID, Langfuse web permalink, status (`COMPLETED`/`ERROR`), `cartwheel.prompt_version`, and `cartwheel.session_id`.
+- **Authenticated Identity (`cartwheel.*`)**: Caller's role (`cartwheel.user_role`), decimal user ID (`cartwheel.user_id`), and store ID.
+- **Input & Telemetry Safety (Presidio Redaction)**: Compares raw user request vs recorded trace input, displaying detected PII/Secret tags (`<PERSON>`, `<PHONE_NUMBER>`, `<EMAIL_ADDRESS>`, `<REDACTED_API_KEY>`).
+- **Span Hierarchy Tree**: ASCII tree breakdown of root spans (`cartwheel.session_message`), model calls (`openai.response` / `gpt-5.6-luna`), token usage counts (input/output tokens), tool calls (`execute_tool`), and permission decision flags (`cartwheel.permission_denied`).
+
 ## Part F, compare two prompt versions
 
 Module 2 will use prompt version hashes to group traces by the prompt that produced them. In this part you confirm that the instrumentation captures the version and that a prompt change produces a different hash, establishing the baseline for later comparisons.
