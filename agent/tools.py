@@ -326,6 +326,7 @@ def find_order(ctx: AuthContext, query: str) -> dict[str, Any]:
         return {"ok": True, "orders": []}
 
     try:
+        # pyrefly: ignore [missing-import]
         from rapidfuzz import fuzz
     except ImportError:
         fuzz = None

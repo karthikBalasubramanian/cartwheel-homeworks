@@ -12,6 +12,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 import yaml
+# pyrefly: ignore [missing-import]
 from rank_bm25 import BM25Okapi
 
 from agent.config import policies_dir
