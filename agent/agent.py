@@ -29,7 +29,7 @@ from agent.auth import AuthContext, can_refund_order, can_view_order, permission
 from agent.config import load_facts
 from agent.helpcenter import get_index
 from agent.killswitch import kill_switch
-from observability.instrument import record_tool_result
+from observability.instrument import configure_model_tracing, record_tool_result
 from seed.eligibility import refund_needs_approval
 
 # ---------------------------------------------------------------------------
@@ -64,12 +64,14 @@ You refuse: legal advice, payment-card or payment-credential handling/changes (d
 
 ## Tool guidance
 - Prefer tool lookups over memory. Search policy answers using search_help_center or get_policy, product catalog questions using search_products, and order details using get_order, list_my_orders, or find_order.
+- You MUST explain your reasoning in plain text before every tool call. State what you are about to look up and why, in one sentence. Do not call a tool without explaining first.
 - If a user specifies a product name rather than an order ID, use find_order to search their orders.
 - Cite the policy id (for example cw-returns) for every policy claim derived from a policy document.
 - Never promise or claim an action (like a refund or cancellation) succeeded before calling the relevant tool and receiving a success result (ok: true).
 - If an order is pre-shipment ('placed'), use cancel_order when requested by an authorized user.
 - For refunds: Always inspect get_order first for eligibility. For refunds above the auto-approval threshold, call issue_refund—the tool will automatically queue the refund for human review, then explain the outcome to the user.
 - State clearly when required information is missing or data is inconsistent rather than inventing values or assuming dates.
+
 
 ## Escalation
 Call escalate_to_human and inform the user a human will follow up in the following cases:
@@ -95,9 +97,9 @@ def render_system_prompt(ctx: AuthContext, template: str | None = None) -> str:
     )
 
 
-def prompt_version(rendered_prompt: str) -> str:
-    """Hash of the rendered prompt. Stamped on every trace (Lecture 2.2)."""
-    return hashlib.sha256(rendered_prompt.encode()).hexdigest()[:12]
+def prompt_version(template: str | None = None) -> str:
+    """Hash the system prompt template before injecting user context."""
+    return hashlib.sha256((template or SYSTEM_PROMPT_TEMPLATE).encode()).hexdigest()[:12]
 
 
 # ---------------------------------------------------------------------------
@@ -142,9 +144,20 @@ def model_settings_for(model: Any) -> ModelSettings:
     documents is passing `allowed_openai_params=["tools"]` per request; the
     Agents SDK forwards it through ModelSettings.extra_args.
     """
+    if isinstance(model, str) and model.startswith("gpt-"):
+        return ModelSettings(
+            reasoning={"effort": "high", "summary": "detailed"},
+            verbosity="high",
+            include_usage=True,
+        )
     model_id = getattr(model, "model", "") if not isinstance(model, str) else ""
     if model_id.startswith("together_ai/"):
         return ModelSettings(extra_args={"allowed_openai_params": ["tools"]})
+    if "claude" in model_id or "anthropic" in model_id:
+        return ModelSettings(
+            reasoning={"effort": "high", "summary": "detailed"},
+            include_usage=True,
+        )
     return ModelSettings()
 
 
@@ -497,6 +510,7 @@ def build_agent(
     it, never a replacement for it.
     """
     resolved = resolve_model(model)
+    configure_model_tracing(openai_model=isinstance(resolved, str))
     if not defenses:
         return Agent[AuthContext](
             name="cartwheel-support",
