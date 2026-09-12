@@ -18,6 +18,7 @@ from pathlib import Path
 from typing import Any, Dict, List
 
 from observability.instrument import load_env
+from observability.redact import redact_text
 
 load_env()
 
@@ -218,7 +219,7 @@ async def run_hw2_suite(server_url: str = "http://localhost:8010", traces_path: 
             "prompt_version": res["prompt_version"],
             "user_role": sc["role"],
             "user_id": sc["user_id"],
-            "request": sc["request"],
+            "request": redact_text(sc["request"]),
             "final_status": "completed",
         })
 
