@@ -1,0 +1,207 @@
+{
+  "batch_name": "batch_3_targeted",
+  "target_count": 25,
+  "source_taxonomy": "analysis/state/taxonomy.json",
+  "traces": [
+    {
+      "batch": "batch_3_targeted",
+      "index": 1,
+      "scenario_id": "support-0029",
+      "trace_id": "0674722be75835158aab271e4996c122",
+      "targeted_mode": "missing_tracking_capability",
+      "signal": "semantic neighbor of a confirmed failure"
+    },
+    {
+      "batch": "batch_3_targeted",
+      "index": 2,
+      "scenario_id": "support-0033",
+      "trace_id": "1212b7d247683d70272affdd6fa0afa2",
+      "targeted_mode": "missing_tracking_capability",
+      "signal": "semantic neighbor of a confirmed failure"
+    },
+    {
+      "batch": "batch_3_targeted",
+      "index": 3,
+      "scenario_id": "support-0037",
+      "trace_id": "b0d93701437036b8b5e3b52cc8275983",
+      "targeted_mode": "unnecessary_escalation",
+      "signal": "semantic neighbor of a confirmed failure"
+    },
+    {
+      "batch": "batch_3_targeted",
+      "index": 4,
+      "scenario_id": "support-0038",
+      "trace_id": "293dc89397b77ea5b065aafc7e920454",
+      "targeted_mode": "missing_tracking_capability",
+      "signal": "semantic neighbor of a confirmed failure"
+    },
+    {
+      "batch": "batch_3_targeted",
+      "index": 5,
+      "scenario_id": "support-0074",
+      "trace_id": "152fc5e96691ff5da3e3061368dddd46",
+      "targeted_mode": "missing_tracking_capability",
+      "signal": "semantic neighbor of a confirmed failure"
+    },
+    {
+      "batch": "batch_3_targeted",
+      "index": 6,
+      "scenario_id": "support-0078",
+      "trace_id": "7fd2e5dfbf00948936c842f6c546e427",
+      "targeted_mode": "dontexplain_explaincautiousness",
+      "signal": "semantic neighbor of a confirmed failure"
+    },
+    {
+      "batch": "batch_3_targeted",
+      "index": 7,
+      "scenario_id": "support-0136",
+      "trace_id": "95867ba6a09dc51540f8e20b2f2a947f",
+      "targeted_mode": "unresolved_product_identifiers",
+      "signal": "semantic neighbor of a confirmed failure"
+    },
+    {
+      "batch": "batch_3_targeted",
+      "index": 8,
+      "scenario_id": "support-0137",
+      "trace_id": "a4b1b8d8df038d5fe1bd5b96c7e7c0b7",
+      "targeted_mode": "unlinked_policy_reference",
+      "signal": "semantic neighbor of a confirmed failure"
+    },
+    {
+      "batch": "batch_3_targeted",
+      "index": 9,
+      "scenario_id": "support-0142",
+      "trace_id": "cf0cfc72cd96bd202166e4578b57a0d4",
+      "targeted_mode": "unresolved_product_identifiers",
+      "signal": "semantic neighbor of a confirmed failure"
+    },
+    {
+      "batch": "batch_3_targeted",
+      "index": 10,
+      "scenario_id": "support-0143",
+      "trace_id": "4981b3b9d868585be3ce2124de6d9fa0",
+      "targeted_mode": "unlinked_policy_reference",
+      "signal": "semantic neighbor of a confirmed failure"
+    },
+    {
+      "batch": "batch_3_targeted",
+      "index": 11,
+      "scenario_id": "support-0146",
+      "trace_id": "0703b29c958d3c1173f7b7b3ae38bf80",
+      "targeted_mode": "unlinked_policy_reference",
+      "signal": "semantic neighbor of a confirmed failure"
+    },
+    {
+      "batch": "batch_3_targeted",
+      "index": 12,
+      "scenario_id": "support-0147",
+      "trace_id": "40c7abdd1634e7c48544d4651a987bcd",
+      "targeted_mode": "dontexplain_explaincautiousness",
+      "signal": "semantic neighbor of a confirmed failure"
+    },
+    {
+      "batch": "batch_3_targeted",
+      "index": 13,
+      "scenario_id": "support-0152",
+      "trace_id": "2792e421608b456fa2b2534d07676abb",
+      "targeted_mode": "unlinked_policy_reference",
+      "signal": "semantic neighbor of a confirmed failure"
+    },
+    {
+      "batch": "batch_3_targeted",
+      "index": 14,
+      "scenario_id": "support-0157",
+      "trace_id": "258bf1e4e9ef777cffaf5d30ff6838b9",
+      "targeted_mode": "unresolved_product_identifiers",
+      "signal": "semantic neighbor of a confirmed failure"
+    },
+    {
+      "batch": "batch_3_targeted",
+      "index": 15,
+      "scenario_id": "support-0159",
+      "trace_id": "a2dca4d975ed6faad83ee672053100a4",
+      "targeted_mode": "dontexplain_explaincautiousness",
+      "signal": "semantic neighbor of a confirmed failure"
+    },
+    {
+      "batch": "batch_3_targeted",
+      "index": 16,
+      "scenario_id": "support-0160",
+      "trace_id": "6cb5d7b6b047d940e3d338e08fa2263f",
+      "targeted_mode": "unresolved_product_identifiers",
+      "signal": "semantic neighbor of a confirmed failure"
+    },
+    {
+      "batch": "batch_3_targeted",
+      "index": 17,
+      "scenario_id": "support-0161",
+      "trace_id": "8b6217d97dd3ef463271d1ebe98b37ce",
+      "targeted_mode": "dontexplain_explaincautiousness",
+      "signal": "semantic neighbor of a confirmed failure"
+    },
+    {
+      "batch": "batch_3_targeted",
+      "index": 18,
+      "scenario_id": "support-0170",
+      "trace_id": "8a69567acf536541d5d7bdb2c2750d86",
+      "targeted_mode": "unresolved_product_identifiers",
+      "signal": "semantic neighbor of a confirmed failure"
+    },
+    {
+      "batch": "batch_3_targeted",
+      "index": 19,
+      "scenario_id": "support-0201",
+      "trace_id": "de27a88ab4387550a59347884ac01586",
+      "targeted_mode": "dontexplain_explaincautiousness",
+      "signal": "semantic neighbor of a confirmed failure"
+    },
+    {
+      "batch": "batch_3_targeted",
+      "index": 20,
+      "scenario_id": "support-0229",
+      "trace_id": "7be8554e6a48449e183294fbf057e8ff",
+      "targeted_mode": "dontexplain_explaincautiousness",
+      "signal": "semantic neighbor of a confirmed failure"
+    },
+    {
+      "batch": "batch_3_targeted",
+      "index": 21,
+      "scenario_id": "support-0234",
+      "trace_id": "87c0be0172c9f1c9c730ac4f71b011e1",
+      "targeted_mode": "dontexplain_explaincautiousness",
+      "signal": "semantic neighbor of a confirmed failure"
+    },
+    {
+      "batch": "batch_3_targeted",
+      "index": 22,
+      "scenario_id": "support-0239",
+      "trace_id": "58ee7e7f5b6f5a990e4519878a3d9e54",
+      "targeted_mode": "dontexplain_explaincautiousness",
+      "signal": "semantic neighbor of a confirmed failure"
+    },
+    {
+      "batch": "batch_3_targeted",
+      "index": 23,
+      "scenario_id": "support-0243",
+      "trace_id": "d78da5c70abb9e44c5d5d587ed5245d9",
+      "targeted_mode": "unnecessary_escalation",
+      "signal": "semantic neighbor of a confirmed failure"
+    },
+    {
+      "batch": "batch_3_targeted",
+      "index": 24,
+      "scenario_id": "support-0248",
+      "trace_id": "6c5511a592633cc25f639ae867886ec6",
+      "targeted_mode": "unnecessary_escalation",
+      "signal": "semantic neighbor of a confirmed failure"
+    },
+    {
+      "batch": "batch_3_targeted",
+      "index": 25,
+      "scenario_id": "support-0250",
+      "trace_id": "d205ab5712bea0331100e4b302310d85",
+      "targeted_mode": "unlinked_policy_reference",
+      "signal": "semantic neighbor of a confirmed failure"
+    }
+  ]
+}

@@ -1,0 +1,128 @@
+{
+  "batch_name": "batch_4_holdout",
+  "target_count": 15,
+  "sampling_method": "uniform_random",
+  "seed": 42,
+  "traces": [
+    {
+      "batch": "batch_4_holdout",
+      "index": 1,
+      "scenario_id": "support-0003",
+      "trace_id": "9a7b03487594bf7d46c5f5b3f34408c6",
+      "sampling_method": "uniform_random",
+      "reason": "Holdout stability check (Batch 4)"
+    },
+    {
+      "batch": "batch_4_holdout",
+      "index": 2,
+      "scenario_id": "support-0206",
+      "trace_id": "f920a3173350690d3a0624b8a41df18f",
+      "sampling_method": "uniform_random",
+      "reason": "Holdout stability check (Batch 4)"
+    },
+    {
+      "batch": "batch_4_holdout",
+      "index": 3,
+      "scenario_id": "support-0238",
+      "trace_id": "4b5f092eb0f072dbd2764f79fb6ff88d",
+      "sampling_method": "uniform_random",
+      "reason": "Holdout stability check (Batch 4)"
+    },
+    {
+      "batch": "batch_4_holdout",
+      "index": 4,
+      "scenario_id": "support-0122",
+      "trace_id": "66492fd3d6525a8494e7c3e749724eb2",
+      "sampling_method": "uniform_random",
+      "reason": "Holdout stability check (Batch 4)"
+    },
+    {
+      "batch": "batch_4_holdout",
+      "index": 5,
+      "scenario_id": "support-0130",
+      "trace_id": "0055b3ee0d77bd90ecb3110c478a2e91",
+      "sampling_method": "uniform_random",
+      "reason": "Holdout stability check (Batch 4)"
+    },
+    {
+      "batch": "batch_4_holdout",
+      "index": 6,
+      "scenario_id": "support-0150",
+      "trace_id": "530db66ee01e8bbf746e3fe6871e849f",
+      "sampling_method": "uniform_random",
+      "reason": "Holdout stability check (Batch 4)"
+    },
+    {
+      "batch": "batch_4_holdout",
+      "index": 7,
+      "scenario_id": "support-0196",
+      "trace_id": "8ef1f38aa4bc8af79dfb3efe31409f1b",
+      "sampling_method": "uniform_random",
+      "reason": "Holdout stability check (Batch 4)"
+    },
+    {
+      "batch": "batch_4_holdout",
+      "index": 8,
+      "scenario_id": "support-0208",
+      "trace_id": "478de07e6369b7af5b7310a1250f9189",
+      "sampling_method": "uniform_random",
+      "reason": "Holdout stability check (Batch 4)"
+    },
+    {
+      "batch": "batch_4_holdout",
+      "index": 9,
+      "scenario_id": "support-0040",
+      "trace_id": "f04d5d9956637684a2eb5ffe74b974a0",
+      "sampling_method": "uniform_random",
+      "reason": "Holdout stability check (Batch 4)"
+    },
+    {
+      "batch": "batch_4_holdout",
+      "index": 10,
+      "scenario_id": "support-0213",
+      "trace_id": "a77c12f66cf1ff2cd8d78e9f26af43dd",
+      "sampling_method": "uniform_random",
+      "reason": "Holdout stability check (Batch 4)"
+    },
+    {
+      "batch": "batch_4_holdout",
+      "index": 11,
+      "scenario_id": "support-0024",
+      "trace_id": "a24196e1ba787f60c47122332e7a554e",
+      "sampling_method": "uniform_random",
+      "reason": "Holdout stability check (Batch 4)"
+    },
+    {
+      "batch": "batch_4_holdout",
+      "index": 12,
+      "scenario_id": "support-0077",
+      "trace_id": "c96863185dd4e471b10e58a80fb58050",
+      "sampling_method": "uniform_random",
+      "reason": "Holdout stability check (Batch 4)"
+    },
+    {
+      "batch": "batch_4_holdout",
+      "index": 13,
+      "scenario_id": "support-0230",
+      "trace_id": "08eedee8c1fe2bb652c039996f869d87",
+      "sampling_method": "uniform_random",
+      "reason": "Holdout stability check (Batch 4)"
+    },
+    {
+      "batch": "batch_4_holdout",
+      "index": 14,
+      "scenario_id": "support-0237",
+      "trace_id": "370417e4c503eda6cbf47d6bc1311d54",
+      "sampling_method": "uniform_random",
+      "reason": "Holdout stability check (Batch 4)"
+    },
+    {
+      "batch": "batch_4_holdout",
+      "index": 15,
+      "scenario_id": "support-0212",
+      "trace_id": "8e4ebd2fe1dfee47011c49c1f05fdafe",
+      "sampling_method": "uniform_random",
+      "reason": "Holdout stability check (Batch 4)"
+    }
+  ]
+}

@@ -1,1 +1,56 @@
-[]
+[
+  {
+    "suggestion_id": "sug-001",
+    "mode": "missing_tracking_capability",
+    "scenario_id": "support-0029",
+    "trace_id": "0674722be75835158aab271e4996c122",
+    "retrieval_signal": "cosine_similarity_0.84",
+    "decision": "accepted",
+    "reason": "Confirmed agent provides delivered status without tracking link or carrier details."
+  },
+  {
+    "suggestion_id": "sug-002",
+    "mode": "missing_tracking_capability",
+    "scenario_id": "support-0003",
+    "trace_id": "9a7b03487594bf7d46c5f5b3f34408c6",
+    "retrieval_signal": "cosine_similarity_0.79",
+    "decision": "rejected",
+    "reason": "Rejected: Order was placed recently and not yet shipped; tracking link availability requirement does not apply before carrier pickup."
+  },
+  {
+    "suggestion_id": "sug-003",
+    "mode": "unnecessary_tool_call",
+    "scenario_id": "support-0196",
+    "trace_id": "8ef1f38aa4bc8af79dfb3efe31409f1b",
+    "retrieval_signal": "tool_call_count_heuristic",
+    "decision": "accepted",
+    "reason": "Confirmed search_products was invoked unnecessarily when product info was already in prior turn context."
+  },
+  {
+    "suggestion_id": "sug-004",
+    "mode": "unnecessary_tool_call",
+    "scenario_id": "support-0145",
+    "trace_id": "2e5614258b21c007d60ab5b1da2c5c18",
+    "retrieval_signal": "tool_call_count_heuristic",
+    "decision": "rejected",
+    "reason": "Rejected: Tool call to get_order was necessary to verify customer order parameters."
+  },
+  {
+    "suggestion_id": "sug-005",
+    "mode": "unverified_store_override",
+    "scenario_id": "support-0211",
+    "trace_id": "6a165c95ae18160f284c80b8313487d6",
+    "retrieval_signal": "keyword_store_override",
+    "decision": "accepted",
+    "reason": "Confirmed agent issued refund without checking store-meridian-cycles-policy override."
+  },
+  {
+    "suggestion_id": "sug-006",
+    "mode": "unverified_store_override",
+    "scenario_id": "support-0222",
+    "trace_id": "0dbc2107f0fc977fc04730513b945aad",
+    "retrieval_signal": "keyword_store_override",
+    "decision": "rejected",
+    "reason": "Rejected: Store had no override policy; fallback to platform cw-returns was fully compliant."
+  }
+]

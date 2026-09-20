@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cartwheel Trace Review App &bull; HW4</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+
+  <!-- Top App Navigation Header -->
+  <header class="app-header">
+    <div class="brand-section">
+      <div class="brand-title">
+        <span>Cartwheel Review</span>
+        <span class="brand-badge">HW4 Analysis</span>
+      </div>
+    </div>
+
+    <!-- Quick Navigation & Scenario Search Bar -->
+    <div class="search-section">
+      <div class="scenario-input-wrapper">
+        <input 
+          id="scenario-input" 
+          class="scenario-input" 
+          type="text" 
+          placeholder="Jump: support-0042" 
+          title="Type scenario ID (e.g. support-0042 or 42) and hit Enter" 
+        />
+      </div>
+      <div class="nav-buttons">
+        <button id="btn-prev" class="btn-icon" title="Previous session (Shortcut: K)">&larr; Prev <span class="kbd-badge">K</span></button>
+        <button id="btn-next" class="btn-icon" title="Next session (Shortcut: J)">Next &rarr; <span class="kbd-badge">J</span></button>
+      </div>
+    </div>
+
+    <!-- Progress & Status Section -->
+    <div class="stats-section">
+      <div id="progress-count" class="progress-pill">0 / 100 Reviewed</div>
+      <a href="/axial-codes" class="axial-nav-btn" style="text-decoration: none; color: #fff; background: #6366f1; padding: 6px 12px; border-radius: 4px; font-size: 0.82rem; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; border: 1px solid rgba(255,255,255,0.15);">📊 Axial Codes</a>
+    </div>
+  </header>
+
+  <!-- Main Multi-Pane Layout -->
+  <div class="app-container">
+
+    <!-- Left Sessions Sidebar -->
+    <aside class="sessions-sidebar">
+      <div class="sidebar-header">
+        <span>Sessions</span>
+        <span id="filtered-count" style="font-size: 11px; color: var(--accent-blue);">250 / 250</span>
+      </div>
+      <div class="filter-toolbar">
+        <select id="filter-select" class="filter-select">
+          <option value="batch1">🎯 Batch 1: 15 Cluster + 15 Uniform (30)</option>
+          <option value="batch2">🎯 Batch 2: Role Stratified (30)</option>
+          <option value="batch3">🎯 Batch 3: Targeted Depth Search (25)</option>
+          <option value="batch4" selected>🎯 Batch 4: Holdout Stability (15)</option>
+          <option value="all">🔍 All Scenarios (250)</option>
+          <option value="multi_turn">🔄 Multi-Turn Sessions (10)</option>
+          <option value="security">🚨 Security / Permission Refused (23)</option>
+          <option value="escalation">👤 Escalated to Human (65)</option>
+          <option value="role_shopper">🛒 Shopper Role (215)</option>
+          <option value="role_merchant">🏪 Merchant Role (30)</option>
+          <option value="role_support">🎧 Support Staff Role (15)</option>
+          <option value="refund">💰 Refunds</option>
+          <option value="policy">📜 Policy Retained / Lookups</option>
+          <option value="unreviewed">⏳ Unreviewed</option>
+          <option value="reviewed">✅ Reviewed</option>
+        </select>
+      </div>
+      <ul id="session-list-items" class="session-list">
+        <!-- Populated dynamically by app.js -->
+      </ul>
+    </aside>
+
+    <!-- Center Conversation & Tool Execution Stream -->
+    <main id="conversation-stream" class="conversation-main">
+      <div style="display: flex; justify-content: center; align-items: center; height: 100%; color: var(--text-muted);">
+        Loading session traces...
+      </div>
+    </main>
+
+    <!-- Right Sticky Annotation & Taxonomy Console -->
+    <aside class="annotation-panel">
+      <div class="panel-title">Review & Annotation</div>
+
+      <!-- Verdict Buttons -->
+      <div>
+        <div style="font-size: 11px; font-weight: 700; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase;">
+          Turn/Trace Verdict
+        </div>
+        <div class="verdict-button-group">
+          <button id="btn-verdict-pass" class="btn-verdict" onclick="setVerdict('pass')">
+            <span>Pass</span>
+            <span class="shortcut">Key [P]</span>
+          </button>
+          <button id="btn-verdict-fail" class="btn-verdict" onclick="setVerdict('fail')">
+            <span>Fail</span>
+            <span class="shortcut">Key [F]</span>
+          </button>
+          <button id="btn-verdict-defer" class="btn-verdict" onclick="setVerdict('defer')">
+            <span>Defer</span>
+            <span class="shortcut">Key [D]</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Open Coding Notes -->
+      <div class="notes-wrapper">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <span style="font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">
+            Open Coding Notes
+          </span>
+          <span style="font-size: 10px; color: var(--text-muted);">First failure rule</span>
+        </div>
+        <textarea 
+          id="notes-input" 
+          class="notes-textarea" 
+          placeholder="Describe the earliest failure observed in plain language (e.g. 'promised refund before tool output verified eligibility')..."
+        ></textarea>
+      </div>
+
+      <!-- Taxonomy Binary Modes -->
+      <div class="taxonomy-section">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <span style="font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">
+            Failure Mode Taxonomy
+          </span>
+          <span style="font-size: 10px; color: var(--accent-rose);">Binary (Present)</span>
+        </div>
+        <div id="taxonomy-checkboxes">
+          <!-- Populated dynamically by app.js -->
+        </div>
+      </div>
+
+      <!-- Save & Advance Action Button -->
+      <button id="btn-save-advance" class="btn-save-advance">
+        <span>Save & Next Session</span>
+        <span class="kbd-badge" style="background: rgba(0,0,0,0.3); color: white;">Cmd+Enter</span>
+      </button>
+
+      <!-- Keyboard Shortcuts Cheat Sheet -->
+      <div class="keyboard-shortcuts-footer">
+        <div><span class="kbd-badge">J</span> / <span class="kbd-badge">K</span> : Next / Prev Session</div>
+        <div><span class="kbd-badge">P</span> / <span class="kbd-badge">F</span> / <span class="kbd-badge">D</span> : Pass / Fail / Defer</div>
+        <div><span class="kbd-badge">Cmd+Enter</span> : Save & Advance</div>
+      </div>
+    </aside>
+
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

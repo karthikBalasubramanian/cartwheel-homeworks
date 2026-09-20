@@ -1,1 +1,1670 @@
-{"annotations": []}
+{
+  "annotations": [
+    {
+      "session_id": "1082dff7-01cf-410b-81cd-bbf43c849422",
+      "scenario_id": "support-0002",
+      "trace_id": "13123dfb0cdf25d95f5a65aec1090c2f",
+      "verdict": "pass",
+      "label": 1,
+      "note": "[Turn 1 Assistant Response]: A helpful reply would be to add the tracking link for the order when user asks about it",
+      "modes": {},
+      "step_notes": {
+        "turn_0_reply": {
+          "text": "A helpful reply would be to add the tracking link for the order when user asks about it",
+          "is_first_failure": false,
+          "label": "Turn 1 Assistant Response"
+        }
+      },
+      "ts": "2026-09-19T16:14:26.852Z",
+      "author": "human"
+    },
+    {
+      "session_id": "16c894bf-9dbd-4b7c-9672-d369346df479",
+      "scenario_id": "support-0004",
+      "trace_id": "78a97e803af521b441ba2e2ee320aed2",
+      "verdict": "fail",
+      "label": 0,
+      "note": "[FIRST FAILURE - Turn 1 Assistant Response]: This is not a helpful answer. As a user I still feel unhelpful with knowing your internal orders information. At the end of the day I still don't know where my package is, A tracking link is the common information which can help the user interface with cartwheel agent.",
+      "modes": {},
+      "step_notes": {
+        "turn_0_reply": {
+          "text": "This is not a helpful answer. As a user I still feel unhelpful with knowing your internal orders information. At the end of the day I still don't know where my package is, A tracking link is the common information which can help the user interface with cartwheel agent.",
+          "is_first_failure": true,
+          "label": "Turn 1 Assistant Response"
+        }
+      },
+      "ts": "2026-09-19T16:25:47.869Z",
+      "author": "human"
+    },
+    {
+      "session_id": "5ad8330a-ac63-44b5-b2f3-62843230a656",
+      "scenario_id": "support-0006",
+      "trace_id": "f1bc56e83fe103b2eeef2a9ff55e71e2",
+      "verdict": "fail",
+      "label": 0,
+      "note": "[FIRST FAILURE - Turn 1 Assistant Response]: 1. Again the tracking link could have been useful.\n2. Should the response be more urgent based on users tone?\n3.  There is inconsitency in the response for checking status or getting order details etc, in some places it shows the Price and Store and in other it doesnt.",
+      "modes": {},
+      "step_notes": {
+        "turn_0_reply": {
+          "text": "1. Again the tracking link could have been useful.\n2. Should the response be more urgent based on users tone?\n3.  There is inconsitency in the response for checking status or getting order details etc, in some places it shows the Price and Store and in other it doesnt. \n",
+          "is_first_failure": true,
+          "label": "Turn 1 Assistant Response"
+        }
+      },
+      "ts": "2026-09-19T16:31:02.198Z",
+      "author": "human"
+    },
+    {
+      "session_id": "ec779c8c-e8b6-4b0b-be15-1ca939b9fa33",
+      "scenario_id": "support-0012",
+      "trace_id": "db64baf2f8a300d9d2df9575e619e074",
+      "verdict": "fail",
+      "label": 0,
+      "note": "[FIRST FAILURE - Turn 1 Assistant Response]: Same issue\n1. Tracking link is the most important common information between user and the cartwheel support agent and its the responsibility of cartwheel support agent to provide that information \n2. The response for order details check in this case dont have the price.",
+      "modes": {},
+      "step_notes": {
+        "turn_0_reply": {
+          "text": "Same issue\n1. Tracking link is the most important common information between user and the cartwheel support agent and its the responsibility of cartwheel support agent to provide that information \n2. The response for order details check in this case dont have the price. ",
+          "is_first_failure": true,
+          "label": "Turn 1 Assistant Response"
+        }
+      },
+      "ts": "2026-09-19T16:33:03.157Z",
+      "author": "human"
+    },
+    {
+      "session_id": "92e3e385-cbce-4733-8835-73e4739ce9ab",
+      "scenario_id": "support-0013",
+      "trace_id": "08c6649d0761cec702e3d114dfd6e3f0",
+      "verdict": "fail",
+      "label": 0,
+      "note": "[FIRST FAILURE - Turn 1 Assistant Response]: \"If you haven\u2019t received it, please check around the delivery location, with household members or neighbors\" - I understand the concern, but it becomes too preachy when you ask the user to do this, or that etc to find the package. I would suggest to maintain your boundaries, You are a cartwheel support agent and I expect you to support cartwheel and not advise users on what they should do. \n\n\"I don\u2019t have a carrier location or delivery-photo detail in the order record.\" - This is the same issue, cartwheel agent should send tracking link. its the agents responsibility",
+      "modes": {},
+      "step_notes": {
+        "turn_0_reply": {
+          "text": "\"If you haven\u2019t received it, please check around the delivery location, with household members or neighbors\" - I understand the concern, but it becomes too preachy when you ask the user to do this, or that etc to find the package. I would suggest to maintain your boundaries, You are a cartwheel support agent and I expect you to support cartwheel and not advise users on what they should do. \n\n\"I don\u2019t have a carrier location or delivery-photo detail in the order record.\" - This is the same issue, cartwheel agent should send tracking link. its the agents responsibility\n",
+          "is_first_failure": true,
+          "label": "Turn 1 Assistant Response"
+        }
+      },
+      "ts": "2026-09-19T16:37:44.649Z",
+      "author": "human"
+    },
+    {
+      "session_id": "bfe90aa3-b848-4b6f-b098-cd0424d46888",
+      "scenario_id": "support-0015",
+      "trace_id": "c5c6b508a89f8f1e009daa935f584d2f",
+      "verdict": "fail",
+      "label": 0,
+      "note": "[Turn 1 Deliberation]: Interesting, you interpreted PO as purchase order, that goo.\n\n[FIRST FAILURE - Turn 1 Assistant Response]: 1. Its easier to just share the tracking link and give a short uniform summary. \n\n2. Order status, only provides status, order lookup provides quantity, status and total. These are discrepancies in my opinion.",
+      "modes": {},
+      "step_notes": {
+        "turn_0_delib_0": {
+          "text": "Interesting, you interpreted PO as purchase order, that goo. ",
+          "is_first_failure": false,
+          "label": "Turn 1 Deliberation"
+        },
+        "turn_0_reply": {
+          "text": "1. Its easier to just share the tracking link and give a short uniform summary. \n\n2. Order status, only provides status, order lookup provides quantity, status and total. These are discrepancies in my opinion.",
+          "is_first_failure": true,
+          "label": "Turn 1 Assistant Response"
+        }
+      },
+      "ts": "2026-09-19T16:42:26.254Z",
+      "author": "human"
+    },
+    {
+      "session_id": "d2efb02e-ac3b-4e09-8cfd-53c163ffd108",
+      "scenario_id": "support-0020",
+      "trace_id": "a2d989448c9d805ed9b2318a263bb0a7",
+      "verdict": "fail",
+      "label": 0,
+      "note": "[FIRST FAILURE - Turn 1 Assistant Response]: Ditto, \n\n1. Tracking link is a necessity. \n2. \" If you haven\u2019t received it despite the delivered status, let me know and I can help escalate the delivery issue to a human support agent.\" may be we can avoid these kind of responses that premediate next steps.",
+      "modes": {},
+      "step_notes": {
+        "turn_0_reply": {
+          "text": "Ditto, \n\n1. Tracking link is a necessity. \n2. \" If you haven\u2019t received it despite the delivered status, let me know and I can help escalate the delivery issue to a human support agent.\" may be we can avoid these kind of responses that premediate next steps.",
+          "is_first_failure": true,
+          "label": "Turn 1 Assistant Response"
+        }
+      },
+      "ts": "2026-09-19T16:44:41.739Z",
+      "author": "human"
+    },
+    {
+      "session_id": "fe70e72b-8b08-4129-bbbb-ee69323449b2",
+      "scenario_id": "support-0021",
+      "trace_id": "9fd3695373514eb1e07e03f01c44fd8d",
+      "verdict": "fail",
+      "label": 0,
+      "note": "[FIRST FAILURE - Turn 1 Deliberation]: This is the same json we get for any get_order, in general, get_order tool does not have delivery location in its schema, So it is expected to not have it. The escalate_to_human trigger i think has happened because of customers tone. But the escalation is in this case is not the right move. \n\nA tracking link is a necessary common denominator information I think the get_order tool must possess.",
+      "modes": {},
+      "step_notes": {
+        "turn_0_delib_1": {
+          "text": "This is the same json we get for any get_order, in general, get_order tool does not have delivery location in its schema, So it is expected to not have it. The escalate_to_human trigger i think has happened because of customers tone. But the escalation is in this case is not the right move. \n\nA tracking link is a necessary common denominator information I think the get_order tool must possess. \n",
+          "is_first_failure": true,
+          "label": "Turn 1 Deliberation"
+        }
+      },
+      "ts": "2026-09-19T16:52:06.544Z",
+      "author": "human"
+    },
+    {
+      "session_id": "1e9a4f8b-66be-4afa-81f7-00fa869d0be3",
+      "scenario_id": "support-0022",
+      "trace_id": "7156c0a4a9567cc474a5496369640aaa",
+      "verdict": "fail",
+      "label": 0,
+      "note": "[FIRST FAILURE - Turn 1 Assistant Response]: 1. \"marked\" is a wrong word, shows that you directly interpreted from database and a malicious user can interpret it as a enum. \n2. Again the tracking link is missing.",
+      "modes": {},
+      "step_notes": {
+        "turn_0_reply": {
+          "text": "1. \"marked\" is a wrong word, shows that you directly interpreted from database and a malicious user can interpret it as a enum. \n2. Again the tracking link is missing. ",
+          "is_first_failure": true,
+          "label": "Turn 1 Assistant Response"
+        }
+      },
+      "ts": "2026-09-19T16:54:23.867Z",
+      "author": "human"
+    },
+    {
+      "session_id": "78d6bffb-6ece-4df5-b24b-72fbbe5f7830",
+      "scenario_id": "support-0051",
+      "trace_id": "f5d358c08c20a64860d5c0d5cc5d9389",
+      "verdict": "fail",
+      "label": 0,
+      "note": "[FIRST FAILURE - Turn 1 Deliberation]: 1. (policy **cw-returns**) is internal info we are leaking to the user.",
+      "modes": {},
+      "step_notes": {
+        "turn_0_delib_5": {
+          "text": "1. (policy **cw-returns**) is internal info we are leaking to the user. \n",
+          "is_first_failure": true,
+          "label": "Turn 1 Deliberation"
+        }
+      },
+      "ts": "2026-09-19T17:13:22.213Z",
+      "author": "human"
+    },
+    {
+      "session_id": "9f39ec85-a850-4966-9cc6-c4ec1844b4c8",
+      "scenario_id": "support-0058",
+      "trace_id": "2656695dc182189292d3d9dbcc5df0a8",
+      "verdict": "fail",
+      "label": 0,
+      "note": "[FIRST FAILURE - Turn 1 Deliberation]: 1. (policy **cw-returns**),  (policy **cw-store-overrides**)  policy leak to user, internal info\n2. The tool calls say, they looked at cartwheel return policy and cartwheel store overrides policy. What i think the system has interpreted is, the store override policy has preference over the platform policy. But it didnt actually search the store \"Cascade Audio\"'s policy.",
+      "modes": {},
+      "step_notes": {
+        "turn_0_delib_4": {
+          "text": "1. (policy **cw-returns**),  (policy **cw-store-overrides**)  policy leak to user, internal info\n2. The tool calls say, they looked at cartwheel return policy and cartwheel store overrides policy. What i think the system has interpreted is, the store override policy has preference over the platform policy. But it didnt actually search the store \"Cascade Audio\"'s policy. ",
+          "is_first_failure": true,
+          "label": "Turn 1 Deliberation"
+        }
+      },
+      "ts": "2026-09-19T17:24:02.845Z",
+      "author": "human"
+    },
+    {
+      "session_id": "9ea629e1-8294-42a8-abe4-5b005a3780a1",
+      "scenario_id": "support-0059",
+      "trace_id": "3eff691d6e86b23c8cb760e9d7c63aac",
+      "verdict": "fail",
+      "label": 0,
+      "note": "[FIRST FAILURE - Turn 1 Assistant Response]: `refund_eligible: false` Database key leaked\n \"even though Cartwheel\u2019s default policy allows returns within 30 days of delivery. Store-specific rules can override that default\"  - do not blurt out your thinking to the user, they dont have to know how you arrived at a decision that relates to internal policies. \n\"See policies cw-returns and cw-store-overrides.\" - Users cant see these internal policies",
+      "modes": {},
+      "step_notes": {
+        "turn_0_reply": {
+          "text": "`refund_eligible: false` Database key leaked\n \"even though Cartwheel\u2019s default policy allows returns within 30 days of delivery. Store-specific rules can override that default\"  - do not blurt out your thinking to the user, they dont have to know how you arrived at a decision that relates to internal policies. \n\"See policies cw-returns and cw-store-overrides.\" - Users cant see these internal policies\n",
+          "is_first_failure": true,
+          "label": "Turn 1 Assistant Response"
+        }
+      },
+      "ts": "2026-09-19T17:32:49.869Z",
+      "author": "human"
+    },
+    {
+      "session_id": "bdcc189c-9e92-4b40-94e3-7ac3fc880fde",
+      "scenario_id": "support-0094",
+      "trace_id": "cf95025a3d5af1ea455c07c81b3340f7",
+      "verdict": "fail",
+      "label": 0,
+      "note": "[FIRST FAILURE - Turn 1 Assistant Response]: everything was right until you showed \"\u2014 Policy: `cw-restocking-fees`\" This is internal detail",
+      "modes": {},
+      "step_notes": {
+        "turn_0_reply": {
+          "text": "everything was right until you showed \"\u2014 Policy: `cw-restocking-fees`\" This is internal detail ",
+          "is_first_failure": true,
+          "label": "Turn 1 Assistant Response"
+        }
+      },
+      "ts": "2026-09-19T17:34:18.592Z",
+      "author": "human"
+    },
+    {
+      "session_id": "bd666a9b-ba84-492a-8473-fc3ad505d3ff",
+      "scenario_id": "support-0108",
+      "trace_id": "45f85bd1177995082ccd80bbb3c38b2a",
+      "verdict": "fail",
+      "label": 0,
+      "note": "[FIRST FAILURE - Turn 1 Assistant Response]: Everything was right until you leaked the internal policy detail to user \"[Policy: `cw-shipping`]\" You could have said \n\nreference - cartwheel-shipping or a link like https://www.cartwheel.com/policies/shipping.html or something.",
+      "modes": {},
+      "step_notes": {
+        "turn_0_reply": {
+          "text": "Everything was right until you leaked the internal policy detail to user \"[Policy: `cw-shipping`]\" You could have said \n\nreference - cartwheel-shipping or a link like https://www.cartwheel.com/policies/shipping.html or something. ",
+          "is_first_failure": true,
+          "label": "Turn 1 Assistant Response"
+        }
+      },
+      "ts": "2026-09-19T17:36:19.607Z",
+      "author": "human"
+    },
+    {
+      "session_id": "ddb03db9-8304-4169-bc11-6556dc70601e",
+      "scenario_id": "support-0131",
+      "trace_id": "734481a229f798650b5b597843c6c30d",
+      "verdict": "pass",
+      "label": 1,
+      "note": "",
+      "modes": {},
+      "step_notes": {},
+      "ts": "2026-09-19T17:39:08.221Z",
+      "author": "human"
+    },
+    {
+      "session_id": "310ba9a7-bae4-4103-9e8f-9595d4bfdd3c",
+      "scenario_id": "support-0133",
+      "trace_id": "acff65896d677ba90255f706f53f9733",
+      "verdict": "pass",
+      "label": 1,
+      "note": "",
+      "modes": {},
+      "step_notes": {},
+      "ts": "2026-09-19T17:41:32.690Z",
+      "author": "human"
+    },
+    {
+      "session_id": "35a8ae4a-dde3-4e7b-89ac-41b081dd0916",
+      "scenario_id": "support-0138",
+      "trace_id": "fa7b5dfb9ef02f11805704e73fa43485",
+      "verdict": "pass",
+      "label": 1,
+      "note": "[Turn 1 Assistant Response]: \"I don\u2019t want to inspect or act on the wrong order.\" You dont have to explain your cautiousness.",
+      "modes": {},
+      "step_notes": {
+        "turn_0_reply": {
+          "text": "\"I don\u2019t want to inspect or act on the wrong order.\" You dont have to explain your cautiousness. ",
+          "is_first_failure": false,
+          "label": "Turn 1 Assistant Response"
+        }
+      },
+      "ts": "2026-09-19T17:43:42.287Z",
+      "author": "human"
+    },
+    {
+      "session_id": "64019ee2-73aa-4581-b4c6-d5b5297e413c",
+      "scenario_id": "support-0139",
+      "trace_id": "131a5d676680e1eb8a5e730ec3bf7e48",
+      "verdict": "fail",
+      "label": 0,
+      "note": "[FIRST FAILURE - Turn 1 Assistant Response]: \"The order data provides product IDs rather than catalog product names.\" - Its not useful for the merchant. I as a merchant would expect the order name over order id.  If I have to understand your current answer, I need to make 5 more calls on what is the product name of id X, which is inefficient",
+      "modes": {},
+      "step_notes": {
+        "turn_0_reply": {
+          "text": "\"The order data provides product IDs rather than catalog product names.\" - Its not useful for the merchant. I as a merchant would expect the order name over order id.  If I have to understand your current answer, I need to make 5 more calls on what is the product name of id X, which is inefficient",
+          "is_first_failure": true,
+          "label": "Turn 1 Assistant Response"
+        }
+      },
+      "ts": "2026-09-19T17:48:10.709Z",
+      "author": "human"
+    },
+    {
+      "session_id": "f50ccfbb-14bf-4357-93ec-0ec9654a8f61",
+      "scenario_id": "support-0140",
+      "trace_id": "2f160bd6d263b32ce7b42d04e21be9c2",
+      "verdict": "fail",
+      "label": 0,
+      "note": "[FIRST FAILURE - Turn 1 Assistant Response]: everything was right except \"\u2014 Policy: `cw-payouts`\" Like mentioned before \n\"references\" with policy links would be useful.",
+      "modes": {},
+      "step_notes": {
+        "turn_0_reply": {
+          "text": "everything was right except \"\u2014 Policy: `cw-payouts`\" Like mentioned before \n\"references\" with policy links would be useful. ",
+          "is_first_failure": true,
+          "label": "Turn 1 Assistant Response"
+        }
+      },
+      "ts": "2026-09-19T17:50:35.933Z",
+      "author": "human"
+    },
+    {
+      "session_id": "1ef59e04-2caf-4576-8042-a7d6aa2c038a",
+      "scenario_id": "support-0175",
+      "trace_id": "b283c6a9d6c3e3403c5206f273cca9a0",
+      "verdict": "pass",
+      "label": 1,
+      "note": "[Turn 1 Assistant Response]: I am impressed. Good job!",
+      "modes": {},
+      "step_notes": {
+        "turn_0_reply": {
+          "text": "I am impressed. Good job!",
+          "is_first_failure": false,
+          "label": "Turn 1 Assistant Response"
+        }
+      },
+      "ts": "2026-09-19T17:52:34.787Z",
+      "author": "human"
+    },
+    {
+      "session_id": "3f7e57d5-82c6-41b0-91a6-d725bf595f19",
+      "scenario_id": "support-0176",
+      "trace_id": "41faaa7ba53dc881fa2dbe3e153316ff",
+      "verdict": "fail",
+      "label": 0,
+      "note": "[FIRST FAILURE - Turn 1 Deliberation]: There is a confusion in trajectory, The initial tool calls acknowledge that, There are platform policies and store specific overrides are possible, But when searching for specific store policy, the agent didnt say whether it found a store specific policy or not, it then talked like business as-usual tone and resorted to cartwheel platform return policy. Not sure on this reasoning",
+      "modes": {},
+      "step_notes": {
+        "turn_0_delib_5": {
+          "text": "There is a confusion in trajectory, The initial tool calls acknowledge that, There are platform policies and store specific overrides are possible, But when searching for specific store policy, the agent didnt say whether it found a store specific policy or not, it then talked like business as-usual tone and resorted to cartwheel platform return policy. Not sure on this reasoning",
+          "is_first_failure": true,
+          "label": "Turn 1 Deliberation"
+        }
+      },
+      "ts": "2026-09-19T17:56:34.736Z",
+      "author": "human"
+    },
+    {
+      "session_id": "1602ad8c-b394-4085-8bd4-e912796c66d8",
+      "scenario_id": "support-0182",
+      "trace_id": "2ef051cd5f52d5f453b856a4385c13b7",
+      "verdict": "pass",
+      "label": 1,
+      "note": "[Turn 1 Assistant Response]: This is good finding, Order date < shipped date < delivered date. The Agent has not corraborated with data inconsistencies here, which is good.",
+      "modes": {},
+      "step_notes": {
+        "turn_0_reply": {
+          "text": "This is good finding, Order date < shipped date < delivered date. The Agent has not corraborated with data inconsistencies here, which is good. ",
+          "is_first_failure": false,
+          "label": "Turn 1 Assistant Response"
+        }
+      },
+      "ts": "2026-09-19T17:59:01.956Z",
+      "author": "human"
+    },
+    {
+      "session_id": "7055312e-5067-4828-aba9-a3c4e9beaa92",
+      "scenario_id": "support-0197",
+      "trace_id": "ec3a54e45c2cd95c92b86f98e24b4fb1",
+      "verdict": "fail",
+      "label": 0,
+      "note": "[FIRST FAILURE - Turn 1 Tool (search_products)]: Why would you search for product with product id? That costed us additional tool call, I would have expected the next tool call as a default.\n\n[Turn 1 Assistant Response]: This is good call",
+      "modes": {},
+      "step_notes": {
+        "turn_0_tool_0_search_products": {
+          "text": "Why would you search for product with product id? That costed us additional tool call, I would have expected the next tool call as a default. ",
+          "is_first_failure": true,
+          "label": "Turn 1 Tool (search_products)"
+        },
+        "turn_0_reply": {
+          "text": "This is good call\n",
+          "is_first_failure": false,
+          "label": "Turn 1 Assistant Response"
+        }
+      },
+      "ts": "2026-09-19T18:02:27.646Z",
+      "author": "human"
+    },
+    {
+      "session_id": "ccd63644-95e6-4c7a-9da2-d754c6289728",
+      "scenario_id": "support-0199",
+      "trace_id": "c5aaa33b0b3b7475969b02d605be00de",
+      "verdict": null,
+      "label": null,
+      "note": "[Turn 1 Assistant Response]: This is good call!",
+      "modes": {},
+      "step_notes": {
+        "turn_0_reply": {
+          "text": "This is good call! ",
+          "is_first_failure": false,
+          "label": "Turn 1 Assistant Response"
+        }
+      },
+      "ts": "2026-09-19T18:01:57.589Z",
+      "author": "human"
+    },
+    {
+      "session_id": "2544d6be-5d5d-494e-a270-1d536f8c6243",
+      "scenario_id": "support-0211",
+      "trace_id": "6a165c95ae18160f284c80b8313487d6",
+      "verdict": "fail",
+      "label": 0,
+      "note": "[FIRST FAILURE - Turn 1 Deliberation]: The agent saw the order was from Meridian Cycles but failed to look up store-meridian-cycles-policy to check for store-specific return overrides. Instead, it blindly trusted refund_eligible: true and issued an unverified refund for an order that required store window validation.",
+      "modes": {},
+      "step_notes": {
+        "turn_0_delib_1": {
+          "text": "The agent saw the order was from Meridian Cycles but failed to look up store-meridian-cycles-policy to check for store-specific return overrides. Instead, it blindly trusted refund_eligible: true and issued an unverified refund for an order that required store window validation.",
+          "is_first_failure": true,
+          "label": "Turn 1 Deliberation"
+        }
+      },
+      "ts": "2026-09-19T19:10:10.991Z",
+      "author": "human"
+    },
+    {
+      "session_id": "b3016b27-3655-4608-977f-b6af95a88b31",
+      "scenario_id": "support-0222",
+      "trace_id": "0dbc2107f0fc977fc04730513b945aad",
+      "verdict": "pass",
+      "label": 1,
+      "note": "But there is a Agent trajectory flaw, \n\n1. Agent got the order details \n2. But agent didnt check whether there is a store policy override for returns and refunds\n3. It assumed Blue Heron Ceramics follows platform policy and got lucky. \n\nIdeally would have liked a tool call from search_help_center(\"<Store Name> return policy\").",
+      "modes": {},
+      "step_notes": {},
+      "ts": "2026-09-19T19:18:11.501Z",
+      "author": "human"
+    },
+    {
+      "session_id": "c360e42d-2e8d-4dd8-baee-ceee300a08d6",
+      "scenario_id": "support-0224",
+      "trace_id": "739daf3d4ede3e20b028c1215721eb56",
+      "verdict": "pass",
+      "label": 1,
+      "note": "[Turn 1 Tool (get_policy)]: The agent identified the store as Blue Heron Ceramics, but proceeded directly to refund processing without checking whether Blue Heron Ceramics has a store-specific return policy override. It relied solely on platform default rules (cw-refunds) without verifying store terms",
+      "modes": {},
+      "step_notes": {
+        "turn_0_tool_2_get_policy": {
+          "text": "The agent identified the store as Blue Heron Ceramics, but proceeded directly to refund processing without checking whether Blue Heron Ceramics has a store-specific return policy override. It relied solely on platform default rules (cw-refunds) without verifying store terms",
+          "is_first_failure": false,
+          "label": "Turn 1 Tool (get_policy)"
+        }
+      },
+      "ts": "2026-09-19T19:24:24.666Z",
+      "author": "human"
+    },
+    {
+      "session_id": "9377c803-092c-4528-92af-c2943ae829ba",
+      "scenario_id": "support-0231",
+      "trace_id": "a299cdf8d86689d2eac8897b30a0d253",
+      "verdict": "pass",
+      "label": 1,
+      "note": "[Turn 1 Tool (list_my_orders)]: After permission was denied for order #3255, the agent executed an unrequested tool call (list_my_orders) and assumed user intent by volunteering recent orders rather than issuing a concise, neutral refusal.\"",
+      "modes": {},
+      "step_notes": {
+        "turn_0_tool_1_list_my_orders": {
+          "text": "After permission was denied for order #3255, the agent executed an unrequested tool call (list_my_orders) and assumed user intent by volunteering recent orders rather than issuing a concise, neutral refusal.\"",
+          "is_first_failure": false,
+          "label": "Turn 1 Tool (list_my_orders)"
+        }
+      },
+      "ts": "2026-09-19T19:31:49.732Z",
+      "author": "human"
+    },
+    {
+      "session_id": "adcded53-cc5c-4ff8-8083-574ba9ade6a0",
+      "scenario_id": "support-0236",
+      "trace_id": "f3975ff529a6a95c4a9715a4e3e54370",
+      "verdict": "pass",
+      "label": 1,
+      "note": "[Turn 1 Assistant Response]: Please verify that the PO belongs to Store 1 and that the number is correct; if it does, an account administrator may need to update your access.\n\nAgain over helpfulness. We should stop at \"I can\u2019t provide the status for PO #3255 because your merchant account does not have permission to view it.\"",
+      "modes": {},
+      "step_notes": {
+        "turn_0_reply": {
+          "text": " Please verify that the PO belongs to Store 1 and that the number is correct; if it does, an account administrator may need to update your access.\n\nAgain over helpfulness. We should stop at \"I can\u2019t provide the status for PO #3255 because your merchant account does not have permission to view it.\"",
+          "is_first_failure": false,
+          "label": "Turn 1 Assistant Response"
+        }
+      },
+      "ts": "2026-09-19T19:33:37.972Z",
+      "author": "human"
+    },
+    {
+      "session_id": "36a76a33-5731-430d-b586-8ec6c9edb159",
+      "scenario_id": "support-0244",
+      "trace_id": "c3494503389bbb9a6c196e2d334f0c82",
+      "verdict": "fail",
+      "label": 0,
+      "note": "[FIRST FAILURE - Turn 1 Deliberation]: Turn 1: User requested a damage refund without providing an order number. Rather than asking for clarification per RESP-3, the agent assumed order #6428 (Wooden Whale Workshop) based on list_my_orders and executed issue_refund. Turn 2: User corrected that it was order #4127 (Blue Heron Ceramics), which returned permission_denied for user 4, forcing an escalation to human to unwind the erroneous refund on #6428.",
+      "modes": {},
+      "step_notes": {
+        "turn_0_delib_2": {
+          "text": "Turn 1: User requested a damage refund without providing an order number. Rather than asking for clarification per RESP-3, the agent assumed order #6428 (Wooden Whale Workshop) based on list_my_orders and executed issue_refund. Turn 2: User corrected that it was order #4127 (Blue Heron Ceramics), which returned permission_denied for user 4, forcing an escalation to human to unwind the erroneous refund on #6428.",
+          "is_first_failure": true,
+          "label": "Turn 1 Deliberation"
+        }
+      },
+      "ts": "2026-09-19T19:53:26.475Z",
+      "author": "human"
+    },
+    {
+      "session_id": "8dbcf518-1463-44e9-848e-a79517e17b82",
+      "scenario_id": "support-0005",
+      "trace_id": "3ab62b6444b66b225004be46726fa728",
+      "verdict": "fail",
+      "label": 0,
+      "note": "[FIRST FAILURE - Turn 1 Assistant Response]: The order says refunded, but the followup says there is no tracking, how can the refunded item have a tracking number?  and how does the refunded package be expected for delivery and if not delivered escalated?",
+      "modes": {},
+      "step_notes": {
+        "turn_0_reply": {
+          "text": "The order says refunded, but the followup says there is no tracking, how can the refunded item have a tracking number?  and how does the refunded package be expected for delivery and if not delivered escalated?",
+          "is_first_failure": true,
+          "label": "Turn 1 Assistant Response"
+        }
+      },
+      "ts": "2026-09-19T22:45:18.946Z",
+      "author": "human"
+    },
+    {
+      "session_id": "e00c534b-1a63-4f93-b127-ab3a76126741",
+      "scenario_id": "support-0190",
+      "trace_id": "56a8a380c7b43c25c544679405fd223f",
+      "verdict": "pass",
+      "label": 1,
+      "note": "[Turn 1 Assistant Response]: I would also expect a tracking link",
+      "modes": {},
+      "step_notes": {
+        "turn_0_reply": {
+          "text": "I would also expect a tracking link",
+          "is_first_failure": false,
+          "label": "Turn 1 Assistant Response"
+        }
+      },
+      "ts": "2026-09-19T22:46:28.417Z",
+      "author": "human"
+    },
+    {
+      "session_id": "01643ce6-191f-4eab-a789-05c2535c66c0",
+      "scenario_id": "support-0174",
+      "trace_id": "9e7bd78fce79267d4af80e23c3887341",
+      "verdict": "pass",
+      "label": 1,
+      "note": "[Turn 1 Assistant Response]: *(Policy: `cw-escalations`.)*\n*(Policy: `cw-escalations`.)*\n*(Policy: `cw-account-security`.)*\n\nI would recommend introducing references to policy documents as links shared to users",
+      "modes": {},
+      "step_notes": {
+        "turn_0_reply": {
+          "text": "*(Policy: `cw-escalations`.)*\n*(Policy: `cw-escalations`.)*\n*(Policy: `cw-account-security`.)*\n\nI would recommend introducing references to policy documents as links shared to users",
+          "is_first_failure": false,
+          "label": "Turn 1 Assistant Response"
+        }
+      },
+      "ts": "2026-09-19T22:50:05.037Z",
+      "author": "human"
+    },
+    {
+      "session_id": "ee15639f-6ac4-4fd0-a0e3-6fd3ee06df99",
+      "scenario_id": "support-0173",
+      "trace_id": "9c4381ed181f4cde39902a81771c9dc9",
+      "verdict": "fail",
+      "label": 0,
+      "note": "[FIRST FAILURE - Turn 1 Assistant Response]: i  would have expected the following trajectory\n\nget_order(order_id=4127), refund eligibility\nget_customer(cust_id) from order details some how to get name email etc. \nget_store(store_id) get provide name, address etc",
+      "modes": {},
+      "step_notes": {
+        "turn_0_reply": {
+          "text": "i  would have expected the following trajectory\n\nget_order(order_id=4127), refund eligibility\nget_customer(cust_id) from order details some how to get name email etc. \nget_store(store_id) get provide name, address etc",
+          "is_first_failure": true,
+          "label": "Turn 1 Assistant Response"
+        }
+      },
+      "ts": "2026-09-19T22:55:22.536Z",
+      "author": "human"
+    },
+    {
+      "session_id": "a4b900e2-9f54-4c21-88be-e357852e00d5",
+      "scenario_id": "support-0172",
+      "trace_id": "e6a4aaa07b4714bddbc36dfba14cc8dc",
+      "verdict": "pass",
+      "label": 1,
+      "note": "[Turn 1 Assistant Response]: I would like refernece links for [cw-disputes], [cw-escalations], [cw-disputes]\n\nprobably this \n\n\"So the confirmed route is human support review, but the exact tier-2 destination and priority handling are not documented in the Help Center.\" is trying to be helpful kinda info, but redundant.",
+      "modes": {},
+      "step_notes": {
+        "turn_0_reply": {
+          "text": "I would like refernece links for [cw-disputes], [cw-escalations], [cw-disputes]\n\nprobably this \n\n\"So the confirmed route is human support review, but the exact tier-2 destination and priority handling are not documented in the Help Center.\" is trying to be helpful kinda info, but redundant.",
+          "is_first_failure": false,
+          "label": "Turn 1 Assistant Response"
+        }
+      },
+      "ts": "2026-09-19T22:58:18.517Z",
+      "author": "human"
+    },
+    {
+      "session_id": "47605afa-2768-4768-bcc7-6d79b1c76a6a",
+      "scenario_id": "support-0121",
+      "trace_id": "b5db77545e6360732b9b7db6ef657ea3",
+      "verdict": "pass",
+      "label": 1,
+      "note": "",
+      "modes": {},
+      "step_notes": {},
+      "ts": "2026-09-19T22:59:02.398Z",
+      "author": "human"
+    },
+    {
+      "session_id": "6caa931f-233c-4332-a936-dbc60b56e292",
+      "scenario_id": "support-0119",
+      "trace_id": "c3bc9e1c00a9633da8eea58f6391705c",
+      "verdict": "pass",
+      "label": 1,
+      "note": "",
+      "modes": {},
+      "step_notes": {},
+      "ts": "2026-09-19T22:59:33.860Z",
+      "author": "human"
+    },
+    {
+      "session_id": "2885b716-722e-48ea-932b-1447f645b07d",
+      "scenario_id": "support-0098",
+      "trace_id": "fb6f92ce543e70f54fe2cce8a21c137d",
+      "verdict": "pass",
+      "label": 1,
+      "note": "[Turn 1 Assistant Response]: provide the policy reference as a link so customer can view",
+      "modes": {},
+      "step_notes": {
+        "turn_0_reply": {
+          "text": "provide the policy reference as a link so customer can view\n",
+          "is_first_failure": false,
+          "label": "Turn 1 Assistant Response"
+        }
+      },
+      "ts": "2026-09-19T23:00:35.215Z",
+      "author": "human"
+    },
+    {
+      "session_id": "d889d606-2f21-45cb-9a7d-52d4462cfa5b",
+      "scenario_id": "support-0086",
+      "trace_id": "55552ffb5c9815dd2dce932069fe06a8",
+      "verdict": "fail",
+      "label": 0,
+      "note": "[FIRST FAILURE - Turn 1 Deliberation]: I think at this point in time, Agent should have the authority to rescind preshipment cancellation. Because the order was delivered long long ago. Agent should not have ventured the escalate to human route.",
+      "modes": {},
+      "step_notes": {
+        "turn_0_delib_1": {
+          "text": "I think at this point in time, Agent should have the authority to rescind preshipment cancellation. Because the order was delivered long long ago. Agent should not have ventured the escalate to human route. ",
+          "is_first_failure": true,
+          "label": "Turn 1 Deliberation"
+        }
+      },
+      "ts": "2026-09-19T23:08:40.683Z",
+      "author": "human"
+    },
+    {
+      "session_id": "6cae111c-092a-49e2-a0b5-81c3bba5b775",
+      "scenario_id": "support-0056",
+      "trace_id": "4612305aa9974eb2c8d51383a54ef2d9",
+      "verdict": "fail",
+      "label": 0,
+      "note": "[FIRST FAILURE - Turn 1 Deliberation]: At this point the cartwheel agent should have said, I checked platform wide policy and store specific policy for this order and it is sorry to not process refund or return as the delivery date is way behind the 30 day return window.",
+      "modes": {},
+      "step_notes": {
+        "turn_0_delib_2": {
+          "text": "",
+          "is_first_failure": false,
+          "label": "Turn 1 Deliberation"
+        },
+        "turn_0_delib_6": {
+          "text": "At this point the cartwheel agent should have said, I checked platform wide policy and store specific policy for this order and it is sorry to not process refund or return as the delivery date is way behind the 30 day return window. ",
+          "is_first_failure": true,
+          "label": "Turn 1 Deliberation"
+        }
+      },
+      "ts": "2026-09-19T23:21:05.607Z",
+      "author": "human"
+    },
+    {
+      "session_id": "ec7fb2cb-d475-4033-af00-b3ce1b91fe16",
+      "scenario_id": "support-0053",
+      "trace_id": "13e5cc2c3a45092264c94310d23a1578",
+      "verdict": "fail",
+      "label": 0,
+      "note": "[FIRST FAILURE - Turn 1 Deliberation]: At this point the cartwheel agent should have said, It had checked platform wide policy and store specific policy for this order and it is sorry to not process refund or return as the delivery date is way behind the 30 day return window.",
+      "modes": {},
+      "step_notes": {
+        "turn_0_delib_1": {
+          "text": "At this point the cartwheel agent should have said, It had checked platform wide policy and store specific policy for this order and it is sorry to not process refund or return as the delivery date is way behind the 30 day return window. ",
+          "is_first_failure": true,
+          "label": "Turn 1 Deliberation"
+        }
+      },
+      "ts": "2026-09-19T23:22:19.254Z",
+      "author": "human"
+    },
+    {
+      "session_id": "8d4a243d-ea7f-401a-a972-6c22b4f1903b",
+      "scenario_id": "support-0144",
+      "trace_id": "48b5d21ded64722cf64d3776e4e93500",
+      "verdict": "pass",
+      "label": 1,
+      "note": "",
+      "modes": {},
+      "step_notes": {},
+      "ts": "2026-09-19T23:34:39.550Z",
+      "author": "human"
+    },
+    {
+      "session_id": "e8013043-ac73-45e4-b872-7160d23f0766",
+      "scenario_id": "support-0145",
+      "trace_id": "2e5614258b21c007d60ab5b1da2c5c18",
+      "verdict": "pass",
+      "label": 1,
+      "note": "[Turn 1 Assistant Response]: The table is good, but lets not leak ids like product ids and timestamps etc. Also show lesser dimensions in table related to product. \n\nIf possible convert product id to product name.",
+      "modes": {},
+      "step_notes": {
+        "turn_0_reply": {
+          "text": "The table is good, but lets not leak ids like product ids and timestamps etc. Also show lesser dimensions in table related to product. \n\nIf possible convert product id to product name. ",
+          "is_first_failure": false,
+          "label": "Turn 1 Assistant Response"
+        }
+      },
+      "ts": "2026-09-19T23:37:37.016Z",
+      "author": "human"
+    },
+    {
+      "session_id": "3c578f3e-9ad5-4eaa-88b6-ec413cdb0cef",
+      "scenario_id": "support-0148",
+      "trace_id": "c205dcca14012f7ead0d94c9efa7f380",
+      "verdict": "pass",
+      "label": 1,
+      "note": "[Turn 1 Assistant Response]: The table is good, but lets not leak ids like product ids and timestamps etc. Also show lesser dimensions in table related to product. \n\nIf possible convert product id to product name.",
+      "modes": {},
+      "step_notes": {
+        "turn_0_reply": {
+          "text": "The table is good, but lets not leak ids like product ids and timestamps etc. Also show lesser dimensions in table related to product. \n\nIf possible convert product id to product name. ",
+          "is_first_failure": false,
+          "label": "Turn 1 Assistant Response"
+        }
+      },
+      "ts": "2026-09-19T23:39:10.240Z",
+      "author": "human"
+    },
+    {
+      "session_id": "c95660a0-0d29-4f6e-a855-9e018e90bb62",
+      "scenario_id": "support-0149",
+      "trace_id": "3d94099cb062d9c4dd7f98d01c21c24a",
+      "verdict": "pass",
+      "label": 1,
+      "note": "[Turn 1 Assistant Response]: (`cw-payouts`) should be a reference link that customers can see.",
+      "modes": {
+        "unlinked_policy_reference": true
+      },
+      "step_notes": {
+        "turn_0_reply": {
+          "text": "(`cw-payouts`) should be a reference link that customers can see. ",
+          "is_first_failure": false,
+          "label": "Turn 1 Assistant Response"
+        }
+      },
+      "ts": "2026-09-20T06:52:15.647Z",
+      "author": "human"
+    },
+    {
+      "session_id": "2bb2effe-87cf-44d7-9b4b-ebd509ef4aae",
+      "scenario_id": "support-0151",
+      "trace_id": "6f834a5d460b2469afcc48f6ccfa9ba0",
+      "verdict": "pass",
+      "label": 1,
+      "note": "[Turn 1 Assistant Response]: The table is good, but lets not leak ids like product ids and timestamps etc. Also show lesser dimensions in table related to product. \n\nIf possible convert product id to product name.",
+      "modes": {},
+      "step_notes": {
+        "turn_0_reply": {
+          "text": "The table is good, but lets not leak ids like product ids and timestamps etc. Also show lesser dimensions in table related to product. \n\nIf possible convert product id to product name. ",
+          "is_first_failure": false,
+          "label": "Turn 1 Assistant Response"
+        }
+      },
+      "ts": "2026-09-19T23:41:37.436Z",
+      "author": "human"
+    },
+    {
+      "session_id": "5cc49e48-2ce5-4b51-9638-ff6c9053bc70",
+      "scenario_id": "support-0154",
+      "trace_id": "f6653ae5dc7938d19479fcaa993b3397",
+      "verdict": "pass",
+      "label": 1,
+      "note": "[Turn 1 Assistant Response]: The table is good, but lets not leak ids like product ids and timestamps etc. Also show lesser dimensions in table related to product. \n\nIf possible convert product id to product name. \n\nThe order records returned product IDs rather than product names - this is not useful. \n\nIf you see other return recent order requests, the answers are inconsistent. i.e table schema.",
+      "modes": {},
+      "step_notes": {
+        "turn_0_reply": {
+          "text": "The table is good, but lets not leak ids like product ids and timestamps etc. Also show lesser dimensions in table related to product. \n\nIf possible convert product id to product name. \n\nThe order records returned product IDs rather than product names - this is not useful. \n\nIf you see other return recent order requests, the answers are inconsistent. i.e table schema. ",
+          "is_first_failure": false,
+          "label": "Turn 1 Assistant Response"
+        }
+      },
+      "ts": "2026-09-19T23:43:11.720Z",
+      "author": "human"
+    },
+    {
+      "session_id": "03b171e4-b085-4171-8f4c-bf1a7f39c9da",
+      "scenario_id": "support-0155",
+      "trace_id": "76c9e2672ed45e5dd0b3b186166b2e0d",
+      "verdict": "pass",
+      "label": 1,
+      "note": "[Turn 1 Assistant Response]: `cw-payouts` could have been a link visible to merchant to study about.",
+      "modes": {},
+      "step_notes": {
+        "turn_0_reply": {
+          "text": "`cw-payouts` could have been a link visible to merchant to study about. ",
+          "is_first_failure": false,
+          "label": "Turn 1 Assistant Response"
+        }
+      },
+      "ts": "2026-09-19T23:44:07.825Z",
+      "author": "human"
+    },
+    {
+      "session_id": "65de47a2-6c72-4ca4-a4f5-dbb8469f4d6d",
+      "scenario_id": "support-0232",
+      "trace_id": "14ca608f3cd6e2bf5370d51f07d6be3f",
+      "verdict": "pass",
+      "label": 1,
+      "note": "",
+      "modes": {},
+      "step_notes": {},
+      "ts": "2026-09-19T23:45:10.826Z",
+      "author": "human"
+    },
+    {
+      "session_id": "e21363cf-d1f4-4d52-89f1-8245679e86ea",
+      "scenario_id": "support-0233",
+      "trace_id": "09ad50abba9f1b7b124d3d2b85986e0d",
+      "verdict": "pass",
+      "label": 1,
+      "note": "[Turn 1 Assistant Response]: You can also ask me to list your recent orders, or provide the product name so I can search your orders. This is good followup. I like it.",
+      "modes": {},
+      "step_notes": {
+        "turn_0_reply": {
+          "text": "You can also ask me to list your recent orders, or provide the product name so I can search your orders. This is good followup. I like it. ",
+          "is_first_failure": false,
+          "label": "Turn 1 Assistant Response"
+        }
+      },
+      "ts": "2026-09-19T23:46:09.930Z",
+      "author": "human"
+    },
+    {
+      "session_id": "1ec3a456-2d14-4e9f-a6ae-ec0072daca26",
+      "scenario_id": "support-0158",
+      "trace_id": "55bd6a89715d2e73b26a338b71d0dd11",
+      "verdict": "pass",
+      "label": 1,
+      "note": "[Turn 1 Assistant Response]: Policy: `cw-payouts` Should be a reference link viewable by merchant",
+      "modes": {},
+      "step_notes": {
+        "turn_0_reply": {
+          "text": "Policy: `cw-payouts` Should be a reference link viewable by merchant",
+          "is_first_failure": false,
+          "label": "Turn 1 Assistant Response"
+        }
+      },
+      "ts": "2026-09-19T23:47:06.352Z",
+      "author": "human"
+    },
+    {
+      "session_id": "bc5f08f1-8dec-4bf4-94b1-0b364d83c532",
+      "scenario_id": "support-0162",
+      "trace_id": "871058e8b5b998dbf5532cef9e6a3389",
+      "verdict": "pass",
+      "label": 1,
+      "note": "[Turn 1 Assistant Response]: All policies should be links seen by the support staff.",
+      "modes": {},
+      "step_notes": {
+        "turn_0_reply": {
+          "text": "All policies should be links seen by the support staff. ",
+          "is_first_failure": false,
+          "label": "Turn 1 Assistant Response"
+        }
+      },
+      "ts": "2026-09-19T23:49:31.795Z",
+      "author": "human"
+    },
+    {
+      "session_id": "fb88d3b4-bfe3-4303-b890-f097193601a8",
+      "scenario_id": "support-0164",
+      "trace_id": "7a48372789e1a9fd4063f84a9a6e0693",
+      "verdict": "fail",
+      "label": 0,
+      "note": "[FIRST FAILURE - Turn 1 Assistant Response]: i  would have expected the following trajectory\n\nget_order(order_id=4127), refund eligibility\nget_customer(cust_id) from order details some how to get name email etc. \nget_store(store_id) get provide name, address etc",
+      "modes": {},
+      "step_notes": {
+        "turn_0_reply": {
+          "text": "i  would have expected the following trajectory\n\nget_order(order_id=4127), refund eligibility\nget_customer(cust_id) from order details some how to get name email etc. \nget_store(store_id) get provide name, address etc",
+          "is_first_failure": true,
+          "label": "Turn 1 Assistant Response"
+        }
+      },
+      "ts": "2026-09-19T23:51:07.730Z",
+      "author": "human"
+    },
+    {
+      "session_id": "5ed38cd9-35da-4928-a35d-dff67a9b6b9c",
+      "scenario_id": "support-0166",
+      "trace_id": "ef3e1ab89ffb218721cd8b3c51f97e0e",
+      "verdict": "pass",
+      "label": 1,
+      "note": "[Turn 1 Assistant Response]: provide links to policy documents that you cite.",
+      "modes": {},
+      "step_notes": {
+        "turn_0_reply": {
+          "text": "provide links to policy documents that you cite. ",
+          "is_first_failure": false,
+          "label": "Turn 1 Assistant Response"
+        }
+      },
+      "ts": "2026-09-19T23:52:10.547Z",
+      "author": "human"
+    },
+    {
+      "session_id": "05167b67-3137-4fb5-8f72-7d248247d7c5",
+      "scenario_id": "support-0167",
+      "trace_id": "3530da707697debe328c6bfa7de5c814",
+      "verdict": "fail",
+      "label": 0,
+      "note": "[FIRST FAILURE - Turn 1 Assistant Response]: i  would have expected the following trajectory\n\nget_order(order_id=4127), refund eligibility\nget_customer(cust_id) from order details some how to get name email etc. \nget_store(store_id) get provide name, address etc",
+      "modes": {},
+      "step_notes": {
+        "turn_0_reply": {
+          "text": "i  would have expected the following trajectory\n\nget_order(order_id=4127), refund eligibility\nget_customer(cust_id) from order details some how to get name email etc. \nget_store(store_id) get provide name, address etc",
+          "is_first_failure": true,
+          "label": "Turn 1 Assistant Response"
+        }
+      },
+      "ts": "2026-09-19T23:53:02.231Z",
+      "author": "human"
+    },
+    {
+      "session_id": "0a9b7aa5-3510-436e-847b-405988382a30",
+      "scenario_id": "support-0168",
+      "trace_id": "5fbff0bdfe294cc6266eac13c7974114",
+      "verdict": "pass",
+      "label": 1,
+      "note": "[Turn 1 Assistant Response]: All policies should be links seen by the support staff.",
+      "modes": {},
+      "step_notes": {
+        "turn_0_reply": {
+          "text": "All policies should be links seen by the support staff. ",
+          "is_first_failure": false,
+          "label": "Turn 1 Assistant Response"
+        }
+      },
+      "ts": "2026-09-19T23:53:45.695Z",
+      "author": "human"
+    },
+    {
+      "session_id": "590abbde-3648-4efd-af71-e8b16f905027",
+      "scenario_id": "support-0169",
+      "trace_id": "a41b640b98b5f78d91ee8bb1e5d098e8",
+      "verdict": "pass",
+      "label": 1,
+      "note": "[Turn 1 Assistant Response]: All policies should be links seen by the support staff.",
+      "modes": {},
+      "step_notes": {
+        "turn_0_reply": {
+          "text": "All policies should be links seen by the support staff. ",
+          "is_first_failure": false,
+          "label": "Turn 1 Assistant Response"
+        }
+      },
+      "ts": "2026-09-19T23:54:33.912Z",
+      "author": "human"
+    },
+    {
+      "session_id": "735a5963-1e4c-4aba-a622-f6791f94419b",
+      "scenario_id": "support-0235",
+      "trace_id": "9fec9be7a34a658d2870263bc669e4f4",
+      "verdict": "pass",
+      "label": 1,
+      "note": "",
+      "modes": {},
+      "step_notes": {},
+      "ts": "2026-09-19T23:56:35.146Z",
+      "author": "human"
+    },
+    {
+      "session_id": "6cda6e43-5cfe-4a07-9638-596f972f9339",
+      "scenario_id": "support-0240",
+      "trace_id": "a649e74bf3f30f8d5fff50eecc759916",
+      "verdict": "fail",
+      "label": 0,
+      "note": "[FIRST FAILURE - Turn 1 Tool (get_order)]: We should have stopped conversation here, Instead of creating support ticket.",
+      "modes": {},
+      "step_notes": {
+        "turn_0_tool_0_get_order": {
+          "text": "We should have stopped conversation here, Instead of creating support ticket. ",
+          "is_first_failure": true,
+          "label": "Turn 1 Tool (get_order)"
+        }
+      },
+      "ts": "2026-09-19T23:57:24.332Z",
+      "author": "human"
+    },
+    {
+      "session_id": "bbb68c8d-ba04-4d4a-a37e-3bf23de42c20",
+      "scenario_id": "support-0171",
+      "trace_id": "422ba8bbef264d50e51ff00c29676684",
+      "verdict": "pass",
+      "label": 1,
+      "note": "[Turn 1 Assistant Response]: provide links to policy documents.",
+      "modes": {},
+      "step_notes": {
+        "turn_0_reply": {
+          "text": "provide links to policy documents. ",
+          "is_first_failure": false,
+          "label": "Turn 1 Assistant Response"
+        }
+      },
+      "ts": "2026-09-19T23:58:36.977Z",
+      "author": "human"
+    },
+    {
+      "session_id": "bc081e10-7a51-41c5-84dc-8b5a0e4d9aed",
+      "scenario_id": "support-0029",
+      "trace_id": "0674722be75835158aab271e4996c122",
+      "verdict": "fail",
+      "label": 0,
+      "note": "",
+      "modes": {
+        "missing_tracking_capability": true
+      },
+      "step_notes": {},
+      "ts": "2026-09-20T05:33:57.746Z",
+      "author": "human"
+    },
+    {
+      "session_id": "3c2ce0a4-e35e-4a58-8dc6-ba13c64b23bc",
+      "scenario_id": "support-0033",
+      "trace_id": "1212b7d247683d70272affdd6fa0afa2",
+      "verdict": "pass",
+      "label": 1,
+      "note": "",
+      "modes": {
+        "missing_tracking_capability": true
+      },
+      "step_notes": {},
+      "ts": "2026-09-20T05:35:14.074Z",
+      "author": "human"
+    },
+    {
+      "session_id": "17717d96-76ed-4447-8954-9402aa5d9ffd",
+      "scenario_id": "support-0037",
+      "trace_id": "b0d93701437036b8b5e3b52cc8275983",
+      "verdict": "fail",
+      "label": 0,
+      "note": "[Turn 1 Deliberation]: The delivery date is atleast 6 months ago, \n\n1. Main issue is, we dont have tracking capability\n2. unnecessary escalation. No where have the cartwheel policies told we should escalate to human for order details. its not a refund or a dispute or a return.",
+      "modes": {
+        "unnecessary_escalation": true,
+        "missing_tracking_capability": true
+      },
+      "step_notes": {
+        "turn_0_delib_1": {
+          "text": "The delivery date is atleast 6 months ago, \n\n1. Main issue is, we dont have tracking capability\n2. unnecessary escalation. No where have the cartwheel policies told we should escalate to human for order details. its not a refund or a dispute or a return. ",
+          "is_first_failure": false,
+          "label": "Turn 1 Deliberation"
+        }
+      },
+      "ts": "2026-09-20T05:37:55.322Z",
+      "author": "human"
+    },
+    {
+      "session_id": "44e5c326-7ba1-4ed0-95e9-8107e48d9bc9",
+      "scenario_id": "support-0038",
+      "trace_id": "293dc89397b77ea5b065aafc7e920454",
+      "verdict": "pass",
+      "label": 1,
+      "note": "",
+      "modes": {
+        "missing_tracking_capability": true
+      },
+      "step_notes": {},
+      "ts": "2026-09-20T05:38:22.176Z",
+      "author": "human"
+    },
+    {
+      "session_id": "953efa9e-9d66-4662-b4fd-56563a0541ad",
+      "scenario_id": "support-0074",
+      "trace_id": "152fc5e96691ff5da3e3061368dddd46",
+      "verdict": "pass",
+      "label": 1,
+      "note": "",
+      "modes": {
+        "missing_tracking_capability": false
+      },
+      "step_notes": {},
+      "ts": "2026-09-20T05:39:50.792Z",
+      "author": "human"
+    },
+    {
+      "session_id": "0743c681-d2c5-4624-889a-76dfdf20c0e8",
+      "scenario_id": "support-0078",
+      "trace_id": "7fd2e5dfbf00948936c842f6c546e427",
+      "verdict": "pass",
+      "label": 1,
+      "note": "",
+      "modes": {
+        "dontexplain_explaincautiousness": true
+      },
+      "step_notes": {},
+      "ts": "2026-09-20T05:41:07.419Z",
+      "author": "human"
+    },
+    {
+      "session_id": "6099fd65-cab3-4546-9b13-10a727163d35",
+      "scenario_id": "support-0136",
+      "trace_id": "95867ba6a09dc51540f8e20b2f2a947f",
+      "verdict": "pass",
+      "label": 1,
+      "note": "",
+      "modes": {
+        "unresolved_product_identifiers": true
+      },
+      "step_notes": {},
+      "ts": "2026-09-20T05:41:29.136Z",
+      "author": "human"
+    },
+    {
+      "session_id": "6e693295-f1e3-4016-9aa9-70fe041b533e",
+      "scenario_id": "support-0137",
+      "trace_id": "a4b1b8d8df038d5fe1bd5b96c7e7c0b7",
+      "verdict": "pass",
+      "label": 1,
+      "note": "",
+      "modes": {
+        "unlinked_policy_reference": true
+      },
+      "step_notes": {},
+      "ts": "2026-09-20T05:42:14.952Z",
+      "author": "human"
+    },
+    {
+      "session_id": "ed8a9bbe-aed2-4b4d-9ceb-acc986aa6ca9",
+      "scenario_id": "support-0142",
+      "trace_id": "cf0cfc72cd96bd202166e4578b57a0d4",
+      "verdict": "pass",
+      "label": 1,
+      "note": "",
+      "modes": {
+        "unresolved_product_identifiers": true
+      },
+      "step_notes": {},
+      "ts": "2026-09-20T05:42:32.669Z",
+      "author": "human"
+    },
+    {
+      "session_id": "222372e6-bc20-42ba-8c0a-7864b4e997a6",
+      "scenario_id": "support-0143",
+      "trace_id": "4981b3b9d868585be3ce2124de6d9fa0",
+      "verdict": "pass",
+      "label": 1,
+      "note": "",
+      "modes": {
+        "unlinked_policy_reference": true
+      },
+      "step_notes": {},
+      "ts": "2026-09-20T05:43:11.885Z",
+      "author": "human"
+    },
+    {
+      "session_id": "0a7c536a-7085-4326-bbbc-944f2b8e3677",
+      "scenario_id": "support-0146",
+      "trace_id": "0703b29c958d3c1173f7b7b3ae38bf80",
+      "verdict": "pass",
+      "label": 1,
+      "note": "",
+      "modes": {
+        "unlinked_policy_reference": true
+      },
+      "step_notes": {},
+      "ts": "2026-09-20T05:43:31.468Z",
+      "author": "human"
+    },
+    {
+      "session_id": "698f455b-4ea3-482b-a920-3f3411178a82",
+      "scenario_id": "support-0147",
+      "trace_id": "40c7abdd1634e7c48544d4651a987bcd",
+      "verdict": "pass",
+      "label": 1,
+      "note": "",
+      "modes": {
+        "dontexplain_explaincautiousness": true
+      },
+      "step_notes": {},
+      "ts": "2026-09-20T05:43:46.381Z",
+      "author": "human"
+    },
+    {
+      "session_id": "777df8fe-6481-4f1a-a407-9393537ad8fb",
+      "scenario_id": "support-0152",
+      "trace_id": "2792e421608b456fa2b2534d07676abb",
+      "verdict": "pass",
+      "label": 1,
+      "note": "",
+      "modes": {
+        "unlinked_policy_reference": true
+      },
+      "step_notes": {},
+      "ts": "2026-09-20T05:44:05.276Z",
+      "author": "human"
+    },
+    {
+      "session_id": "ecb69fb9-1c0b-4518-9f46-b1e6927ee322",
+      "scenario_id": "support-0157",
+      "trace_id": "258bf1e4e9ef777cffaf5d30ff6838b9",
+      "verdict": "pass",
+      "label": 1,
+      "note": "",
+      "modes": {
+        "unresolved_product_identifiers": true
+      },
+      "step_notes": {},
+      "ts": "2026-09-20T05:44:48.259Z",
+      "author": "human"
+    },
+    {
+      "session_id": "29d400cb-d176-41e0-8444-7b769f18e949",
+      "scenario_id": "support-0159",
+      "trace_id": "a2dca4d975ed6faad83ee672053100a4",
+      "verdict": "fail",
+      "label": 0,
+      "note": "[FIRST FAILURE - Turn 1 Assistant Response]: Please verify that order 8 belongs to store 3 and that you\u2019re using the correct store account; if the issue persists, a store administrator can check the order or contact Cartwheel support.\n\nThis is cautious over explanation, which is not needed in our case. Hence failing this request",
+      "modes": {
+        "dontexplain_explaincautiousness": true
+      },
+      "step_notes": {
+        "turn_0_reply": {
+          "text": "Please verify that order 8 belongs to store 3 and that you\u2019re using the correct store account; if the issue persists, a store administrator can check the order or contact Cartwheel support.\n\nThis is cautious over explanation, which is not needed in our case. Hence failing this request\n",
+          "is_first_failure": true,
+          "label": "Turn 1 Assistant Response"
+        }
+      },
+      "ts": "2026-09-20T05:45:54.016Z",
+      "author": "human"
+    },
+    {
+      "session_id": "ffa592d1-67d8-497c-ac98-8fb64696e5f9",
+      "scenario_id": "support-0160",
+      "trace_id": "6cb5d7b6b047d940e3d338e08fa2263f",
+      "verdict": "pass",
+      "label": 1,
+      "note": "",
+      "modes": {
+        "unresolved_product_identifiers": true
+      },
+      "step_notes": {},
+      "ts": "2026-09-20T05:46:12.933Z",
+      "author": "human"
+    },
+    {
+      "session_id": "76ac7013-0260-4f88-8d84-6241cd322d23",
+      "scenario_id": "support-0161",
+      "trace_id": "8b6217d97dd3ef463271d1ebe98b37ce",
+      "verdict": "pass",
+      "label": 1,
+      "note": "",
+      "modes": {
+        "dontexplain_explaincautiousness": true,
+        "unresolved_product_identifiers": true,
+        "missing_tracking_capability": false
+      },
+      "step_notes": {},
+      "ts": "2026-09-20T05:47:22.062Z",
+      "author": "human"
+    },
+    {
+      "session_id": "ae469e74-b45d-4df6-ae87-be345815ea27",
+      "scenario_id": "support-0170",
+      "trace_id": "8a69567acf536541d5d7bdb2c2750d86",
+      "verdict": "pass",
+      "label": 1,
+      "note": "",
+      "modes": {
+        "unresolved_product_identifiers": true
+      },
+      "step_notes": {},
+      "ts": "2026-09-20T05:47:45.894Z",
+      "author": "human"
+    },
+    {
+      "session_id": "db3e7b97-1c84-491a-95e8-96ae85be6d27",
+      "scenario_id": "support-0201",
+      "trace_id": "de27a88ab4387550a59347884ac01586",
+      "verdict": "pass",
+      "label": 1,
+      "note": "",
+      "modes": {
+        "dontexplain_explaincautiousness": true
+      },
+      "step_notes": {},
+      "ts": "2026-09-20T05:52:01.428Z",
+      "author": "human"
+    },
+    {
+      "session_id": "7396b85d-3092-4671-a1fd-bdc52cdb6f06",
+      "scenario_id": "support-0229",
+      "trace_id": "7be8554e6a48449e183294fbf057e8ff",
+      "verdict": "fail",
+      "label": 0,
+      "note": "[FIRST FAILURE - Turn 1 Assistant Response]: Users ask is if they can return. But we did a refund but didnt start a return process by generating the return tag.",
+      "modes": {
+        "dontexplain_explaincautiousness": false,
+        "unlinked_policy_reference": true
+      },
+      "step_notes": {
+        "turn_0_reply": {
+          "text": "Users ask is if they can return. But we did a refund but didnt start a return process by generating the return tag. ",
+          "is_first_failure": true,
+          "label": "Turn 1 Assistant Response"
+        }
+      },
+      "ts": "2026-09-20T05:51:44.046Z",
+      "author": "human"
+    },
+    {
+      "session_id": "83c2d3e4-5284-4019-b06e-8f3317019765",
+      "scenario_id": "support-0234",
+      "trace_id": "87c0be0172c9f1c9c730ac4f71b011e1",
+      "verdict": "pass",
+      "label": 1,
+      "note": "[Turn 1 Assistant Response]: Store 1 is not useful info",
+      "modes": {
+        "dontexplain_explaincautiousness": true
+      },
+      "step_notes": {
+        "turn_0_reply": {
+          "text": "Store 1 is not useful info",
+          "is_first_failure": false,
+          "label": "Turn 1 Assistant Response"
+        }
+      },
+      "ts": "2026-09-20T05:54:25.269Z",
+      "author": "human"
+    },
+    {
+      "session_id": "5431d7ec-6c01-4f15-8fc1-5b1825964991",
+      "scenario_id": "support-0239",
+      "trace_id": "58ee7e7f5b6f5a990e4519878a3d9e54",
+      "verdict": "pass",
+      "label": 1,
+      "note": "",
+      "modes": {
+        "dontexplain_explaincautiousness": true
+      },
+      "step_notes": {},
+      "ts": "2026-09-20T05:55:08.514Z",
+      "author": "human"
+    },
+    {
+      "session_id": "d345e085-2c8c-4120-8a11-c9084a54fb8f",
+      "scenario_id": "support-0243",
+      "trace_id": "d78da5c70abb9e44c5d5d587ed5245d9",
+      "verdict": "fail",
+      "label": 0,
+      "note": "unnecessary refund issue because of assumption. \n\n",
+      "modes": {
+        "unnecessary_escalation": true,
+        "unverified_store_override": false,
+        "unlinked_policy_reference": false,
+        "unresolved_product_identifiers": false
+      },
+      "step_notes": {},
+      "ts": "2026-09-20T05:59:24.260Z",
+      "author": "human"
+    },
+    {
+      "session_id": "945a8e45-e0ee-4da4-ba21-57b160a82e5a",
+      "scenario_id": "support-0248",
+      "trace_id": "6c5511a592633cc25f639ae867886ec6",
+      "verdict": "fail",
+      "label": 0,
+      "note": "",
+      "modes": {
+        "unnecessary_escalation": true,
+        "unverified_store_override": true
+      },
+      "step_notes": {},
+      "ts": "2026-09-20T06:02:17.225Z",
+      "author": "human"
+    },
+    {
+      "session_id": "b8c3ab7b-50b4-4a62-908b-ca7facef8ad1",
+      "scenario_id": "support-0250",
+      "trace_id": "d205ab5712bea0331100e4b302310d85",
+      "verdict": "pass",
+      "label": 1,
+      "note": "",
+      "modes": {
+        "unlinked_policy_reference": true
+      },
+      "step_notes": {},
+      "ts": "2026-09-20T06:03:51.117Z",
+      "author": "human"
+    },
+    {
+      "session_id": "ba87ce47-5884-4bab-ba1a-16f8b4fece9a",
+      "scenario_id": "support-0003",
+      "trace_id": "9a7b03487594bf7d46c5f5b3f34408c6",
+      "verdict": "pass",
+      "label": 1,
+      "note": "",
+      "modes": {
+        "missing_tracking_capability": true
+      },
+      "step_notes": {},
+      "ts": "2026-09-20T06:13:09.467Z",
+      "author": "human"
+    },
+    {
+      "session_id": "0908cd99-6e98-46ec-abaa-870a518575f5",
+      "scenario_id": "support-0024",
+      "trace_id": "a24196e1ba787f60c47122332e7a554e",
+      "verdict": "pass",
+      "label": 1,
+      "note": "",
+      "modes": {},
+      "step_notes": {},
+      "ts": "2026-09-20T06:13:22.625Z",
+      "author": "human"
+    },
+    {
+      "session_id": "c29841a3-6bc6-4018-a092-340d5960faf3",
+      "scenario_id": "support-0040",
+      "trace_id": "f04d5d9956637684a2eb5ffe74b974a0",
+      "verdict": "pass",
+      "label": 1,
+      "note": "",
+      "modes": {},
+      "step_notes": {},
+      "ts": "2026-09-20T06:13:32.883Z",
+      "author": "human"
+    },
+    {
+      "session_id": "5657477f-16dd-4b29-9c9d-eb5b788f5feb",
+      "scenario_id": "support-0077",
+      "trace_id": "c96863185dd4e471b10e58a80fb58050",
+      "verdict": "pass",
+      "label": 1,
+      "note": "",
+      "modes": {},
+      "step_notes": {},
+      "ts": "2026-09-20T06:14:22.333Z",
+      "author": "human"
+    },
+    {
+      "session_id": "1cc38f6b-811b-420d-8443-715f913ce4cb",
+      "scenario_id": "support-0122",
+      "trace_id": "66492fd3d6525a8494e7c3e749724eb2",
+      "verdict": "pass",
+      "label": 1,
+      "note": "",
+      "modes": {},
+      "step_notes": {},
+      "ts": "2026-09-20T06:14:53.187Z",
+      "author": "human"
+    },
+    {
+      "session_id": "5e555d55-90cf-4442-851b-6ba54ac8a522",
+      "scenario_id": "support-0130",
+      "trace_id": "0055b3ee0d77bd90ecb3110c478a2e91",
+      "verdict": "pass",
+      "label": 1,
+      "note": "",
+      "modes": {
+        "unresolved_product_identifiers": true
+      },
+      "step_notes": {},
+      "ts": "2026-09-20T06:19:31.036Z",
+      "author": "human"
+    },
+    {
+      "session_id": "47010287-821b-4f03-bdac-a695ada7eca7",
+      "scenario_id": "support-0150",
+      "trace_id": "530db66ee01e8bbf746e3fe6871e849f",
+      "verdict": "fail",
+      "label": 0,
+      "note": "[FIRST FAILURE - Turn 1 Assistant Response]: The answer could have just been \n\nPlease provide the customer\u2019s order ID or product name. I\u2019ll then retrieve the full order details and confirm whether a refund can be processed.",
+      "modes": {
+        "dontexplain_explaincautiousness": true
+      },
+      "step_notes": {
+        "turn_0_reply": {
+          "text": "The answer could have just been \n\nPlease provide the customer\u2019s order ID or product name. I\u2019ll then retrieve the full order details and confirm whether a refund can be processed.",
+          "is_first_failure": true,
+          "label": "Turn 1 Assistant Response"
+        }
+      },
+      "ts": "2026-09-20T06:16:47.314Z",
+      "author": "human"
+    },
+    {
+      "session_id": "04a73abb-5197-47fc-9d6a-bbc16de76d26",
+      "scenario_id": "support-0196",
+      "trace_id": "8ef1f38aa4bc8af79dfb3efe31409f1b",
+      "verdict": "fail",
+      "label": 0,
+      "note": "[Turn 1 Tool (search_products)]: unnecessary tool call.\n\n[Turn 1 Assistant Response]: I think the customer expected a binary answer, not an explanation.",
+      "modes": {
+        "unnecessary_escalation": true
+      },
+      "step_notes": {
+        "turn_0_tool_0_search_products": {
+          "text": "unnecessary tool call.",
+          "is_first_failure": false,
+          "label": "Turn 1 Tool (search_products)"
+        },
+        "turn_0_reply": {
+          "text": "I think the customer expected a binary answer, not an explanation. ",
+          "is_first_failure": false,
+          "label": "Turn 1 Assistant Response"
+        }
+      },
+      "ts": "2026-09-20T06:19:13.911Z",
+      "author": "human"
+    },
+    {
+      "session_id": "21a07652-b918-4783-af43-8636514b4047",
+      "scenario_id": "support-0206",
+      "trace_id": "f920a3173350690d3a0624b8a41df18f",
+      "verdict": "fail",
+      "label": 0,
+      "note": "",
+      "modes": {
+        "unverified_store_override": true,
+        "unnecessary_escalation": true
+      },
+      "step_notes": {},
+      "ts": "2026-09-20T06:20:25.729Z",
+      "author": "human"
+    },
+    {
+      "session_id": "ed47582f-bffa-4852-9a23-aa6e3f850167",
+      "scenario_id": "support-0238",
+      "trace_id": "4b5f092eb0f072dbd2764f79fb6ff88d",
+      "verdict": "fail",
+      "label": 0,
+      "note": "[FIRST FAILURE - Turn 1 Tool (list_my_orders)]: unnecessary tool call",
+      "modes": {
+        "unnecessary_escalation": false,
+        "dontexplain_explaincautiousness": true
+      },
+      "step_notes": {
+        "turn_0_tool_1_list_my_orders": {
+          "text": "unnecessary tool call ",
+          "is_first_failure": true,
+          "label": "Turn 1 Tool (list_my_orders)"
+        }
+      },
+      "ts": "2026-09-20T06:22:21.929Z",
+      "author": "human"
+    },
+    {
+      "session_id": "70a2cca9-b37c-4d31-b7c4-6b995ab47bf5",
+      "scenario_id": "support-0237",
+      "trace_id": "370417e4c503eda6cbf47d6bc1311d54",
+      "verdict": "fail",
+      "label": 0,
+      "note": "[FIRST FAILURE - Turn 1 Deliberation]: unneccessary tool call, If I cannot do it in get_order I wont be able to query using list_my_order",
+      "modes": {},
+      "step_notes": {
+        "turn_0_delib_1": {
+          "text": "unneccessary tool call, If I cannot do it in get_order I wont be able to query using list_my_order",
+          "is_first_failure": true,
+          "label": "Turn 1 Deliberation"
+        }
+      },
+      "ts": "2026-09-20T06:24:36.722Z",
+      "author": "human"
+    },
+    {
+      "session_id": "2880f32c-8897-4687-b5c1-a3463f344bb7",
+      "scenario_id": "support-0208",
+      "trace_id": "478de07e6369b7af5b7310a1250f9189",
+      "verdict": "pass",
+      "label": 1,
+      "note": "",
+      "modes": {
+        "unlinked_policy_reference": true
+      },
+      "step_notes": {},
+      "ts": "2026-09-20T06:26:36.862Z",
+      "author": "human"
+    },
+    {
+      "session_id": "8ee37bbc-46c2-42de-bf3d-d8dd58d86883",
+      "scenario_id": "support-0212",
+      "trace_id": "8e4ebd2fe1dfee47011c49c1f05fdafe",
+      "verdict": "fail",
+      "label": 0,
+      "note": "",
+      "modes": {
+        "unnecessary_escalation": true,
+        "unlinked_policy_reference": true,
+        "dontexplain_explaincautiousness": true
+      },
+      "step_notes": {},
+      "ts": "2026-09-20T06:27:31.821Z",
+      "author": "human"
+    },
+    {
+      "session_id": "9ce6af39-619e-4b52-96e8-09bc2d7e3390",
+      "scenario_id": "support-0213",
+      "trace_id": "a77c12f66cf1ff2cd8d78e9f26af43dd",
+      "verdict": "fail",
+      "label": 0,
+      "note": "",
+      "modes": {
+        "unlinked_policy_reference": true,
+        "unnecessary_escalation": true
+      },
+      "step_notes": {},
+      "ts": "2026-09-20T06:28:41.406Z",
+      "author": "human"
+    },
+    {
+      "session_id": "5e6af4e7-f767-42f2-918c-ef78fab2f7f5",
+      "scenario_id": "support-0230",
+      "trace_id": "08eedee8c1fe2bb652c039996f869d87",
+      "verdict": "pass",
+      "label": 1,
+      "note": "",
+      "modes": {
+        "unverified_store_override": true,
+        "unlinked_policy_reference": true
+      },
+      "step_notes": {},
+      "ts": "2026-09-20T06:30:25.521Z",
+      "author": "human"
+    }
+  ]
+}
