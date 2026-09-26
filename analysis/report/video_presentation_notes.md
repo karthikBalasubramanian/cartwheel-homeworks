@@ -9,9 +9,9 @@ This guide provides the exact timing, screen navigation, talking points, and liv
 | Segment | Time | Screen to Show | What to Say / Do |
 | :--- | :--- | :--- | :--- |
 | **1. Definition & Active Learning** | `0:00 - 0:50` | Review App (`http://localhost:8000`) | Define `unverified_store_override`. Explain starting with 7 failures in HW4 and manually labeling 50+ candidates to reach 30+ failures. |
-| **2. Metric Framework (TPR, TNR, Agreement)** | `0:50 - 1:30` | Review App | Define Label 1 (Pass) vs 0 (Fail). Explain Raw Agreement, TPR (Pass match / false alarm rate), and TNR (Defect catch rate). |
-| **3. Prompt Iteration (v0 $\to$ v1)** | `1:30 - 2:30` | Review App filtered to **`Dev Split`** | Explain v0 baseline (86%), walk through 1 specific disagreement (`support-0244`), show how v1 boundary rules reached 94%. |
-| **4. Held-Out Test Evaluation** | `2:30 - 3:30` | Review App filtered to **`Test Split`** | Show frozen v1 results: TNR = 91.7%, TPR = 84.6%, explain Wilson confidence intervals and why the judge cries wolf. |
+| **2. Metric Framework (TPR, TNR, Wilson CI)** | `0:50 - 1:40` | Review App | Define Label 1 (Pass) vs 0 (Fail). Explain Raw Agreement, TPR (Pass match), TNR (Defect catch), and how the Wilson score interval measures standard error/uncertainty. |
+| **3. Prompt Iteration (v0 -> v1)** | `1:40 - 2:30` | Review App filtered to **`Dev Split`** | Explain v0 baseline (86%), walk through 1 specific disagreement (`support-0244`), show how v1 boundary rules reached 94%. |
+| **4. Held-Out Test Evaluation** | `2:30 - 3:30` | Review App filtered to **`Test Split`** | Show frozen v1 results: TNR = 91.7%, TPR = 84.6%. Explain Wilson intervals, why TNR is wider than TPR, and why the judge cries wolf. |
 | **5. Live Terminal Recalculation** | `3:30 - 4:00` | Terminal | Run the live Python recalculation one-liner to prove test metrics live on camera. |
 | **6. Multi-Judge (Jev) & Adoption Verdict** | `4:00 - 5:00` | Review App 3-Judge Console (Right Panel) | Compare GPT-4o-mini with TypeSafe AI Jev (System-1 Noul), discuss `support-0084`, and state your deployment verdict. |
 
@@ -35,34 +35,39 @@ This guide provides the exact timing, screen navigation, talking points, and liv
 
 ---
 
-### 0:50 – 1:30 | Part 2: Evaluation Metrics Framework (TPR, TNR, Agreement)
+### 0:50 – 1:40 | Part 2: Evaluation Metrics Framework & Wilson Confidence Intervals
 * **On Screen:** Point to the split metrics in the Review App console or report.
 * **Talking Points:**
-  > *"Before looking at the evaluation results, here is how our metrics are defined:*
+  > *"Before looking at the evaluation results, here is how our metrics and statistical uncertainty are defined:*
   >
   > *In Homework 5, our binary label convention is:*
   > * **Label 1 = Positive = PASS** (Conforming conversation — defect is absent).
   > * **Label 0 = Negative = FAIL** (Defect present — `unverified_store_override` occurred).
   >
-  > *We track three key metrics:*
+  > *We track three core metrics:*
   > 
   > 1. **Overall Agreement (Accuracy):**
-  >    * `Agreement = (Agreed Passes + Agreed Bugs) / Total Traces = (TP + TN) / Total`
+  >    * `Agreement = (Agreed Passes + Agreed Bugs) / Total Traces`
   >    * *Why Agreement alone is not enough:* In real support workloads, the vast majority of calls are clean passes. A dummy judge that always says 'Pass' could get 85% agreement while catching zero bugs. That is why we must decompose it into TPR and TNR.
   >
   > 2. **True Positive Rate (TPR) — Pass Agreement / Crying Wolf:**
-  >    * `TPR = Agreed Passes / Total Human Passes = TP / (TP + FN)`
+  >    * `TPR = Agreed Passes / Total Human Passes`
   >    * When the human says a conversation passed, how often does the judge agree?
   >    * When TPR is low, the judge is **'crying wolf'**—it is over-policing and falsely flagging innocent conversations as defects.
   >
   > 3. **True Negative Rate (TNR) — Defect Catch Rate:**
-  >    * `TNR = Caught Bugs / Total Human Bugs = TN / (TN + FP)`
+  >    * `TNR = Caught Bugs / Total Human Bugs`
   >    * When an actual defect occurs, how often does the judge catch it?
-  >    * When TNR is low, the judge is **'sleeping on the job'**—it misses real violations and lets defective behavior slip into production."*
+  >    * When TNR is low, the judge is **'sleeping on the job'**—it misses real violations and lets defective behavior slip into production.
+  >
+  > 4. **Statistical Uncertainty & The Wilson Score Interval:**
+  >    * Every evaluation on a finite sample has random sampling noise. A standard deviation tells us how much our measured rate might bounce around if we drew a different sample of traces.
+  >    * Standard textbook confidence intervals (the Wald normal approximation) fail badly with small datasets or extreme rates near 0% or 100%—they can produce impossible bounds beyond 100% or zero standard error.
+  >    * Instead, we use the **Wilson Score Interval**. The Wilson interval properly accounts for binomial standard deviation by inverting the test score and anchoring around the sample size. It gives us a mathematically robust 95% confidence bracket that never exceeds 0% or 100%, even when our defect pool is small."*
 
 ---
 
-### 1:30 – 2:30 | Part 3: Development Hill-Climbing (Prompt v0 $\to$ v1)
+### 1:40 – 2:30 | Part 3: Development Hill-Climbing (Prompt v0 -> v1)
 * **On Screen:** In the Review App, select the filter: **`🤖 ⚠️ GPT-4o Disagreements (Dev Split) [3]`**.
 * **Talking Points:**
   > *"With our 50 Dev traces, we evaluated our baseline prompt, **Prompt v0**. It scored **86.0% agreement** with 7 disagreements.*
@@ -78,25 +83,30 @@ This guide provides the exact timing, screen navigation, talking points, and liv
   > * Rule 4: Data lookups reading raw metadata without return intent are Pass.
   > * Rule 5: Multi-turn disambiguation before order identification is Pass.
   >
-  > *This hill-climb brought our Dev agreement from **86.0% up to 94.0%**, with a True Positive Rate of **97.1%** (34/35) and True Negative Rate of **86.7%** (13/15)."*
+  > *This hill-climb brought our Dev agreement from **86.0% up to 94.0%**, with a True Positive Rate of **97.1%** (34 out of 35) and True Negative Rate of **86.7%** (13 out of 15)."*
 
 ---
 
-### 2:30 – 3:30 | Part 4: Frozen Held-Out Test Evaluation
+### 2:30 – 3:30 | Part 4: Frozen Held-Out Test Evaluation & Wilson Uncertainty
 * **On Screen:** In the Review App, select the filter: **`🔒 Test Split (51) [Held-out Freeze]`**.
 * **Talking Points:**
   > *"Once development reached 94% agreement, we **froze Prompt v1** and evaluated our 51 held-out test traces that the prompt had never seen.*
   >
-  > *Here are the held-out test results:*
+  > *Here are the held-out test results and their Wilson confidence intervals:*
   > * **True Negative Rate (Defect Catch Rate): 91.7%** (11 out of 12 defects caught).
   >   * The 95% Wilson Confidence Interval is **[64.6%, 98.5%]**.
   > * **True Positive Rate (Pass Agreement): 84.6%** (33 out of 39 conforming passes agreed).
   >   * The 95% Wilson Confidence Interval is **[70.3%, 92.8%]**.
   > * **Overall Test Agreement: 86.3%** (44 out of 51 traces matched).
   >
-  > *Notice the asymmetry in the confusion matrix: we have **11 True Negatives**, **33 True Positives**, only **1 False Positive (missed defect)**, but **6 False Negatives (false alarms)**.*
+  > **Understanding the Wilson Intervals and Standard Deviation:**
+  > * Notice that the Wilson interval for TNR ([64.6% to 98.5%]) is much wider than for TPR ([70.3% to 92.8%]). 
+  > * Why? Because our test set has only **12 real defect traces**, compared to **39 pass traces**. In binomial statistics, the standard deviation is inversely proportional to the square root of sample size. With only 12 trials, the standard error is higher, so our uncertainty band is wider: our true defect catch rate in production is with 95% confidence between 65% and 98.5%.
+  > * Conversely, for TPR, having 39 traces lowers the standard error and tightens our confidence band down to a 22 percentage-point spread.
   >
-  > *In other words: **the judge is 6 times more likely to cry wolf than to miss a real bug**. The defect catch rate remained exceptional (91.7%), while TPR experienced a slight generalization drop (from 97% on Dev to 85% on Test) due to novel phrasing in conversational turns."*
+  > **Error Directionality:**
+  > * Notice the confusion matrix: **11 True Negatives**, **33 True Positives**, only **1 False Positive (missed defect)**, and **6 False Negatives (false alarms)**.*
+  > * In other words: **the judge is 6 times more likely to cry wolf than to miss a real bug**. The defect catch rate remained exceptional (91.7%), while TPR dropped slightly on Test due to novel customer phrasing."*
 
 ---
 
@@ -127,7 +137,7 @@ uv run python -c "from analysis.helpers import judge_alignment; print(judge_alig
   > * Both achieved **identical 94.0% agreement on Dev** and **84.6% TPR on Test**.
   > * Jev executes in **~180ms** (System-1 non-autoregressive) at **$0.00008 per evaluation**, versus ~1.8 seconds for GPT-4o-mini.
   >
-  > *Look at `support-0084`: The customer asked to cancel a delivered order. The assistant explained that delivered orders cannot be cancelled, read the `refund_eligible: false` field from the order, and referred them to platform disputes. GPT-4o-mini cried wolf and failed the agent, while Jev correctly recognized that this was a platform dispute and cancellation inquiry (Rule 7), outputting $P(\text{defect}) = 0.37 \to \text{Pass}$. Jev resisted the LLM false alarm!*
+  > *Look at `support-0084`: The customer asked to cancel a delivered order. The assistant explained that delivered orders cannot be cancelled, read the `refund_eligible: false` field from the order, and referred them to platform disputes. GPT-4o-mini cried wolf and failed the agent, while Jev correctly recognized that this was a platform dispute and cancellation inquiry (Rule 7), outputting defect probability = 0.37 (Pass). Jev resisted the LLM false alarm!*
   >
   > **Final Decision: Would I use this judge?**
   > * **Yes, absolutely—as an automated CI/CD safety gate and regression guard.**
