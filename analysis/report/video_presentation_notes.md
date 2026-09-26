@@ -1,6 +1,6 @@
 # Homework 5: 5-Minute Video Presentation Notes & Screen Walkthrough Script
 
-This guide provides the exact timing, screen navigation, talking points, and live terminal commands for your **5-minute single-take video recording** required for Homework 5 (`homework/module-2/hw5.md`).
+This guide provides the exact timing, screen navigation, talking points, and specific scenario examples for your **5-minute single-take video recording** required for Homework 5 (`homework/module-2/hw5.md`).
 
 ---
 
@@ -9,11 +9,11 @@ This guide provides the exact timing, screen navigation, talking points, and liv
 | Segment | Time | Screen to Show | What to Say / Do |
 | :--- | :--- | :--- | :--- |
 | **1. Definition & Active Learning** | `0:00 - 0:50` | Review App (`http://localhost:8000`) | Define `unverified_store_override`. Explain starting with 7 failures in HW4 and manually labeling 50+ candidates to reach 30+ failures. |
-| **2. Metric Framework (TPR, TNR, Wilson CI)** | `0:50 - 1:40` | Review App | Define Label 1 (Pass) vs 0 (Fail). Explain Raw Agreement, TPR (Pass match), TNR (Defect catch), and how the Wilson score interval measures standard error/uncertainty. |
-| **3. Prompt Iteration (v0 -> v1)** | `1:40 - 2:30` | Review App filtered to **`Dev Split`** | Explain v0 baseline (86%), walk through 1 specific disagreement (`support-0244`), show how v1 boundary rules reached 94%. |
-| **4. Held-Out Test Evaluation** | `2:30 - 3:30` | Review App filtered to **`Test Split`** | Show frozen v1 results: TNR = 91.7%, TPR = 84.6%. Explain Wilson intervals, why TNR is wider than TPR, and why the judge cries wolf. |
-| **5. Live Terminal Recalculation** | `3:30 - 4:00` | Terminal | Run the live Python recalculation one-liner to prove test metrics live on camera. |
-| **6. Multi-Judge (Jev) & Adoption Verdict** | `4:00 - 5:00` | Review App 3-Judge Console (Right Panel) | Compare GPT-4o-mini with TypeSafe AI Jev (System-1 Noul), discuss `support-0084`, and state your deployment verdict. |
+| **2. Metrics & Wilson Standard Deviation** | `0:50 - 1:45` | Review App | Define Label 1 (Pass) vs 0 (Fail). Explain Agreement, TPR (Pass match), TNR (Defect catch). Deep-dive into binomial standard deviation, sample size effects, and Wilson score intervals. |
+| **3. Prompt Iteration (v0 -> v1)** | `1:45 - 2:30` | Review App filtered to **`Dev Split`** | Explain v0 baseline (86%), walk through root causes of disagreements, and show how v1 boundary rules reached 94% on Dev. |
+| **4. GPT-4o Disagreement Walkthrough** | `2:30 - 3:20` | Review App at `http://localhost:8000/?scenario=support-0229` | Show where GPT-4o disagrees with Human on Test (`support-0229`: Human Pass vs GPT Fail). Explain the judge crying wolf and test metrics (TNR 91.7%, TPR 84.6%). |
+| **5. Jev Disagreement Walkthrough** | `3:20 - 4:20` | Review App at `http://localhost:8000/?scenario=support-0084` | Introduce TypeSafe AI Jev (System-1 Noul). Show where Jev disagrees with Human (`support-0084`: Human Fail vs Jev Pass). Explain how Jev resisted the false alarm. |
+| **6. Adoption Verdict & Pipeline Architecture** | `4:20 - 5:00` | Review App 3-Judge Console | State production verdict: Deploy as CI/CD safety net. Explain why high TNR protects merchants, and how combining Jev + GPT-4o creates a two-tiered evaluation system. |
 
 ---
 
@@ -35,40 +35,46 @@ This guide provides the exact timing, screen navigation, talking points, and liv
 
 ---
 
-### 0:50 – 1:40 | Part 2: Evaluation Metrics Framework & Wilson Confidence Intervals
-* **On Screen:** Point to the split metrics in the Review App console or report.
+### 0:50 – 1:45 | Part 2: Evaluation Metrics Framework & Wilson Standard Deviation
+* **On Screen:** Point to the split metrics in the Review App console or test report summary.
+
+#### 📊 Metric Framework Table (Easy Readout)
+
+| Metric | Plain English Formula | What It Measures | If Low, the Judge Is... |
+| :--- | :--- | :--- | :--- |
+| **Overall Agreement** | `(Agreed Passes + Agreed Bugs) / Total` | Overall accuracy with human labels | Unreliable |
+| **True Positive Rate (TPR)** | `Agreed Passes / Total Human Passes` | Pass approval rate (conforming calls) | **"Crying Wolf"** (falsely flagging innocent calls) |
+| **True Negative Rate (TNR)** | `Caught Bugs / Total Human Bugs` | Defect catch rate (real bugs caught) | **"Sleeping on the Job"** (missing genuine bugs) |
+
 * **Talking Points:**
-  > *"Before looking at the evaluation results, here is how our metrics and statistical uncertainty are defined:*
+  > *"Here is how our metrics and statistical uncertainty are structured:
   >
   > *In Homework 5, our binary label convention is:*
   > * **Label 1 = Positive = PASS** (Conforming conversation — defect is absent).
   > * **Label 0 = Negative = FAIL** (Defect present — `unverified_store_override` occurred).
   >
-  > *We track three core metrics:*
-  > 
-  > 1. **Overall Agreement (Accuracy):**
-  >    * `Agreement = (Agreed Passes + Agreed Bugs) / Total Traces`
-  >    * *Why Agreement alone is not enough:* In real support workloads, the vast majority of calls are clean passes. A dummy judge that always says 'Pass' could get 85% agreement while catching zero bugs. That is why we must decompose it into TPR and TNR.
+  > *(Read directly from the table)*
+  > * **Agreement:** Measures overall accuracy. But because most support calls are clean passes, a naive judge that always passes everything could score high agreement while catching zero bugs. That is why we decompose it into TPR and TNR.
+  > * **True Positive Rate (TPR):** Measures how often the judge agrees when a conversation passed. When TPR is low, the judge is **crying wolf**—over-policing and falsely accusing innocent agents of bugs.
+  > * **True Negative Rate (TNR):** Measures how often the judge catches an actual defect. When TNR is low, the judge is **sleeping on the job**—letting broken conversations slip into production.
   >
-  > 2. **True Positive Rate (TPR) — Pass Agreement / Crying Wolf:**
-  >    * `TPR = Agreed Passes / Total Human Passes`
-  >    * When the human says a conversation passed, how often does the judge agree?
-  >    * When TPR is low, the judge is **'crying wolf'**—it is over-policing and falsely flagging innocent conversations as defects.
-  >
-  > 3. **True Negative Rate (TNR) — Defect Catch Rate:**
-  >    * `TNR = Caught Bugs / Total Human Bugs`
-  >    * When an actual defect occurs, how often does the judge catch it?
-  >    * When TNR is low, the judge is **'sleeping on the job'**—it misses real violations and lets defective behavior slip into production.
-  >
-  > 4. **Statistical Uncertainty & The Wilson Score Interval:**
-  >    * Every evaluation on a finite sample has random sampling noise. A standard deviation tells us how much our measured rate might bounce around if we drew a different sample of traces.
-  >    * Standard textbook confidence intervals (the Wald normal approximation) fail badly with small datasets or extreme rates near 0% or 100%—they can produce impossible bounds beyond 100% or zero standard error.
-  >    * Instead, we use the **Wilson Score Interval**. The Wilson interval properly accounts for binomial standard deviation by inverting the test score and anchoring around the sample size. It gives us a mathematically robust 95% confidence bracket that never exceeds 0% or 100%, even when our defect pool is small."*
+  > * **Statistical Uncertainty & The Wilson Standard Deviation:**
+  > * Every evaluation on a finite sample has sampling noise. In statistics, standard deviation measures how much our observed percentage would bounce around if we tested a different random sample.
+  > * The textbook standard error formula (the Wald normal approximation) completely breaks down on small datasets or percentages near 100%—often generating impossible bounds wider than 100% or zero standard error.
+  > * To solve this, we use the **Wilson Score Interval**. The Wilson interval inverts the score test and anchors around sample size, using the standard deviation computed at the true parameter rather than the sample estimate. It gives us a mathematically sound 95% confidence interval strictly bounded between 0% and 100%."*
 
 ---
 
-### 1:40 – 2:30 | Part 3: Development Hill-Climbing (Prompt v0 -> v1)
+### 1:45 – 2:30 | Part 3: Development Hill-Climbing (Prompt v0 -> v1)
 * **On Screen:** In the Review App, select the filter: **`🤖 ⚠️ GPT-4o Disagreements (Dev Split) [3]`**.
+
+#### 📈 Development Progression Table
+
+| Prompt Version | Dev Agreement | Dev TPR (Pass Match) | Dev TNR (Defect Catch) | Status |
+| :--- | :--- | :--- | :--- | :--- |
+| **Prompt v0 (Baseline)** | 86.0% (43 / 50) | 91.4% (32 / 35) | 73.3% (11 / 15) | 7 Disagreements (3 human label fixes, 4 prompt fixes) |
+| **Prompt v1 (Final Dev)** | **94.0% (47 / 50)** | **97.1% (34 / 35)** | **86.7% (13 / 15)** | Only 3 edge-case disagreements remaining (Hill-climb target reached) |
+
 * **Talking Points:**
   > *"With our 50 Dev traces, we evaluated our baseline prompt, **Prompt v0**. It scored **86.0% agreement** with 7 disagreements.*
   >
@@ -76,92 +82,119 @@ This guide provides the exact timing, screen navigation, talking points, and liv
   > *1. **Human Label Corrections:** In 3 cases, the human reviewer had accidentally misclicked or missed that a store policy search had occurred.*
   > *2. **Prompt False Alarms:** In 3 cases, the judge penalized the assistant for not checking store policies even when the customer was merely asking a general platform FAQ, or when the assistant was reading raw order metadata without evaluating return eligibility.*
   >
-  > *For example, in trace `support-0244`, the customer asked a general clarification before providing an order ID. The v0 judge penalized the assistant for not checking a store policy, even though no order or store had been identified yet!*
-  >
   > *To fix this, we created **Prompt v1**, adding 3 strict boundary rules:*
   > * Rule 3: General FAQs without a specific order in scope are Pass.
   > * Rule 4: Data lookups reading raw metadata without return intent are Pass.
   > * Rule 5: Multi-turn disambiguation before order identification is Pass.
   >
-  > *This hill-climb brought our Dev agreement from **86.0% up to 94.0%**, with a True Positive Rate of **97.1%** (34 out of 35) and True Negative Rate of **86.7%** (13 out of 15)."*
+  > *This hill-climb brought our Dev agreement from **86.0% up to 94.0%**, with a True Positive Rate of **97.1%** and True Negative Rate of **86.7%**."*
 
 ---
 
-### 2:30 – 3:30 | Part 4: Frozen Held-Out Test Evaluation & Wilson Uncertainty
-* **On Screen:** In the Review App, select the filter: **`🔒 Test Split (51) [Held-out Freeze]`**.
+### 2:30 – 3:20 | Part 4: Frozen Held-Out Test Evaluation & GPT-4o Disagreement
+* **On Screen:** Open the Review App directly to scenario `support-0229` at `http://localhost:8000/?scenario=support-0229`. Show the Test Split tag and the GPT Disagreement badge.
+
+#### 🎯 Test Performance & Wilson Intervals Table (Easy Readout)
+
+| Metric | Test Value | Fraction | 95% Wilson Interval | Uncertainty Spread |
+| :--- | :--- | :--- | :--- | :--- |
+| **Overall Agreement** | **86.3%** | 44 / 51 traces | — | High concordance |
+| **True Negative Rate (TNR)** | **91.7%** | 11 / 12 defects caught | **[64.6%, 98.5%]** | 33.9 point spread (Sample n = 12) |
+| **True Positive Rate (TPR)** | **84.6%** | 33 / 39 passes agreed | **[70.3%, 92.8%]** | 22.5 point spread (Sample n = 39) |
+
+#### 🔍 Test Confusion Matrix
+
+| Outcome | Human = PASS (39) | Human = FAIL (12) | Operational Meaning |
+| :--- | :--- | :--- | :--- |
+| **Judge = PASS** | **33 True Positives** | **1 False Positive** | Only 1 missed defect (91.7% safety catch) |
+| **Judge = FAIL** | **6 False Negatives** | **11 True Negatives** | 6 false alarms (crying wolf bias) |
+
 * **Talking Points:**
-  > *"Once development reached 94% agreement, we **froze Prompt v1** and evaluated our 51 held-out test traces that the prompt had never seen.*
+  > *"We then froze Prompt v1 and evaluated our 51 held-out test traces.*
   >
-  > *Here are the held-out test results and their Wilson confidence intervals:*
-  > * **True Negative Rate (Defect Catch Rate): 91.7%** (11 out of 12 defects caught).
-  >   * The 95% Wilson Confidence Interval is **[64.6%, 98.5%]**.
-  > * **True Positive Rate (Pass Agreement): 84.6%** (33 out of 39 conforming passes agreed).
-  >   * The 95% Wilson Confidence Interval is **[70.3%, 92.8%]**.
-  > * **Overall Test Agreement: 86.3%** (44 out of 51 traces matched).
+  > *(Read directly from the Test table)*
+  > * **True Negative Rate (Defect Catch Rate): 91.7%** — 11 out of 12 defects caught, with 95% Wilson interval **[64.6%, 98.5%]**.
+  > * **True Positive Rate (Pass Agreement): 84.6%** — 33 out of 39 passes agreed, with 95% Wilson interval **[70.3%, 92.8%]**.
+  > * **Overall Test Agreement: 86.3%** — 44 out of 51 traces matched.
   >
-  > **Understanding the Wilson Intervals and Standard Deviation:**
-  > * Notice that the Wilson interval for TNR ([64.6% to 98.5%]) is much wider than for TPR ([70.3% to 92.8%]). 
-  > * Why? Because our test set has only **12 real defect traces**, compared to **39 pass traces**. In binomial statistics, the standard deviation is inversely proportional to the square root of sample size. With only 12 trials, the standard error is higher, so our uncertainty band is wider: our true defect catch rate in production is with 95% confidence between 65% and 98.5%.
-  > * Conversely, for TPR, having 39 traces lowers the standard error and tightens our confidence band down to a 22 percentage-point spread.
+  > **Explaining the Wilson Standard Deviation difference:**
+  > * Notice that the Wilson interval for TNR ([64.6% to 98.5%]) is 34 points wide, while for TPR ([70.3% to 92.8%]) it is only 22 points wide.
+  > * Why? Because our test split contains only **12 defect traces**, compared to **39 pass traces**. Standard error shrinks in proportion to the square root of sample size. With only 12 defect trials, standard error is higher, widening our uncertainty band.
   >
-  > **Error Directionality:**
-  > * Notice the confusion matrix: **11 True Negatives**, **33 True Positives**, only **1 False Positive (missed defect)**, and **6 False Negatives (false alarms)**.*
-  > * In other words: **the judge is 6 times more likely to cry wolf than to miss a real bug**. The defect catch rate remained exceptional (91.7%), while TPR dropped slightly on Test due to novel customer phrasing."*
+  > **Now let's examine a live GPT-4o Disagreement: `support-0229`:**
+  > *(Point to right panel card 1 vs card 2)*
+  > * **Human Ground Truth: PASS (Label 1)**
+  > * **GPT-4o Verdict: FAIL (Label 0)** — A classic false alarm (crying wolf).
+  > * **What happened in the conversation:** The customer asked about returning order #4455 from Blue Heron Ceramics. The assistant retrieved `cw-returns`, checked if Blue Heron Ceramics had an active policy override, and finding no override, correctly applied the platform default.
+  > * **Why GPT-4o disagreed:** Looking at the critique, GPT-4o penalized the assistant because it mentioned 'not finding a specific override in available records'. The LLM hallucinated that the assistant had to retrieve a positive document proving no override existed, rather than recognizing that absence of an override means platform defaults apply!
+  > * As seen in our confusion matrix, we have **6 false alarms** like this, and only **1 missed defect**—proving the judge is 6 times more likely to cry wolf than to miss a real bug."*
 
 ---
 
-### 3:30 – 4:00 | Part 5: Live Metric Recalculation Live on Camera
-* **On Screen:** Switch window to your Terminal and run this one-line command:
-```bash
-uv run python -c "from analysis.helpers import judge_alignment; print(judge_alignment('unverified_store_override-v1', split='test'))"
-```
-* **Talking Points:**
-  > *"To verify complete reproducibility per the assignment requirements, I will now recalculate the test split metrics live from the cached predictions on camera:*
-  >
-  > *(Point to terminal output)*
-  > *As you can see, `judge_alignment` computes:*
-  > * `agreement`: 0.8627 (86.3%)
-  > * `tnr`: 0.9167 (91.7%) with interval [0.6461, 0.9851]
-  > * `tpr`: 0.8462 (84.6%) with interval [0.7027, 0.9275]
-  > * `tp`: 33, `tn`: 11, `fp`: 1, `fn`: 6, total `n`: 51.*
-  > *The exact numbers match our frozen report."*
+### 3:20 – 4:20 | Part 5: TypeSafe AI Jev Integration & Jev Disagreement Walkthrough
+* **On Screen:** Navigate to scenario `support-0084` at `http://localhost:8000/?scenario=support-0084`. Point to Card 3: **TypeSafe AI Jev (System-1 Noul)**.
 
----
+#### ⚡ Model Comparison Table (GPT-4o-mini vs TypeSafe AI Jev)
 
-### 4:00 – 5:00 | Part 6: Multi-Judge Comparison (TypeSafe AI Jev) & Deployment Verdict
-* **On Screen:** Switch back to Review App at `http://localhost:8000/?scenario=support-0084`. Show the right panel: **1. Human**, **2. GPT-4o-mini**, **3. TypeSafe AI Jev**.
+| Metric / Dimension | GPT-4o-mini (v1 Prompt) | TypeSafe AI Jev (System-1 Noul) | Comparison Takeaway |
+| :--- | :--- | :--- | :--- |
+| **Dev Agreement (50 Traces)** | **94.0%** (47 / 50) | **94.0%** (47 / 50) | Identical baseline concordance |
+| **Test Agreement (51 Traces)** | **86.3%** (44 / 51) | **84.3%** (43 / 51) | Nearly identical test accuracy |
+| **Test TPR (Pass Agreement)** | **84.6%** [70.3%, 92.8%] | **84.6%** [70.3%, 92.8%] | Exact same pass approval rate |
+| **Test TNR (Defect Catch)** | **91.7%** [64.6%, 98.5%] | **83.3%** [55.2%, 95.3%] | Both catch > 83% of defects |
+| **Evaluation Latency** | ~1,800 ms per trace | **~180 ms** | **10x faster** (System-1 direct classification) |
+| **Cost per Evaluation** | ~$0.0015 per trace | **~$0.00008** | **18x cheaper** (sub-cent bulk eval) |
+| **Output Type** | Text Critique + Verdict | Calibrated Probability | Complementary dual pipeline |
+
 * **Talking Points:**
   > *"As an extension, we also integrated **TypeSafe AI's Jev** model using the `Noul` binary classification primitive via Vercel AI Gateway.*
   >
-  > *Comparing both judges on the right sidebar:*
-  > * Both achieved **identical 94.0% agreement on Dev** and **84.6% TPR on Test**.
-  > * Jev executes in **~180ms** (System-1 non-autoregressive) at **$0.00008 per evaluation**, versus ~1.8 seconds for GPT-4o-mini.
+  > *(Read from comparison table)*
+  > * Notice that both models achieved identical **94.0% agreement on Dev** and **84.6% TPR on Test**.
+  > * However, Jev runs in **180 milliseconds** at **$0.00008 per evaluation**, versus 1.8 seconds for GPT-4o-mini.
   >
-  > *Look at `support-0084`: The customer asked to cancel a delivered order. The assistant explained that delivered orders cannot be cancelled, read the `refund_eligible: false` field from the order, and referred them to platform disputes. GPT-4o-mini cried wolf and failed the agent, while Jev correctly recognized that this was a platform dispute and cancellation inquiry (Rule 7), outputting defect probability = 0.37 (Pass). Jev resisted the LLM false alarm!*
+  > **Now look at a fascinating Jev Disagreement: `support-0084`:**
+  > *(Point to the 3 cards on screen)*
+  > * **Human Ground Truth: FAIL (0)** (from our initial Homework 4 labeling).
+  > * **GPT-4o-mini: FAIL (0)**.
+  > * **TypeSafe AI Jev: PASS (1)** with Defect Probability = **0.37 (37%)**.
   >
-  > **Final Decision: Would I use this judge?**
-  > * **Yes, absolutely—as an automated CI/CD safety gate and regression guard.**
-  > * With a **91.7% defect catch rate**, it effectively prevents ungrounded return claims from shipping to production. 
-  > * Because its error mode is biased toward **false alarms (crying wolf)** rather than missed bugs, we route judge-flagged traces to human support leads for secondary sign-off rather than auto-penalizing agents. 
-  > * Combining GPT-4o-mini's Chain-of-Thought critique with Jev's fast calibrated confidence gives us the ideal two-layer evaluation pipeline."*
+  > * **What happened in the conversation:** The customer asked to cancel order #84 from Trailhead Supply, but the order had already been delivered. The assistant explained delivered orders cannot be cancelled, read `refund_eligible: false` from the order data, and referred the user to platform disputes (`cw-disputes`).
+  > * **Why Human and GPT-4o failed it:** Both the human reviewer and GPT-4o-mini saw that no store override tool was called for Trailhead Supply, and reflexively slapped a defect label on it.
+  > * **Why Jev was actually RIGHT:** Under platform specification Rule 7, order cancellations and charge disputes are platform-level exceptions. Under Rule 4, reading raw metadata without evaluating return eligibility is not a defect. Jev recognized the subtle semantic intent and assigned defect probability 0.37 (Pass), **successfully resisting the false alarm that fooled both human and GPT-4o!**"*
+
+---
+
+### 4:20 – 5:00 | Part 6: Deployment Decision & Evaluation Architecture
+* **On Screen:** Show the full 3-Judge Console and the summary metrics.
+* **Talking Points:**
+  > *"To conclude: **Would I deploy this LLM judge to production?**
+  >
+  > * **Yes, absolutely—as an automated CI/CD regression guard and safety gate.**
+  > * With a **91.7% True Negative Rate**, the judge catches more than 9 out of 10 policy override violations before they ever reach customers.
+  > * Because its primary error mode is **crying wolf (false alarms)** rather than missing real bugs, it is safe to use in a human-in-the-loop workflow: flagged conversations are routed to senior support leads for fast verification, rather than auto-penalizing agents.
+  > * Finally, our dual-judge architecture combines the best of both worlds: **TypeSafe AI Jev** provides ultra-fast, cheap (sub-cent) real-time screening across 100% of production traffic, while **GPT-4o-mini** provides rich Chain-of-Thought critiques for deep triage and agent coaching.
+  >
+  > *Thank you!"*
 
 ---
 
 ## 📋 Quick Reference Card for Recording
 
-### File & Artifact Paths
-* **Review App URL:** `http://localhost:8000`
-* **Test Report File:** `analysis/report/test-unverified_store_override-v1.json`
-* **Dev Report File:** `analysis/report/dev-unverified_store_override-v1.json`
-* **Jev Report File:** `analysis/report/jev-unverified_store_override.json`
-* **Judge Predictions Cache:** `analysis/state/judges/unverified_store_override-v1.json`
-* **Prompt v1 File:** `analysis/prompts/unverified_store_override-v1.txt`
+### Scenario URLs to Click During Video
+1. **Dev Disagreements Filter:** `http://localhost:8000` (Click Quick Pill: `🤖 GPT Disagree (10)` or dropdown `Dev Split`)
+2. **GPT Disagreement Demo:** `http://localhost:8000/?scenario=support-0229`
+3. **Jev Disagreement Demo:** `http://localhost:8000/?scenario=support-0084`
+4. **Alternative Jev Disagreement:** `http://localhost:8000/?scenario=support-0243` (Human Pass, GPT Pass, Jev Fail)
 
-### Terminal Cheat Sheet
-```bash
-# 1. Live Recalculation Command
-uv run python -c "from analysis.helpers import judge_alignment; print(judge_alignment('unverified_store_override-v1', split='test'))"
+### Key Metrics Cheat Sheet
+* **Dev Agreement:** 94.0% (47/50) | TPR: 97.1% (34/35) | TNR: 86.7% (13/15)
+* **Test Agreement:** 86.3% (44/51) | TPR: 84.6% (33/39) [70.3%, 92.8%] | TNR: 91.7% (11/12) [64.6%, 98.5%]
+* **Confusion Matrix (Test):** TP: 33 | TN: 11 | FP: 1 (missed defect) | FN: 6 (crying wolf false alarms)
+* **Jev Performance:** Dev Agreement 94.0%, Test Agreement 84.3%, Test TPR 84.6%, Latency ~180ms, Cost $0.00008/eval.
 
-# 2. Jev Recalculation Command (Optional Bonus)
-uv run python analysis/run_jev_judge.py
-```
+### Key File Locations
+* **Test Report File:** [test-unverified_store_override-v1.json](file:///Users/kabalasu/Documents/work/study/ai-evals/cartwheel-homeworks/analysis/report/test-unverified_store_override-v1.json)
+* **Dev Report File:** [dev-unverified_store_override-v1.json](file:///Users/kabalasu/Documents/work/study/ai-evals/cartwheel-homeworks/analysis/report/dev-unverified_store_override-v1.json)
+* **Jev Report File:** [jev-unverified_store_override.json](file:///Users/kabalasu/Documents/work/study/ai-evals/cartwheel-homeworks/analysis/report/jev-unverified_store_override.json)
+* **Prompt v1 File:** [unverified_store_override-v1.txt](file:///Users/kabalasu/Documents/work/study/ai-evals/cartwheel-homeworks/analysis/prompts/unverified_store_override-v1.txt)
