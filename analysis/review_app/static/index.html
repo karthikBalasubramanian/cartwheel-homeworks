@@ -55,10 +55,17 @@
       </div>
       <div class="filter-toolbar">
         <select id="filter-select" class="filter-select">
+          <option value="dev_disagreements">⚠️ Disagreements with Judge (Dev Split)</option>
+          <option value="dev_split">🤖 Dev Split (50) [Judge Evaluated]</option>
+          <option value="train_split">📚 Train Split (25) [Few-Shot Prompt Examples - Not Evaluated]</option>
+          <option value="test_split">🔒 Test Split (51) [Held-out Quarantine - Evaluated After Freeze]</option>
+          <option value="candidates_unverified_store_override">🎯 Active Learning: unverified_store_override (Candidates)</option>
+          <option value="candidates_unresolved_product_identifiers">🎯 Active Learning: unresolved_product_identifiers (Candidates)</option>
+          <option value="candidates_unsolicited_action_execution">🎯 Active Learning: unsolicited_action_execution (Candidates)</option>
           <option value="batch1">🎯 Batch 1: 15 Cluster + 15 Uniform (30)</option>
           <option value="batch2">🎯 Batch 2: Role Stratified (30)</option>
           <option value="batch3">🎯 Batch 3: Targeted Depth Search (25)</option>
-          <option value="batch4" selected>🎯 Batch 4: Holdout Stability (15)</option>
+          <option value="batch4">🎯 Batch 4: Holdout Stability (15)</option>
           <option value="all">🔍 All Scenarios (250)</option>
           <option value="multi_turn">🔄 Multi-Turn Sessions (10)</option>
           <option value="security">🚨 Security / Permission Refused (23)</option>
@@ -72,6 +79,7 @@
           <option value="reviewed">✅ Reviewed</option>
         </select>
       </div>
+      <div id="active-learning-stats" style="display:none; font-size: 11px; padding: 6px 12px; background: rgba(59,130,246,0.12); border-bottom: 1px solid rgba(59,130,246,0.25); color: #93c5fd; font-weight: 500;"></div>
       <ul id="session-list-items" class="session-list">
         <!-- Populated dynamically by app.js -->
       </ul>
@@ -88,8 +96,29 @@
     <aside class="annotation-panel">
       <div class="panel-title">Review & Annotation</div>
 
+      <!-- Judge Evaluation Comparison Box -->
+      <div id="judge-eval-box" style="display: none; margin-bottom: 16px; padding: 12px; background: rgba(30, 41, 59, 0.75); border: 1px solid rgba(99, 102, 241, 0.3); border-radius: 8px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+          <span style="font-size: 11px; font-weight: 700; color: #a5b4fc; text-transform: uppercase;">🤖 LLM Judge: <span id="judge-mode-target" style="color: #cbd5e1;">unverified_store_override</span></span>
+          <span id="judge-split-badge" style="font-size: 10px; padding: 2px 6px; border-radius: 4px; background: #374151; color: #e5e7eb; font-weight: 600;">DEV</span>
+        </div>
+        <div style="font-size: 10.5px; color: #94a3b8; margin-bottom: 8px;">Model: <span id="judge-model-name" style="color: #e2e8f0; font-family: monospace;">gpt-4o-mini</span></div>
+        <div style="margin-bottom: 8px;">
+          <div id="judge-match-banner" style="font-weight: 700; font-size: 11.5px; padding: 6px 10px; border-radius: 4px; margin-bottom: 6px;"></div>
+          <div style="display: flex; gap: 8px; align-items: center;">
+            <div id="judge-verdict-pill" style="font-weight: 700; font-size: 11px; padding: 3px 8px; border-radius: 4px;"></div>
+          </div>
+          <div id="judge-subtext-note" style="display: none; font-size: 11px; color: #94a3b8; margin-top: 6px; line-height: 1.4;">
+            ↳ See open coding notes &amp; failure mode below for human rationale.
+          </div>
+        </div>
+        <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 600;">Judge Critique:</div>
+        <div id="judge-critique-text" style="font-size: 12px; line-height: 1.45; color: #e2e8f0; background: rgba(0,0,0,0.35); padding: 8px; border-radius: 4px; max-height: 160px; overflow-y: auto; white-space: pre-wrap; border: 1px solid rgba(255,255,255,0.05);"></div>
+      </div>
+
       <!-- Verdict Buttons -->
       <div>
+
         <div style="font-size: 11px; font-weight: 700; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase;">
           Turn/Trace Verdict
         </div>

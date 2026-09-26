@@ -12,7 +12,9 @@ const AppState = {
     step_notes: {},
   },
   progress: null,
-  filter: "batch1",
+  filter: "candidates_unverified_store_override",
+  activeCandidates: {},
+  candidateStats: null,
 };
 
 // Initialize App
@@ -20,6 +22,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   setupEventListeners();
   await loadTaxonomy();
   await loadSessions();
+
+  if (AppState.filter.startsWith("candidates_")) {
+    await loadActiveCandidates(AppState.filter.replace("candidates_", ""));
+    renderSidebarList();
+  }
 
   // Check URL query parameters
   const urlParams = new URLSearchParams(window.location.search);
@@ -54,8 +61,12 @@ function setupEventListeners() {
 
   const filterSelect = document.getElementById("filter-select");
   if (filterSelect) {
-    filterSelect.addEventListener("change", (e) => {
+    filterSelect.addEventListener("change", async (e) => {
       AppState.filter = e.target.value;
+      if (AppState.filter.startsWith("candidates_")) {
+        const mode = AppState.filter.replace("candidates_", "");
+        await loadActiveCandidates(mode);
+      }
       renderSidebarList();
       const filtered = getFilteredSessions();
       if (filtered.length > 0) {
@@ -121,6 +132,19 @@ async function loadSessions() {
     await updateProgress();
   } catch (err) {
     console.error("Failed to load sessions:", err);
+  }
+}
+
+async function loadActiveCandidates(mode) {
+  try {
+    const res = await fetch(`/api/candidates?mode=${encodeURIComponent(mode)}&k=40`);
+    if (res.ok) {
+      const data = await res.json();
+      AppState.activeCandidates[mode] = data.candidates || [];
+      AppState.candidateStats = data.stats;
+    }
+  } catch (err) {
+    console.error("Failed to load candidates:", err);
   }
 }
 
@@ -530,11 +554,93 @@ function renderAnnotationPanel() {
   // Notes textarea
   document.getElementById("notes-input").value = ann.note || "";
 
+  // Judge evaluation box
+  renderJudgeEvaluation();
+
   // Taxonomy checkboxes
   renderTaxonomySection();
 }
 
+function renderJudgeEvaluation() {
+  const box = document.getElementById("judge-eval-box");
+  if (!box) return;
+  const jeval = AppState.currentSession && AppState.currentSession.judge_evaluation;
+  const split = AppState.currentSession && AppState.currentSession.split;
+
+  if (!jeval) {
+    if (split === "train" || split === "test") {
+      box.style.display = "block";
+      document.getElementById("judge-model-name").textContent = "No Evaluation";
+      const splitBadge = document.getElementById("judge-split-badge");
+      if (splitBadge) {
+        splitBadge.textContent = split.toUpperCase();
+        splitBadge.style.background = split === "train" ? "#10b981" : "#ef4444";
+      }
+      const verdictPill = document.getElementById("judge-verdict-pill");
+      if (verdictPill) {
+        verdictPill.textContent = "Status: Not Evaluated";
+        verdictPill.style.background = "rgba(100, 116, 139, 0.2)";
+        verdictPill.style.color = "#cbd5e1";
+        verdictPill.style.border = "1px solid #475569";
+      }
+      const banner = document.getElementById("judge-match-banner");
+      if (banner) banner.style.display = "none";
+      const subtextNote = document.getElementById("judge-subtext-note");
+      if (subtextNote) subtextNote.style.display = "none";
+      const critiqueEl = document.getElementById("judge-critique-text");
+      if (critiqueEl) {
+        critiqueEl.textContent = "No judge evaluation has been run on this trace.";
+      }
+      return;
+    }
+    box.style.display = "none";
+    return;
+  }
+  box.style.display = "block";
+  const modeTargetEl = document.getElementById("judge-mode-target");
+  if (modeTargetEl) modeTargetEl.textContent = jeval.mode || "unverified_store_override";
+  document.getElementById("judge-model-name").textContent = `${jeval.model || 'gpt-4o-mini'} (${jeval.judge_id || 'v0'})`;
+  const splitBadge = document.getElementById("judge-split-badge");
+  if (splitBadge) {
+    splitBadge.textContent = (jeval.split || 'DEV').toUpperCase();
+    splitBadge.style.background = jeval.split === "dev" ? "#3b82f6" : jeval.split === "test" ? "#ef4444" : "#10b981";
+  }
+
+  const verdictPill = document.getElementById("judge-verdict-pill");
+  if (verdictPill) {
+    verdictPill.textContent = `Judge Verdict: ${jeval.judge_verdict}`;
+    verdictPill.style.background = jeval.judge_verdict === "Pass" ? "rgba(16, 185, 129, 0.2)" : "rgba(239, 68, 68, 0.2)";
+    verdictPill.style.color = jeval.judge_verdict === "Pass" ? "#34d399" : "#f87171";
+    verdictPill.style.border = `1px solid ${jeval.judge_verdict === "Pass" ? "#10b981" : "#ef4444"}`;
+  }
+
+  const banner = document.getElementById("judge-match-banner");
+  const subtextNote = document.getElementById("judge-subtext-note");
+  if (banner) {
+    banner.style.display = "block";
+    if (jeval.is_disagreement) {
+      banner.textContent = "⚠️ DISAGREEMENT — Human didn't agree with judge";
+      banner.style.background = "rgba(245, 158, 11, 0.18)";
+      banner.style.color = "#fbbf24";
+      banner.style.border = "1px solid #f59e0b";
+      if (subtextNote) subtextNote.style.display = "block";
+    } else {
+      banner.textContent = "✓ MATCH — Human and judge agreed";
+      banner.style.background = "rgba(16, 185, 129, 0.18)";
+      banner.style.color = "#34d399";
+      banner.style.border = "1px solid #10b981";
+      if (subtextNote) subtextNote.style.display = "none";
+    }
+  }
+
+  const critiqueEl = document.getElementById("judge-critique-text");
+  if (critiqueEl) {
+    critiqueEl.textContent = jeval.critique || "No critique text available.";
+  }
+}
+
 function renderTaxonomySection() {
+
   const container = document.getElementById("taxonomy-checkboxes");
   if (!container) return;
   container.innerHTML = "";
@@ -633,6 +739,10 @@ async function saveAndAdvance() {
         sItem.verdict = ann.verdict;
         renderSidebarList();
       }
+      if (AppState.filter.startsWith("candidates_")) {
+        const mode = AppState.filter.replace("candidates_", "");
+        await loadActiveCandidates(mode);
+      }
       await updateProgress();
       // Advance to next
       navigate(1);
@@ -644,7 +754,25 @@ async function saveAndAdvance() {
 
 function getFilteredSessions() {
   const f = AppState.filter;
+  if (f.startsWith("candidates_")) {
+    const mode = f.replace("candidates_", "");
+    const candList = AppState.activeCandidates[mode] || [];
+    const sessionMap = new Map(AppState.sessions.map((s) => [s.session_id, s]));
+    const result = [];
+    for (const c of candList) {
+      const s = sessionMap.get(c.session_id);
+      if (s) {
+        s.candidate_signal = c.signal;
+        result.push(s);
+      }
+    }
+    return result;
+  }
   return AppState.sessions.filter((s) => {
+    if (f === "dev_disagreements") return !!s.is_disagreement && s.split === "dev";
+    if (f === "dev_split") return s.split === "dev";
+    if (f === "train_split") return s.split === "train";
+    if (f === "test_split") return s.split === "test";
     if (f === "batch1") return !!s.batch1;
     if (f === "batch2") return !!s.batch2;
     if (f === "batch3") return !!s.batch3;
@@ -672,8 +800,30 @@ function renderSidebarList() {
 
   const filtered = getFilteredSessions();
   const countEl = document.getElementById("filtered-count");
+  const statsEl = document.getElementById("active-learning-stats");
+  if (statsEl) {
+    if (AppState.filter.startsWith("candidates_") && AppState.candidateStats) {
+      const st = AppState.candidateStats;
+      statsEl.style.display = "block";
+      statsEl.innerHTML = `<strong>🎯 ${escapeHtml(st.mode)}:</strong> <span style="color:#f87171; font-weight:700;">${st.fails} Fails</span> / ${st.target_fails} goal &nbsp;|&nbsp; <span style="color:#34d399; font-weight:700;">${st.passes} Passes</span> / ${st.target_passes} goal`;
+    } else {
+      statsEl.style.display = "none";
+    }
+  }
+
   if (countEl) {
-    if (AppState.filter === "batch1") {
+    if (AppState.filter === "dev_disagreements") {
+      countEl.textContent = `Disagreements: ${filtered.length} traces`;
+    } else if (AppState.filter === "dev_split") {
+      countEl.textContent = `Dev Split: ${filtered.length} traces`;
+    } else if (AppState.filter === "train_split") {
+      countEl.textContent = `Train Split: ${filtered.length} traces`;
+    } else if (AppState.filter === "test_split") {
+      countEl.textContent = `Test Split: ${filtered.length} traces`;
+    } else if (AppState.filter.startsWith("candidates_")) {
+      const revCount = filtered.filter((s) => s.is_reviewed).length;
+      countEl.textContent = `Candidates: ${revCount} / ${filtered.length}`;
+    } else if (AppState.filter === "batch1") {
       const reviewedCount = filtered.filter((s) => s.is_reviewed).length;
       countEl.textContent = `Batch 1: ${reviewedCount} / ${filtered.length} (${filtered.length} total)`;
     } else if (AppState.filter === "batch2") {
@@ -706,8 +856,18 @@ function renderSidebarList() {
     else if (s.verdict === "fail") verdictDot = '<span class="dot-status dot-fail" title="Fail"></span>';
     else if (s.verdict === "defer") verdictDot = '<span class="dot-status dot-defer" title="Deferred"></span>';
 
+    let judgeBadge = "";
+    if (s.is_disagreement) {
+      judgeBadge = `<span style="font-size: 10px; padding: 2px 6px; border-radius: 4px; background: rgba(239, 68, 68, 0.25); color: #f87171; font-weight: 700; border: 1px solid rgba(239, 68, 68, 0.4);" title="Judge disagreed with human label">⚠️ Disagree</span>`;
+    } else if (s.judge_verdict) {
+      const col = s.judge_verdict === "Pass" ? "#34d399" : "#f87171";
+      judgeBadge = `<span style="font-size: 10px; padding: 2px 6px; border-radius: 4px; background: rgba(255, 255, 255, 0.08); color: ${col}; font-weight: 600;">Judge: ${s.judge_verdict}</span>`;
+    }
+
     let batchBadge = "";
-    if (s.batch1_reason && AppState.filter === "batch1") {
+    if (AppState.filter.startsWith("candidates_")) {
+      batchBadge = `<span style="font-size: 10px; padding: 2px 6px; border-radius: 4px; background: rgba(245, 158, 11, 0.15); color: #fbbf24; font-weight: 600;" title="${escapeHtml(s.candidate_signal || 'Semantic neighbor')}">[🎯 Candidate]</span>`;
+    } else if (s.batch1_reason && AppState.filter === "batch1") {
       const isCluster = s.batch1_type === "cluster_rep";
       const color = isCluster ? "var(--primary)" : "var(--accent-cyan)";
       batchBadge = `<span style="font-size: 10px; padding: 2px 6px; border-radius: 4px; background: rgba(99, 102, 241, 0.15); color: ${color}; font-weight: 600;">[${escapeHtml(s.batch1_reason)}]</span>`;
@@ -727,6 +887,7 @@ function renderSidebarList() {
       <div class="session-preview">${escapeHtml(s.preview_text || "No preview")}</div>
       <div class="session-status-dots">
         ${verdictDot}
+        ${judgeBadge}
         ${batchBadge}
         ${s.has_permission_denied ? '<span class="dot-status dot-denied" title="Permission Denied"></span>' : ""}
         ${s.has_escalation ? '<span style="font-size: 10px; color: var(--accent-amber); font-weight: 600;">[Escalated]</span>' : ""}
@@ -734,6 +895,7 @@ function renderSidebarList() {
         ${s.total_spans ? `<span style="font-size: 10px; color: #a78bfa; font-weight: 600; background: rgba(167, 139, 250, 0.12); padding: 1px 5px; border-radius: 3px;" title="${s.total_spans} total spans (${s.tool_spans || 0} tool, ${s.gen_spans || 0} gen)">${s.total_spans} spans</span>` : ""}
       </div>
     `;
+
 
     li.addEventListener("click", () => {
       const origIdx = AppState.sessions.findIndex((item) => item.session_id === s.session_id);

@@ -1,0 +1,12 @@
+{
+  "versions": [
+    {
+      "judge_id": "unverified_store_override-v0",
+      "prompt_hash": "9270921f6ddb"
+    },
+    {
+      "judge_id": "unverified_store_override-v1",
+      "prompt_hash": "3b969fbea211"
+    }
+  ]
+}

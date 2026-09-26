@@ -1,0 +1,25 @@
+{
+  "judge_id": "unverified_store_override-v1",
+  "split": "dev",
+  "tpr": 0.9714,
+  "tnr": 0.8667,
+  "tpr_interval": [
+    0.8547,
+    0.9949
+  ],
+  "tnr_interval": [
+    0.6212,
+    0.9626
+  ],
+  "agreement": 0.94,
+  "tp": 34,
+  "fn": 1,
+  "tn": 13,
+  "fp": 2,
+  "n": 50,
+  "disagreements": [
+    "739daf3d4ede3e20b028c1215721eb56",
+    "90b7a91206de652997ed22f406a2664b",
+    "a577199d6792724a1cbc2d911376ef20"
+  ]
+}

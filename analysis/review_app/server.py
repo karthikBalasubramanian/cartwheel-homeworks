@@ -9,8 +9,10 @@ and supports scenario ID lookups alongside Langfuse score sync.
 from __future__ import annotations
 
 import argparse
+import datetime as dt
 import json
 import re
+import urllib.parse
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from typing import Any
@@ -30,6 +32,91 @@ ANNOTATIONS_FILE = STATE_DIR / "annotations.json"
 TAXONOMY_FILE = STATE_DIR / "taxonomy.json"
 SUGGESTIONS_FILE = STATE_DIR / "suggestions.json"
 PATTERNS_FILE = STATE_DIR / "patterns.json"
+LABELS_DIR = STATE_DIR / "labels"
+HW5_LABELS_DIR = STATE_DIR / "hw5_labels"
+JUDGES_DIR = STATE_DIR / "judges"
+SPLITS_FILE = STATE_DIR / "splits.json"
+REPORTS_DIR = HERE.parent / "report"
+
+LABELS_DIR.mkdir(parents=True, exist_ok=True)
+HW5_LABELS_DIR.mkdir(parents=True, exist_ok=True)
+JUDGES_DIR.mkdir(parents=True, exist_ok=True)
+
+
+def _get_judge_data() -> dict[str, Any]:
+    """Load latest judge predictions, critiques, splits, and human labels."""
+    if not JUDGES_DIR.exists():
+        return {}
+    judge_files = sorted(JUDGES_DIR.glob("*.json"))
+    if not judge_files:
+        return {}
+    latest_file = judge_files[-1]
+    try:
+        judge_obj = json.loads(latest_file.read_text(encoding="utf-8"))
+    except Exception:
+        return {}
+
+    splits_data = _read_json(SPLITS_FILE, {})
+    mode = judge_obj.get("mode", "unverified_store_override")
+    mode_splits = splits_data.get(mode, {})
+
+    trace_to_split = {}
+    for s_name in ("train", "dev", "test"):
+        t_ids = mode_splits.get(s_name, [])
+        if isinstance(t_ids, list):
+            for tid in t_ids:
+                trace_to_split[tid] = s_name
+
+    # Load active human labels for mode (HW5 convention: 1=Pass, 0=Fail)
+    hw5_labels_file = HW5_LABELS_DIR / f"{mode}.jsonl"
+    human_labels = {}
+    if hw5_labels_file.exists():
+        for line in hw5_labels_file.read_text(encoding="utf-8").splitlines():
+            if line.strip():
+                try:
+                    row = json.loads(line)
+                    if not row.get("superseded_by"):
+                        human_labels[row["trace_id"]] = int(row["label"])
+                except Exception:
+                    pass
+
+    prompt_hash = judge_obj.get("prompt_hash", "")
+    preds = judge_obj.get("predictions", {}).get(prompt_hash, {})
+    critiques = judge_obj.get("critiques", {}).get(prompt_hash, {})
+
+    evaluations = {}
+    for tid, pred_val in preds.items():
+        h_label = human_labels.get(tid)
+        j_verdict = "Pass" if pred_val == 1 else "Fail"
+        h_verdict = ("Pass" if h_label == 1 else "Fail") if h_label is not None else None
+        is_disagree = (h_label is not None and h_label != pred_val)
+        evaluations[tid] = {
+            "judge_id": judge_obj.get("judge_id"),
+            "model": judge_obj.get("model", "gpt-4o-mini"),
+            "version": judge_obj.get("version", 0),
+            "split": trace_to_split.get(tid),
+            "judge_label": pred_val,
+            "judge_verdict": j_verdict,
+            "human_label": h_label,
+            "human_verdict": h_verdict,
+            "is_disagreement": is_disagree,
+            "critique": critiques.get(tid, ""),
+        }
+
+    # Load dev report metrics if available
+    judge_id = judge_obj.get("judge_id", "")
+    dev_report_file = REPORTS_DIR / f"dev-{judge_id}.json"
+    metrics = _read_json(dev_report_file, {}) if dev_report_file.exists() else {}
+
+    return {
+        "judge_id": judge_id,
+        "model": judge_obj.get("model"),
+        "version": judge_obj.get("version"),
+        "evaluations": evaluations,
+        "splits": mode_splits,
+        "trace_to_split": trace_to_split,
+        "metrics": metrics,
+    }
 
 if not ANNOTATIONS_FILE.exists():
     ANNOTATIONS_FILE.write_text(json.dumps({"annotations": []}, indent=2))
@@ -37,6 +124,64 @@ if not TAXONOMY_FILE.exists():
     TAXONOMY_FILE.write_text(json.dumps({"modes": []}, indent=2))
 if not SUGGESTIONS_FILE.exists():
     SUGGESTIONS_FILE.write_text(json.dumps([], indent=2))
+
+
+def _ensure_hw5_labels() -> None:
+    """Initialize hw5_labels from existing labels with inverted polarity (Pass=1, Fail=0)."""
+    if not LABELS_DIR.exists():
+        return
+    for lfile in LABELS_DIR.glob("*.jsonl"):
+        target = HW5_LABELS_DIR / lfile.name
+        if not target.exists():
+            lines = []
+            for line in lfile.read_text(encoding="utf-8").splitlines():
+                if not line.strip():
+                    continue
+                try:
+                    obj = json.loads(line)
+                    hw4_val = int(obj["label"])
+                    obj["label"] = 1 - hw4_val  # In HW5: 1 is Pass, 0 is Fail
+                    obj["label_id"] = f"{obj['trace_id']}#{obj['label']}"
+                    lines.append(json.dumps(obj))
+                except Exception:
+                    continue
+            target.write_text("\n".join(lines) + ("\n" if lines else ""), encoding="utf-8")
+
+
+_ensure_hw5_labels()
+
+
+def _append_or_update_label_file(file_path: Path, tid: str, scen: str | None, label_val: int, ts: str) -> None:
+    file_path.parent.mkdir(parents=True, exist_ok=True)
+    rows = []
+    found = False
+    if file_path.exists():
+        for line in file_path.read_text(encoding="utf-8").splitlines():
+            if not line.strip():
+                continue
+            try:
+                row = json.loads(line)
+                if row.get("trace_id") == tid:
+                    row["label"] = label_val
+                    row["ts"] = ts
+                    row["label_id"] = f"{tid}#{label_val}"
+                    if scen and not row.get("scenario_id"):
+                        row["scenario_id"] = scen
+                    found = True
+                rows.append(row)
+            except Exception:
+                continue
+    if not found:
+        rows.append({
+            "trace_id": tid,
+            "scenario_id": scen or "unknown",
+            "label": label_val,
+            "source": "human",
+            "ts": ts,
+            "label_id": f"{tid}#{label_val}",
+        })
+    content = "\n".join(json.dumps(r) for r in rows) + "\n"
+    file_path.write_text(content, encoding="utf-8")
 
 
 def _read_json(path: Path, default: Any = None) -> Any:
@@ -96,6 +241,8 @@ class TraceStore:
         self.trace_file = trace_file
         self.sessions: dict[str, dict[str, Any]] = {}
         self.scenario_map: dict[str, str] = {}  # scenario_id -> session_id
+        self.trace_map: dict[str, str] = {}  # trace_id -> session_id
+        self.scenario_to_trace: dict[str, str] = {}  # scenario_id -> trace_id
         self.ordered_session_ids: list[str] = []
         self.load()
         self.batch1 = self.compute_batch_1()
@@ -209,11 +356,15 @@ class TraceStore:
             }
 
             self.sessions[session_id] = session_obj
+            for tid in session_obj["trace_ids"]:
+                self.trace_map[tid] = session_id
             if scenario_id:
                 self.scenario_map[scenario_id.lower()] = session_id
                 num_match = re.search(r"\d+", scenario_id)
                 if num_match:
                     self.scenario_map[str(int(num_match.group(0)))] = session_id
+                if session_obj["trace_ids"]:
+                    self.scenario_to_trace[scenario_id] = session_obj["trace_ids"][0]
 
         # Sort sessions stably by scenario_id
         self.ordered_session_ids = sorted(
@@ -596,12 +747,20 @@ class ReviewAppHandler(BaseHTTPRequestHandler):
                 return
 
         # API Routes
+        if path == "/api/judge-summary":
+            self._send_json(_get_judge_data())
+            return
+
         if path == "/api/sessions":
             # Return list of sessions with annotations summary
             annotations_data = _read_json(ANNOTATIONS_FILE, {"annotations": []})
             anns = annotations_data.get("annotations", []) if isinstance(annotations_data, dict) else annotations_data
             ann_by_trace = {a.get("trace_id"): a for a in anns if isinstance(a, dict)}
             ann_by_session = {a.get("session_id"): a for a in anns if isinstance(a, dict) and a.get("session_id")}
+
+            judge_data = _get_judge_data()
+            evals = judge_data.get("evaluations", {})
+            trace_to_split = judge_data.get("trace_to_split", {})
 
             session_list = []
             for sid in STORE.ordered_session_ids:
@@ -613,6 +772,15 @@ class ReviewAppHandler(BaseHTTPRequestHandler):
                         if tid in ann_by_trace:
                             ann = ann_by_trace[tid]
                             break
+
+                jeval = None
+                split_val = None
+                for tid in s.get("trace_ids", []):
+                    if tid in trace_to_split:
+                        split_val = trace_to_split[tid]
+                    if tid in evals:
+                        jeval = evals[tid]
+                        break
 
                 b1_info = STORE.batch1.get(sid)
                 b2_info = STORE.batch2.get(sid)
@@ -645,9 +813,13 @@ class ReviewAppHandler(BaseHTTPRequestHandler):
                     "is_reviewed": ann is not None,
                     "verdict": ann.get("verdict") or ("pass" if ann.get("label") == 1 else "fail" if ann.get("label") == 0 else None) if ann else None,
                     "note": ann.get("note", "") if ann else "",
+                    "judge_verdict": jeval.get("judge_verdict") if jeval else None,
+                    "is_disagreement": jeval.get("is_disagreement", False) if jeval else False,
+                    "split": split_val or (jeval.get("split") if jeval else None),
                 })
             self._send_json({"total": len(session_list), "sessions": session_list})
             return
+
 
         if path == "/api/batches/batch1":
             picks = []
@@ -724,8 +896,22 @@ class ReviewAppHandler(BaseHTTPRequestHandler):
             anns = annotations_data.get("annotations", []) if isinstance(annotations_data, dict) else annotations_data
             session_anns = [a for a in anns if a.get("session_id") == session_id or a.get("trace_id") in session.get("trace_ids", [])]
 
+            judge_data = _get_judge_data()
+            evals = judge_data.get("evaluations", {})
+            trace_to_split = judge_data.get("trace_to_split", {})
+            jeval = None
+            split_val = None
+            for tid in session.get("trace_ids", []):
+                if tid in trace_to_split:
+                    split_val = trace_to_split[tid]
+                if tid in evals:
+                    jeval = evals[tid]
+                    break
+
             result = dict(session)
             result["annotations"] = session_anns
+            result["judge_evaluation"] = jeval
+            result["split"] = split_val
             self._send_json(result)
             return
 
@@ -739,10 +925,25 @@ class ReviewAppHandler(BaseHTTPRequestHandler):
             anns = annotations_data.get("annotations", []) if isinstance(annotations_data, dict) else annotations_data
             session_anns = [a for a in anns if a.get("session_id") == session["session_id"] or a.get("trace_id") in session.get("trace_ids", [])]
 
+            judge_data = _get_judge_data()
+            evals = judge_data.get("evaluations", {})
+            trace_to_split = judge_data.get("trace_to_split", {})
+            jeval = None
+            split_val = None
+            for tid in session.get("trace_ids", []):
+                if tid in trace_to_split:
+                    split_val = trace_to_split[tid]
+                if tid in evals:
+                    jeval = evals[tid]
+                    break
+
             result = dict(session)
             result["annotations"] = session_anns
+            result["judge_evaluation"] = jeval
+            result["split"] = split_val
             self._send_json(result)
             return
+
 
         if path == "/api/annotations":
             self._send_json(_read_json(ANNOTATIONS_FILE, {"annotations": []}))
@@ -806,6 +1007,104 @@ class ReviewAppHandler(BaseHTTPRequestHandler):
             self._send_json(result)
             return
 
+        if path == "/api/candidates":
+            mode = "unverified_store_override"
+            k = 35
+            strategy = "enrich"
+            if query:
+                params = urllib.parse.parse_qs(query)
+                mode = params.get("mode", [mode])[0]
+                try:
+                    k = int(params.get("k", [k])[0])
+                except (ValueError, TypeError):
+                    pass
+                strategy = params.get("strategy", [strategy])[0]
+
+            annotations_data = _read_json(ANNOTATIONS_FILE, {"annotations": []})
+            anns = annotations_data.get("annotations", []) if isinstance(annotations_data, dict) else annotations_data
+            ann_by_trace = {a.get("trace_id"): a for a in anns if isinstance(a, dict)}
+            ann_by_session = {a.get("session_id"): a for a in anns if isinstance(a, dict) and a.get("session_id")}
+
+            try:
+                from analysis.helpers import next_to_label
+                raw_candidates = next_to_label(
+                    mode=mode,
+                    k=k,
+                    strategy=strategy,
+                    trace_source=TRACES_PATH,
+                )
+            except Exception as e:
+                self._send_json({"error": str(e), "candidates": []}, status=500)
+                return
+
+            candidate_list = []
+            for c in raw_candidates:
+                tid = c.get("trace_id")
+                sid = STORE.trace_map.get(tid)
+                s = STORE.sessions.get(sid) if sid else None
+                ann = ann_by_session.get(sid)
+                if not ann and s:
+                    for s_tid in s.get("trace_ids", []):
+                        if s_tid in ann_by_trace:
+                            ann = ann_by_trace[s_tid]
+                            break
+
+                candidate_list.append({
+                    "trace_id": tid,
+                    "session_id": sid,
+                    "scenario_id": s.get("scenario_id") if s else None,
+                    "signal": c.get("signal"),
+                    "user_role": s.get("user_role") if s else None,
+                    "turn_count": s.get("turn_count") if s else 0,
+                    "preview_text": s.get("preview_text", "")[:90] if s else "",
+                    "tools_called": s.get("tools_called", []) if s else [],
+                    "is_reviewed": ann is not None,
+                    "verdict": ann.get("verdict") if ann else None,
+                })
+
+            # Also compute current Pass/Fail counts for this mode
+            labels_file = STATE_DIR / "labels" / f"{mode}.jsonl"
+            hw5_file = STATE_DIR / "hw5_labels" / f"{mode}.jsonl"
+            fail_count = 0
+            pass_count = 0
+            if hw5_file.exists():
+                for line in hw5_file.read_text(encoding="utf-8").splitlines():
+                    if line.strip():
+                        try:
+                            obj = json.loads(line)
+                            if obj.get("label") == 1:
+                                pass_count += 1
+                            elif obj.get("label") == 0:
+                                fail_count += 1
+                        except Exception:
+                            pass
+            elif labels_file.exists():
+                for line in labels_file.read_text(encoding="utf-8").splitlines():
+                    if line.strip():
+                        try:
+                            obj = json.loads(line)
+                            if obj.get("label") == 1:
+                                fail_count += 1
+                            elif obj.get("label") == 0:
+                                pass_count += 1
+                        except Exception:
+                            pass
+
+            self._send_json({
+                "mode": mode,
+                "strategy": strategy,
+                "total": len(candidate_list),
+                "candidates": candidate_list,
+                "stats": {
+                    "mode": mode,
+                    "fails": fail_count,
+                    "passes": pass_count,
+                    "target_fails": 35,
+                    "target_passes": 30,
+                },
+            })
+            return
+
         self._send_json({"error": f"unknown path: {path}"}, status=404)
 
     def do_POST(self) -> None:
@@ -828,6 +1127,11 @@ class ReviewAppHandler(BaseHTTPRequestHandler):
                     continue
                 sid = item.get("session_id")
                 tid = item.get("trace_id")
+                scen = item.get("scenario_id") or (STORE.sessions.get(sid, {}).get("scenario_id") if sid else None)
+                if not tid and sid and sid in STORE.sessions and STORE.sessions[sid].get("trace_ids"):
+                    tid = STORE.sessions[sid]["trace_ids"][0]
+                    item["trace_id"] = tid
+
                 replaced = False
                 for idx, curr in enumerate(current_list):
                     if (sid and curr.get("session_id") == sid) or (tid and curr.get("trace_id") == tid):
@@ -836,6 +1140,33 @@ class ReviewAppHandler(BaseHTTPRequestHandler):
                         break
                 if not replaced:
                     current_list.append(item)
+
+                # Synchronize mode labels if provided
+                modes = item.get("modes", {})
+                verdict = item.get("verdict")
+                if tid and isinstance(modes, dict):
+                    now_ts = item.get("ts") or dt.datetime.now(dt.timezone.utc).isoformat()
+                    for m_name, is_checked in modes.items():
+                        # In HW4 labels: 1 = Failure present, 0 = Failure absent
+                        # In HW5 labels: 1 = Pass, 0 = Fail
+                        is_failure = bool(is_checked and verdict != "pass")
+                        hw4_val = 1 if is_failure else 0
+                        hw5_val = 0 if is_failure else 1
+
+                        _append_or_update_label_file(
+                            LABELS_DIR / f"{m_name}.jsonl",
+                            tid=tid,
+                            scen=scen,
+                            label_val=hw4_val,
+                            ts=now_ts,
+                        )
+                        _append_or_update_label_file(
+                            HW5_LABELS_DIR / f"{m_name}.jsonl",
+                            tid=tid,
+                            scen=scen,
+                            label_val=hw5_val,
+                            ts=now_ts,
+                        )
 
             payload = {"annotations": current_list}
             _write_json(ANNOTATIONS_FILE, payload)

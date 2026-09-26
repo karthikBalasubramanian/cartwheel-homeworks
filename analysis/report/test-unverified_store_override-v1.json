@@ -1,0 +1,29 @@
+{
+  "judge_id": "unverified_store_override-v1",
+  "split": "test",
+  "tpr": 0.8462,
+  "tnr": 0.9167,
+  "tpr_interval": [
+    0.7027,
+    0.9275
+  ],
+  "tnr_interval": [
+    0.6461,
+    0.9851
+  ],
+  "agreement": 0.8627,
+  "tp": 33,
+  "fn": 6,
+  "tn": 11,
+  "fp": 1,
+  "n": 51,
+  "disagreements": [
+    "0dbc2107f0fc977fc04730513b945aad",
+    "2656695dc182189292d3d9dbcc5df0a8",
+    "3eff691d6e86b23c8cb760e9d7c63aac",
+    "7be8554e6a48449e183294fbf057e8ff",
+    "a2dca4d975ed6faad83ee672053100a4",
+    "bd1d872d2581a918bb4091330981b173",
+    "f920a3173350690d3a0624b8a41df18f"
+  ]
+}
