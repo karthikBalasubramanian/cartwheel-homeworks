@@ -55,29 +55,50 @@
       </div>
       <div class="filter-toolbar">
         <select id="filter-select" class="filter-select">
-          <option value="dev_disagreements">⚠️ Disagreements with Judge (Dev Split)</option>
-          <option value="dev_split">🤖 Dev Split (50) [Judge Evaluated]</option>
-          <option value="train_split">📚 Train Split (25) [Few-Shot Prompt Examples - Not Evaluated]</option>
-          <option value="test_split">🔒 Test Split (51) [Held-out Quarantine - Evaluated After Freeze]</option>
-          <option value="candidates_unverified_store_override">🎯 Active Learning: unverified_store_override (Candidates)</option>
-          <option value="candidates_unresolved_product_identifiers">🎯 Active Learning: unresolved_product_identifiers (Candidates)</option>
-          <option value="candidates_unsolicited_action_execution">🎯 Active Learning: unsolicited_action_execution (Candidates)</option>
-          <option value="batch1">🎯 Batch 1: 15 Cluster + 15 Uniform (30)</option>
-          <option value="batch2">🎯 Batch 2: Role Stratified (30)</option>
-          <option value="batch3">🎯 Batch 3: Targeted Depth Search (25)</option>
-          <option value="batch4">🎯 Batch 4: Holdout Stability (15)</option>
-          <option value="all">🔍 All Scenarios (250)</option>
-          <option value="multi_turn">🔄 Multi-Turn Sessions (10)</option>
-          <option value="security">🚨 Security / Permission Refused (23)</option>
-          <option value="escalation">👤 Escalated to Human (65)</option>
-          <option value="role_shopper">🛒 Shopper Role (215)</option>
-          <option value="role_merchant">🏪 Merchant Role (30)</option>
-          <option value="role_support">🎧 Support Staff Role (15)</option>
-          <option value="refund">💰 Refunds</option>
-          <option value="policy">📜 Policy Retained / Lookups</option>
-          <option value="unreviewed">⏳ Unreviewed</option>
-          <option value="reviewed">✅ Reviewed</option>
+          <optgroup label="⚠️ Disagreements with Human">
+            <option value="gpt_disagreements">🤖 ⚠️ GPT-4o Disagreements (All: Dev + Test) [10]</option>
+            <option value="gpt_dev_disagreements">🤖 ⚠️ GPT-4o Disagreements (Dev Split) [3]</option>
+            <option value="gpt_test_disagreements">🤖 ⚠️ GPT-4o Disagreements (Test Split) [7]</option>
+            <option value="jev_disagreements">⚡ ⚠️ Jev Disagreements (All: Dev + Test) [11]</option>
+            <option value="jev_dev_disagreements">⚡ ⚠️ Jev Disagreements (Dev Split) [3]</option>
+            <option value="jev_test_disagreements">⚡ ⚠️ Jev Disagreements (Test Split) [8]</option>
+            <option value="inter_judge_disagreements">⚔️ ⚠️ GPT-4o vs Jev Disagreements [7]</option>
+          </optgroup>
+          <optgroup label="📊 Splits">
+            <option value="dev_split">🤖 Dev Split (50) [Evaluated]</option>
+            <option value="test_split">🔒 Test Split (51) [Held-out Freeze]</option>
+            <option value="train_split">📚 Train Split (25) [Few-Shot Prompt Examples]</option>
+          </optgroup>
+          <optgroup label="🎯 Active Learning & Batches">
+            <option value="candidates_unverified_store_override">🎯 Active Learning: unverified_store_override (Candidates)</option>
+            <option value="candidates_unresolved_product_identifiers">🎯 Active Learning: unresolved_product_identifiers (Candidates)</option>
+            <option value="candidates_unsolicited_action_execution">🎯 Active Learning: unsolicited_action_execution (Candidates)</option>
+            <option value="batch1">🎯 Batch 1: 15 Cluster + 15 Uniform (30)</option>
+            <option value="batch2">🎯 Batch 2: Role Stratified (30)</option>
+            <option value="batch3">🎯 Batch 3: Targeted Depth Search (25)</option>
+            <option value="batch4">🎯 Batch 4: Holdout Stability (15)</option>
+          </optgroup>
+          <optgroup label="🔍 General Filters">
+            <option value="all">🔍 All Scenarios (250)</option>
+            <option value="multi_turn">🔄 Multi-Turn Sessions (10)</option>
+            <option value="security">🚨 Security / Permission Refused (23)</option>
+            <option value="escalation">👤 Escalated to Human (65)</option>
+            <option value="role_shopper">🛒 Shopper Role (215)</option>
+            <option value="role_merchant">🏪 Merchant Role (30)</option>
+            <option value="role_support">🎧 Support Staff Role (15)</option>
+            <option value="refund">💰 Refunds</option>
+            <option value="policy">📜 Policy Retained / Lookups</option>
+            <option value="unreviewed">⏳ Unreviewed</option>
+            <option value="reviewed">✅ Reviewed</option>
+          </optgroup>
         </select>
+      </div>
+
+      <!-- Quick Disagreement Filter Bar -->
+      <div style="display: flex; gap: 4px; padding: 6px 10px; background: rgba(0,0,0,0.25); border-bottom: 1px solid var(--border-hairline); overflow-x: auto;">
+        <button class="quick-pill-btn active-gpt" data-filter="gpt_disagreements" onclick="setQuickFilter('gpt_disagreements')" title="Filter traces where GPT-4o disagreed with human">🤖 GPT Disagree (10)</button>
+        <button class="quick-pill-btn active-jev" data-filter="jev_disagreements" onclick="setQuickFilter('jev_disagreements')" title="Filter traces where Jev disagreed with human">⚡ Jev Disagree (11)</button>
+        <button class="quick-pill-btn active-inter" data-filter="inter_judge_disagreements" onclick="setQuickFilter('inter_judge_disagreements')" title="Filter traces where GPT-4o and Jev disagreed with each other">⚔️ GPT vs Jev (7)</button>
       </div>
       <div id="active-learning-stats" style="display:none; font-size: 11px; padding: 6px 12px; background: rgba(59,130,246,0.12); border-bottom: 1px solid rgba(59,130,246,0.25); color: #93c5fd; font-weight: 500;"></div>
       <ul id="session-list-items" class="session-list">
@@ -94,83 +115,130 @@
 
     <!-- Right Sticky Annotation & Taxonomy Console -->
     <aside class="annotation-panel">
-      <div class="panel-title">Review & Annotation</div>
+      <div class="panel-title" style="display: flex; justify-content: space-between; align-items: center;">
+        <span>Multi-Judge Evaluation</span>
+        <span style="font-size: 10px; color: var(--text-muted); font-weight: 500;">Mode: <strong id="judge-mode-target" style="color: #cbd5e1;">unverified_store_override</strong></span>
+      </div>
 
-      <!-- Judge Evaluation Comparison Box -->
-      <div id="judge-eval-box" style="display: none; margin-bottom: 16px; padding: 12px; background: rgba(30, 41, 59, 0.75); border: 1px solid rgba(99, 102, 241, 0.3); border-radius: 8px;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-          <span style="font-size: 11px; font-weight: 700; color: #a5b4fc; text-transform: uppercase;">🤖 LLM Judge: <span id="judge-mode-target" style="color: #cbd5e1;">unverified_store_override</span></span>
+      <!-- 1. Human Ground Truth Card -->
+      <div class="judge-card" style="border-left: 3px solid #6366f1;">
+        <div class="judge-card-header">
+          <div class="judge-card-title">
+            <span class="judge-num-badge">1</span>
+            <span>🧑 Human Ground Truth</span>
+          </div>
           <span id="judge-split-badge" style="font-size: 10px; padding: 2px 6px; border-radius: 4px; background: #374151; color: #e5e7eb; font-weight: 600;">DEV</span>
         </div>
-        <div style="font-size: 10.5px; color: #94a3b8; margin-bottom: 8px;">Model: <span id="judge-model-name" style="color: #e2e8f0; font-family: monospace;">gpt-4o-mini</span></div>
-        <div style="margin-bottom: 8px;">
-          <div id="judge-match-banner" style="font-weight: 700; font-size: 11.5px; padding: 6px 10px; border-radius: 4px; margin-bottom: 6px;"></div>
-          <div style="display: flex; gap: 8px; align-items: center;">
-            <div id="judge-verdict-pill" style="font-weight: 700; font-size: 11px; padding: 3px 8px; border-radius: 4px;"></div>
+
+        <div>
+          <div style="font-size: 11px; font-weight: 700; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase;">
+            Human Verdict
           </div>
-          <div id="judge-subtext-note" style="display: none; font-size: 11px; color: #94a3b8; margin-top: 6px; line-height: 1.4;">
-            ↳ See open coding notes &amp; failure mode below for human rationale.
+          <div class="verdict-button-group">
+            <button id="btn-verdict-pass" class="btn-verdict" onclick="setVerdict('pass')">
+              <span>Pass</span>
+              <span class="shortcut">Key [P]</span>
+            </button>
+            <button id="btn-verdict-fail" class="btn-verdict" onclick="setVerdict('fail')">
+              <span>Fail</span>
+              <span class="shortcut">Key [F]</span>
+            </button>
+            <button id="btn-verdict-defer" class="btn-verdict" onclick="setVerdict('defer')">
+              <span>Defer</span>
+              <span class="shortcut">Key [D]</span>
+            </button>
           </div>
         </div>
-        <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 600;">Judge Critique:</div>
-        <div id="judge-critique-text" style="font-size: 12px; line-height: 1.45; color: #e2e8f0; background: rgba(0,0,0,0.35); padding: 8px; border-radius: 4px; max-height: 160px; overflow-y: auto; white-space: pre-wrap; border: 1px solid rgba(255,255,255,0.05);"></div>
+
+        <div class="notes-wrapper">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">
+              Open Coding Notes
+            </span>
+            <span style="font-size: 10px; color: var(--text-muted);">Human rationale</span>
+          </div>
+          <textarea 
+            id="notes-input" 
+            class="notes-textarea" 
+            placeholder="Describe the earliest failure observed in plain language (e.g. 'promised refund before tool output verified eligibility')..."
+          ></textarea>
+        </div>
+
+        <!-- Taxonomy Binary Modes -->
+        <div class="taxonomy-section">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">
+              Failure Mode Taxonomy
+            </span>
+            <span style="font-size: 10px; color: var(--accent-rose);">Binary (Present)</span>
+          </div>
+          <div id="taxonomy-checkboxes">
+            <!-- Populated dynamically by app.js -->
+          </div>
+        </div>
+
+        <button id="btn-save-advance" class="btn-save-advance">
+          <span>Save & Next Session</span>
+          <span class="kbd-badge" style="background: rgba(0,0,0,0.3); color: white;">Cmd+Enter</span>
+        </button>
       </div>
 
-      <!-- Verdict Buttons -->
-      <div>
-
-        <div style="font-size: 11px; font-weight: 700; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase;">
-          Turn/Trace Verdict
+      <!-- 2. GPT-4o-mini Judge Card -->
+      <div id="gpt-judge-card" class="judge-card" style="border-left: 3px solid #38bdf8;">
+        <div class="judge-card-header">
+          <div class="judge-card-title">
+            <span class="judge-num-badge" style="background: rgba(56, 189, 248, 0.2); color: #38bdf8; border-color: rgba(56, 189, 248, 0.4);">2</span>
+            <span>🤖 GPT-4o-mini Judge</span>
+          </div>
+          <span id="gpt-match-tag" class="judge-verdict-tag verdict-match">✓ Match</span>
         </div>
-        <div class="verdict-button-group">
-          <button id="btn-verdict-pass" class="btn-verdict" onclick="setVerdict('pass')">
-            <span>Pass</span>
-            <span class="shortcut">Key [P]</span>
-          </button>
-          <button id="btn-verdict-fail" class="btn-verdict" onclick="setVerdict('fail')">
-            <span>Fail</span>
-            <span class="shortcut">Key [F]</span>
-          </button>
-          <button id="btn-verdict-defer" class="btn-verdict" onclick="setVerdict('defer')">
-            <span>Defer</span>
-            <span class="shortcut">Key [D]</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Open Coding Notes -->
-      <div class="notes-wrapper">
         <div style="display: flex; justify-content: space-between; align-items: center;">
-          <span style="font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">
-            Open Coding Notes
-          </span>
-          <span style="font-size: 10px; color: var(--text-muted);">First failure rule</span>
+          <span id="gpt-verdict-pill" class="judge-verdict-tag verdict-pass">Verdict: Pass</span>
+          <span style="font-size: 10.5px; color: var(--text-dim); font-family: var(--font-mono);">DocETL • Prompt v1</span>
         </div>
-        <textarea 
-          id="notes-input" 
-          class="notes-textarea" 
-          placeholder="Describe the earliest failure observed in plain language (e.g. 'promised refund before tool output verified eligibility')..."
-        ></textarea>
+        <div>
+          <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 600;">Chain-of-Thought Critique:</div>
+          <div id="gpt-critique-text" class="gpt-critique-box">No critique available</div>
+        </div>
       </div>
 
-      <!-- Taxonomy Binary Modes -->
-      <div class="taxonomy-section">
+      <!-- 3. TypeSafe AI Jev Judge Card -->
+      <div id="jev-judge-card" class="judge-card" style="border-left: 3px solid #a855f7;">
+        <div class="judge-card-header">
+          <div class="judge-card-title">
+            <span class="judge-num-badge" style="background: rgba(168, 85, 247, 0.2); color: #c084fc; border-color: rgba(168, 85, 247, 0.4);">3</span>
+            <span>⚡ TypeSafe AI Jev</span>
+          </div>
+          <span id="jev-match-tag" class="judge-verdict-tag verdict-match">✓ Match</span>
+        </div>
         <div style="display: flex; justify-content: space-between; align-items: center;">
-          <span style="font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">
-            Failure Mode Taxonomy
-          </span>
-          <span style="font-size: 10px; color: var(--accent-rose);">Binary (Present)</span>
+          <span id="jev-verdict-pill" class="judge-verdict-tag verdict-pass">Verdict: Pass</span>
+          <span style="font-size: 10.5px; color: var(--text-dim); font-family: var(--font-mono);">Vercel Gateway • System-1</span>
         </div>
-        <div id="taxonomy-checkboxes">
-          <!-- Populated dynamically by app.js -->
+
+        <!-- Calibrated Probability Meter -->
+        <div class="jev-meter-container">
+          <div class="jev-meter-header">
+            <span style="color: var(--text-secondary); font-weight: 600;">Calibrated Defect Probability:</span>
+            <span id="jev-prob-val" class="jev-prob-val" style="color: #34d399;">12%</span>
+          </div>
+          <div class="prob-bar-track">
+            <div id="jev-prob-fill" class="prob-bar-fill" style="width: 12%; background: #10b981;"></div>
+            <div class="prob-threshold-pin" title="50% Classification Threshold"></div>
+          </div>
+          <div class="prob-scale-labels">
+            <span>0% (Pass)</span>
+            <span style="color: #a5b4fc; font-weight: 600;">50% Threshold</span>
+            <span>100% (Defect)</span>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; font-size: 11px; color: var(--text-muted); padding: 0 4px;">
+          <span>Confidence: <strong id="jev-confidence-val" style="color: #f1f5f9;">88%</strong></span>
+          <span>Latency: <strong id="jev-latency-val" style="color: #f1f5f9;">~180ms</strong></span>
+          <span>Cost: <strong style="color: #f1f5f9;">$0.00008</strong></span>
         </div>
       </div>
-
-      <!-- Save & Advance Action Button -->
-      <button id="btn-save-advance" class="btn-save-advance">
-        <span>Save & Next Session</span>
-        <span class="kbd-badge" style="background: rgba(0,0,0,0.3); color: white;">Cmd+Enter</span>
-      </button>
 
       <!-- Keyboard Shortcuts Cheat Sheet -->
       <div class="keyboard-shortcuts-footer">

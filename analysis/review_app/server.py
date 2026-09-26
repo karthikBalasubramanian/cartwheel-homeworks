@@ -47,7 +47,7 @@ def _get_judge_data() -> dict[str, Any]:
     """Load latest judge predictions, critiques, splits, and human labels."""
     if not JUDGES_DIR.exists():
         return {}
-    judge_files = sorted(JUDGES_DIR.glob("*.json"))
+    judge_files = sorted([f for f in JUDGES_DIR.glob("*.json") if not f.name.startswith("_") and "-jev" not in f.name])
     if not judge_files:
         return {}
     latest_file = judge_files[-1]
@@ -103,6 +103,17 @@ def _get_judge_data() -> dict[str, Any]:
             "critique": critiques.get(tid, ""),
         }
 
+    # Load Jev judge evaluations if available
+    jev_file = JUDGES_DIR / f"{mode}-jev.json"
+    jev_data = {}
+    jev_evaluations = {}
+    if jev_file.exists():
+        try:
+            jev_data = json.loads(jev_file.read_text(encoding="utf-8"))
+            jev_evaluations = jev_data.get("evaluations", {})
+        except Exception:
+            pass
+
     # Load dev report metrics if available
     judge_id = judge_obj.get("judge_id", "")
     dev_report_file = REPORTS_DIR / f"dev-{judge_id}.json"
@@ -113,6 +124,8 @@ def _get_judge_data() -> dict[str, Any]:
         "model": judge_obj.get("model"),
         "version": judge_obj.get("version"),
         "evaluations": evaluations,
+        "jev_evaluations": jev_evaluations,
+        "jev_data": jev_data,
         "splits": mode_splits,
         "trace_to_split": trace_to_split,
         "metrics": metrics,
@@ -760,6 +773,7 @@ class ReviewAppHandler(BaseHTTPRequestHandler):
 
             judge_data = _get_judge_data()
             evals = judge_data.get("evaluations", {})
+            jev_evals = judge_data.get("jev_evaluations", {})
             trace_to_split = judge_data.get("trace_to_split", {})
 
             session_list = []
@@ -774,13 +788,15 @@ class ReviewAppHandler(BaseHTTPRequestHandler):
                             break
 
                 jeval = None
+                jev_eval = None
                 split_val = None
                 for tid in s.get("trace_ids", []):
                     if tid in trace_to_split:
                         split_val = trace_to_split[tid]
-                    if tid in evals:
+                    if tid in evals and jeval is None:
                         jeval = evals[tid]
-                        break
+                    if tid in jev_evals and jev_eval is None:
+                        jev_eval = jev_evals[tid]
 
                 b1_info = STORE.batch1.get(sid)
                 b2_info = STORE.batch2.get(sid)
@@ -815,6 +831,10 @@ class ReviewAppHandler(BaseHTTPRequestHandler):
                     "note": ann.get("note", "") if ann else "",
                     "judge_verdict": jeval.get("judge_verdict") if jeval else None,
                     "is_disagreement": jeval.get("is_disagreement", False) if jeval else False,
+                    "jev_verdict": jev_eval.get("jev_verdict") if jev_eval else None,
+                    "jev_probability": jev_eval.get("defect_probability") if jev_eval else None,
+                    "jev_confidence": jev_eval.get("confidence") if jev_eval else None,
+                    "jev_disagreement": jev_eval.get("is_disagreement", False) if jev_eval else False,
                     "split": split_val or (jeval.get("split") if jeval else None),
                 })
             self._send_json({"total": len(session_list), "sessions": session_list})
@@ -898,19 +918,23 @@ class ReviewAppHandler(BaseHTTPRequestHandler):
 
             judge_data = _get_judge_data()
             evals = judge_data.get("evaluations", {})
+            jev_evals = judge_data.get("jev_evaluations", {})
             trace_to_split = judge_data.get("trace_to_split", {})
             jeval = None
+            jev_eval = None
             split_val = None
             for tid in session.get("trace_ids", []):
                 if tid in trace_to_split:
                     split_val = trace_to_split[tid]
-                if tid in evals:
+                if tid in evals and jeval is None:
                     jeval = evals[tid]
-                    break
+                if tid in jev_evals and jev_eval is None:
+                    jev_eval = jev_evals[tid]
 
             result = dict(session)
             result["annotations"] = session_anns
             result["judge_evaluation"] = jeval
+            result["jev_evaluation"] = jev_eval
             result["split"] = split_val
             self._send_json(result)
             return
@@ -927,19 +951,23 @@ class ReviewAppHandler(BaseHTTPRequestHandler):
 
             judge_data = _get_judge_data()
             evals = judge_data.get("evaluations", {})
+            jev_evals = judge_data.get("jev_evaluations", {})
             trace_to_split = judge_data.get("trace_to_split", {})
             jeval = None
+            jev_eval = None
             split_val = None
             for tid in session.get("trace_ids", []):
                 if tid in trace_to_split:
                     split_val = trace_to_split[tid]
-                if tid in evals:
+                if tid in evals and jeval is None:
                     jeval = evals[tid]
-                    break
+                if tid in jev_evals and jev_eval is None:
+                    jev_eval = jev_evals[tid]
 
             result = dict(session)
             result["annotations"] = session_anns
             result["judge_evaluation"] = jeval
+            result["jev_evaluation"] = jev_eval
             result["split"] = split_val
             self._send_json(result)
             return

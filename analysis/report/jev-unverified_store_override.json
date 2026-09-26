@@ -1,0 +1,136 @@
+{
+  "mode": "unverified_store_override",
+  "model": "typesafe-ai/jev",
+  "dev": {
+    "total": 50,
+    "agreement": 0.94,
+    "tp": 34,
+    "tn": 13,
+    "fp": 2,
+    "fn": 1,
+    "tpr": 0.9714,
+    "tpr_wilson_ci": [
+      0.8547,
+      0.9949
+    ],
+    "tnr": 0.8667,
+    "tnr_wilson_ci": [
+      0.6212,
+      0.9626
+    ]
+  },
+  "test": {
+    "total": 51,
+    "agreement": 0.8431,
+    "tp": 33,
+    "tn": 10,
+    "fp": 2,
+    "fn": 6,
+    "tpr": 0.8462,
+    "tpr_wilson_ci": [
+      0.7027,
+      0.9275
+    ],
+    "tnr": 0.8333,
+    "tnr_wilson_ci": [
+      0.552,
+      0.953
+    ]
+  },
+  "comparison_with_gpt_4o_mini": {
+    "dev": {
+      "jev": {
+        "total": 50,
+        "agreement": 0.94,
+        "tp": 34,
+        "tn": 13,
+        "fp": 2,
+        "fn": 1,
+        "tpr": 0.9714,
+        "tpr_wilson_ci": [
+          0.8547,
+          0.9949
+        ],
+        "tnr": 0.8667,
+        "tnr_wilson_ci": [
+          0.6212,
+          0.9626
+        ]
+      },
+      "gpt_4o_mini": {
+        "judge_id": "unverified_store_override-v1",
+        "split": "dev",
+        "tpr": 0.9714,
+        "tnr": 0.8667,
+        "tpr_interval": [
+          0.8547,
+          0.9949
+        ],
+        "tnr_interval": [
+          0.6212,
+          0.9626
+        ],
+        "agreement": 0.94,
+        "tp": 34,
+        "fn": 1,
+        "tn": 13,
+        "fp": 2,
+        "n": 50,
+        "disagreements": [
+          "739daf3d4ede3e20b028c1215721eb56",
+          "90b7a91206de652997ed22f406a2664b",
+          "a577199d6792724a1cbc2d911376ef20"
+        ]
+      }
+    },
+    "test": {
+      "jev": {
+        "total": 51,
+        "agreement": 0.8431,
+        "tp": 33,
+        "tn": 10,
+        "fp": 2,
+        "fn": 6,
+        "tpr": 0.8462,
+        "tpr_wilson_ci": [
+          0.7027,
+          0.9275
+        ],
+        "tnr": 0.8333,
+        "tnr_wilson_ci": [
+          0.552,
+          0.953
+        ]
+      },
+      "gpt_4o_mini": {
+        "judge_id": "unverified_store_override-v1",
+        "split": "test",
+        "tpr": 0.8462,
+        "tnr": 0.9167,
+        "tpr_interval": [
+          0.7027,
+          0.9275
+        ],
+        "tnr_interval": [
+          0.6461,
+          0.9851
+        ],
+        "agreement": 0.8627,
+        "tp": 33,
+        "fn": 6,
+        "tn": 11,
+        "fp": 1,
+        "n": 51,
+        "disagreements": [
+          "0dbc2107f0fc977fc04730513b945aad",
+          "2656695dc182189292d3d9dbcc5df0a8",
+          "3eff691d6e86b23c8cb760e9d7c63aac",
+          "7be8554e6a48449e183294fbf057e8ff",
+          "a2dca4d975ed6faad83ee672053100a4",
+          "bd1d872d2581a918bb4091330981b173",
+          "f920a3173350690d3a0624b8a41df18f"
+        ]
+      }
+    }
+  }
+}

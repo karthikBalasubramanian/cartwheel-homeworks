@@ -63,6 +63,9 @@ function setupEventListeners() {
   if (filterSelect) {
     filterSelect.addEventListener("change", async (e) => {
       AppState.filter = e.target.value;
+      document.querySelectorAll(".quick-pill-btn").forEach(btn => {
+        btn.classList.toggle("active", btn.dataset.filter === e.target.value);
+      });
       if (AppState.filter.startsWith("candidates_")) {
         const mode = AppState.filter.replace("candidates_", "");
         await loadActiveCandidates(mode);
@@ -77,6 +80,24 @@ function setupEventListeners() {
       }
     });
   }
+
+  window.setQuickFilter = async function(filterKey) {
+    AppState.filter = filterKey;
+    const select = document.getElementById("filter-select");
+    if (select) select.value = filterKey;
+    document.querySelectorAll(".quick-pill-btn").forEach(btn => {
+      btn.classList.toggle("active", btn.dataset.filter === filterKey);
+    });
+    if (filterKey.startsWith("candidates_")) {
+      const mode = filterKey.replace("candidates_", "");
+      await loadActiveCandidates(mode);
+    }
+    renderSidebarList();
+    const filtered = getFilteredSessions();
+    if (filtered.length > 0) {
+      loadBySessionId(filtered[0].session_id);
+    }
+  };
 
   document.getElementById("btn-prev").addEventListener("click", () => navigate(-1));
   document.getElementById("btn-next").addEventListener("click", () => navigate(1));
@@ -562,80 +583,116 @@ function renderAnnotationPanel() {
 }
 
 function renderJudgeEvaluation() {
-  const box = document.getElementById("judge-eval-box");
-  if (!box) return;
-  const jeval = AppState.currentSession && AppState.currentSession.judge_evaluation;
-  const split = AppState.currentSession && AppState.currentSession.split;
-
-  if (!jeval) {
-    if (split === "train" || split === "test") {
-      box.style.display = "block";
-      document.getElementById("judge-model-name").textContent = "No Evaluation";
-      const splitBadge = document.getElementById("judge-split-badge");
-      if (splitBadge) {
-        splitBadge.textContent = split.toUpperCase();
-        splitBadge.style.background = split === "train" ? "#10b981" : "#ef4444";
-      }
-      const verdictPill = document.getElementById("judge-verdict-pill");
-      if (verdictPill) {
-        verdictPill.textContent = "Status: Not Evaluated";
-        verdictPill.style.background = "rgba(100, 116, 139, 0.2)";
-        verdictPill.style.color = "#cbd5e1";
-        verdictPill.style.border = "1px solid #475569";
-      }
-      const banner = document.getElementById("judge-match-banner");
-      if (banner) banner.style.display = "none";
-      const subtextNote = document.getElementById("judge-subtext-note");
-      if (subtextNote) subtextNote.style.display = "none";
-      const critiqueEl = document.getElementById("judge-critique-text");
-      if (critiqueEl) {
-        critiqueEl.textContent = "No judge evaluation has been run on this trace.";
-      }
-      return;
-    }
-    box.style.display = "none";
-    return;
-  }
-  box.style.display = "block";
-  const modeTargetEl = document.getElementById("judge-mode-target");
-  if (modeTargetEl) modeTargetEl.textContent = jeval.mode || "unverified_store_override";
-  document.getElementById("judge-model-name").textContent = `${jeval.model || 'gpt-4o-mini'} (${jeval.judge_id || 'v0'})`;
+  const gptCard = document.getElementById("gpt-judge-card");
+  const jevCard = document.getElementById("jev-judge-card");
   const splitBadge = document.getElementById("judge-split-badge");
+  const modeTargetEl = document.getElementById("judge-mode-target");
+
+  const jeval = AppState.currentSession && AppState.currentSession.judge_evaluation;
+  const jevEval = AppState.currentSession && AppState.currentSession.jev_evaluation;
+  const split = (AppState.currentSession && AppState.currentSession.split) || (jeval && jeval.split) || (jevEval && jevEval.split) || "DEV";
+
+  if (modeTargetEl) {
+    modeTargetEl.textContent = (jeval && jeval.mode) || "unverified_store_override";
+  }
+
   if (splitBadge) {
-    splitBadge.textContent = (jeval.split || 'DEV').toUpperCase();
-    splitBadge.style.background = jeval.split === "dev" ? "#3b82f6" : jeval.split === "test" ? "#ef4444" : "#10b981";
+    splitBadge.textContent = split.toUpperCase();
+    splitBadge.style.background = split === "dev" ? "#3b82f6" : split === "test" ? "#a855f7" : "#10b981";
   }
 
-  const verdictPill = document.getElementById("judge-verdict-pill");
-  if (verdictPill) {
-    verdictPill.textContent = `Judge Verdict: ${jeval.judge_verdict}`;
-    verdictPill.style.background = jeval.judge_verdict === "Pass" ? "rgba(16, 185, 129, 0.2)" : "rgba(239, 68, 68, 0.2)";
-    verdictPill.style.color = jeval.judge_verdict === "Pass" ? "#34d399" : "#f87171";
-    verdictPill.style.border = `1px solid ${jeval.judge_verdict === "Pass" ? "#10b981" : "#ef4444"}`;
-  }
+  // 1. Render GPT-4o-mini Card
+  if (gptCard) {
+    const matchTag = document.getElementById("gpt-match-tag");
+    const verdictPill = document.getElementById("gpt-verdict-pill");
+    const critiqueEl = document.getElementById("gpt-critique-text");
 
-  const banner = document.getElementById("judge-match-banner");
-  const subtextNote = document.getElementById("judge-subtext-note");
-  if (banner) {
-    banner.style.display = "block";
-    if (jeval.is_disagreement) {
-      banner.textContent = "⚠️ DISAGREEMENT — Human didn't agree with judge";
-      banner.style.background = "rgba(245, 158, 11, 0.18)";
-      banner.style.color = "#fbbf24";
-      banner.style.border = "1px solid #f59e0b";
-      if (subtextNote) subtextNote.style.display = "block";
+    if (jeval && jeval.judge_verdict) {
+      gptCard.style.display = "flex";
+      if (verdictPill) {
+        verdictPill.textContent = `Verdict: ${jeval.judge_verdict}`;
+        verdictPill.className = `judge-verdict-tag ${jeval.judge_verdict === "Pass" ? "verdict-pass" : "verdict-fail"}`;
+      }
+      if (matchTag) {
+        if (jeval.is_disagreement) {
+          matchTag.textContent = "⚠️ Disagree with Human";
+          matchTag.className = "judge-verdict-tag verdict-disagree";
+        } else {
+          matchTag.textContent = "✓ Match with Human";
+          matchTag.className = "judge-verdict-tag verdict-match";
+        }
+      }
+      if (critiqueEl) {
+        critiqueEl.textContent = jeval.critique || "No critique available.";
+      }
     } else {
-      banner.textContent = "✓ MATCH — Human and judge agreed";
-      banner.style.background = "rgba(16, 185, 129, 0.18)";
-      banner.style.color = "#34d399";
-      banner.style.border = "1px solid #10b981";
-      if (subtextNote) subtextNote.style.display = "none";
+      if (verdictPill) {
+        verdictPill.textContent = "Verdict: Not Evaluated";
+        verdictPill.className = "judge-verdict-tag";
+      }
+      if (matchTag) {
+        matchTag.textContent = "Not Run";
+        matchTag.className = "judge-verdict-tag";
+      }
+      if (critiqueEl) {
+        critiqueEl.textContent = "No GPT-4o evaluation on this trace.";
+      }
     }
   }
 
-  const critiqueEl = document.getElementById("judge-critique-text");
-  if (critiqueEl) {
-    critiqueEl.textContent = jeval.critique || "No critique text available.";
+  // 2. Render Jev Judge Card
+  if (jevCard) {
+    const matchTag = document.getElementById("jev-match-tag");
+    const verdictPill = document.getElementById("jev-verdict-pill");
+    const probVal = document.getElementById("jev-prob-val");
+    const probFill = document.getElementById("jev-prob-fill");
+    const confVal = document.getElementById("jev-confidence-val");
+    const latVal = document.getElementById("jev-latency-val");
+
+    if (jevEval && jevEval.jev_verdict) {
+      jevCard.style.display = "flex";
+      if (verdictPill) {
+        verdictPill.textContent = `Verdict: ${jevEval.jev_verdict}`;
+        verdictPill.className = `judge-verdict-tag ${jevEval.jev_verdict === "Pass" ? "verdict-pass" : "verdict-fail"}`;
+      }
+      if (matchTag) {
+        if (jevEval.is_disagreement) {
+          matchTag.textContent = "⚠️ Disagree with Human";
+          matchTag.className = "judge-verdict-tag verdict-disagree";
+        } else {
+          matchTag.textContent = "✓ Match with Human";
+          matchTag.className = "judge-verdict-tag verdict-match";
+        }
+      }
+
+      const prob = jevEval.defect_probability != null ? jevEval.defect_probability : 0.5;
+      const pct = Math.round(prob * 100);
+      if (probVal) {
+        probVal.textContent = `${pct}%`;
+        probVal.style.color = prob >= 0.5 ? "#f87171" : "#34d399";
+      }
+      if (probFill) {
+        probFill.style.width = `${Math.min(100, Math.max(0, pct))}%`;
+        probFill.style.background = prob >= 0.5 ? "linear-gradient(90deg, #f59e0b, #ef4444)" : "linear-gradient(90deg, #3b82f6, #10b981)";
+      }
+      if (confVal) {
+        confVal.textContent = `${Math.round((jevEval.confidence || (1 - prob)) * 100)}%`;
+      }
+      if (latVal) {
+        latVal.textContent = `~${Math.round(jevEval.latency_ms || 180)}ms`;
+      }
+    } else {
+      if (verdictPill) {
+        verdictPill.textContent = "Verdict: Not Evaluated";
+        verdictPill.className = "judge-verdict-tag";
+      }
+      if (matchTag) {
+        matchTag.textContent = "Not Run";
+        matchTag.className = "judge-verdict-tag";
+      }
+      if (probVal) probVal.textContent = "N/A";
+      if (probFill) probFill.style.width = "0%";
+    }
   }
 }
 
@@ -769,6 +826,13 @@ function getFilteredSessions() {
     return result;
   }
   return AppState.sessions.filter((s) => {
+    if (f === "gpt_disagreements") return !!s.is_disagreement;
+    if (f === "gpt_dev_disagreements") return !!s.is_disagreement && s.split === "dev";
+    if (f === "gpt_test_disagreements") return !!s.is_disagreement && s.split === "test";
+    if (f === "jev_disagreements") return !!s.jev_disagreement;
+    if (f === "jev_dev_disagreements") return !!s.jev_disagreement && s.split === "dev";
+    if (f === "jev_test_disagreements") return !!s.jev_disagreement && s.split === "test";
+    if (f === "inter_judge_disagreements") return s.judge_verdict && s.jev_verdict && s.judge_verdict !== s.jev_verdict;
     if (f === "dev_disagreements") return !!s.is_disagreement && s.split === "dev";
     if (f === "dev_split") return s.split === "dev";
     if (f === "train_split") return s.split === "train";
@@ -812,7 +876,21 @@ function renderSidebarList() {
   }
 
   if (countEl) {
-    if (AppState.filter === "dev_disagreements") {
+    if (AppState.filter === "gpt_disagreements") {
+      countEl.textContent = `GPT Disagree: ${filtered.length} traces`;
+    } else if (AppState.filter === "gpt_dev_disagreements") {
+      countEl.textContent = `GPT Dev Disagree: ${filtered.length} traces`;
+    } else if (AppState.filter === "gpt_test_disagreements") {
+      countEl.textContent = `GPT Test Disagree: ${filtered.length} traces`;
+    } else if (AppState.filter === "jev_disagreements") {
+      countEl.textContent = `Jev Disagree: ${filtered.length} traces`;
+    } else if (AppState.filter === "jev_dev_disagreements") {
+      countEl.textContent = `Jev Dev Disagree: ${filtered.length} traces`;
+    } else if (AppState.filter === "jev_test_disagreements") {
+      countEl.textContent = `Jev Test Disagree: ${filtered.length} traces`;
+    } else if (AppState.filter === "inter_judge_disagreements") {
+      countEl.textContent = `GPT vs Jev: ${filtered.length} traces`;
+    } else if (AppState.filter === "dev_disagreements") {
       countEl.textContent = `Disagreements: ${filtered.length} traces`;
     } else if (AppState.filter === "dev_split") {
       countEl.textContent = `Dev Split: ${filtered.length} traces`;
@@ -857,11 +935,24 @@ function renderSidebarList() {
     else if (s.verdict === "defer") verdictDot = '<span class="dot-status dot-defer" title="Deferred"></span>';
 
     let judgeBadge = "";
-    if (s.is_disagreement) {
-      judgeBadge = `<span style="font-size: 10px; padding: 2px 6px; border-radius: 4px; background: rgba(239, 68, 68, 0.25); color: #f87171; font-weight: 700; border: 1px solid rgba(239, 68, 68, 0.4);" title="Judge disagreed with human label">⚠️ Disagree</span>`;
-    } else if (s.judge_verdict) {
+    const gptDis = !!s.is_disagreement;
+    const jevDis = !!s.jev_disagreement;
+    const modelsDis = s.judge_verdict && s.jev_verdict && (s.judge_verdict !== s.jev_verdict);
+
+    if (gptDis || jevDis) {
+      const label = gptDis && jevDis ? "⚠️ Both Disagree" : gptDis ? "⚠️ GPT Disagree" : "⚠️ Jev Disagree";
+      judgeBadge = `<span style="font-size: 10px; padding: 2px 6px; border-radius: 4px; background: rgba(239, 68, 68, 0.25); color: #f87171; font-weight: 700; border: 1px solid rgba(239, 68, 68, 0.4);" title="Disagrees with human ground truth">${label}</span>`;
+    }
+    if (s.judge_verdict) {
       const col = s.judge_verdict === "Pass" ? "#34d399" : "#f87171";
-      judgeBadge = `<span style="font-size: 10px; padding: 2px 6px; border-radius: 4px; background: rgba(255, 255, 255, 0.08); color: ${col}; font-weight: 600;">Judge: ${s.judge_verdict}</span>`;
+      const jevCol = s.jev_verdict === "Pass" ? "#34d399" : s.jev_verdict === "Fail" ? "#f87171" : "#94a3b8";
+      judgeBadge += ` <span style="font-size: 10px; padding: 1.5px 5px; border-radius: 3px; background: rgba(56, 189, 248, 0.15); color: ${col}; font-weight: 600;" title="GPT-4o: ${s.judge_verdict}">GPT:${s.judge_verdict}</span>`;
+      if (s.jev_verdict) {
+        judgeBadge += ` <span style="font-size: 10px; padding: 1.5px 5px; border-radius: 3px; background: rgba(168, 85, 247, 0.15); color: ${jevCol}; font-weight: 600;" title="Jev: ${s.jev_verdict} (Defect Prob: ${Math.round((s.jev_probability || 0)*100)}%)">Jev:${s.jev_verdict}</span>`;
+      }
+    }
+    if (modelsDis) {
+      judgeBadge += ` <span style="font-size: 9.5px; padding: 1.5px 4px; border-radius: 3px; background: rgba(245, 158, 11, 0.2); color: #fbbf24; font-weight: 700; border: 1px solid rgba(245, 158, 11, 0.4);" title="Models disagree with each other (GPT vs Jev)">⚔️ Model Split</span>`;
     }
 
     let batchBadge = "";
