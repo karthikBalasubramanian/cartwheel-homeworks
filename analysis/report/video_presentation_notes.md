@@ -58,10 +58,10 @@ This guide provides the exact timing, screen navigation, talking points, and spe
   > * **True Positive Rate (TPR):** Measures how often the judge agrees when a conversation passed. When TPR is low, the judge is **crying wolf**—over-policing and falsely accusing innocent agents of bugs.
   > * **True Negative Rate (TNR):** Measures how often the judge catches an actual defect. When TNR is low, the judge is **sleeping on the job**—letting broken conversations slip into production.
   >
-  > * **Statistical Uncertainty & The Wilson Standard Deviation:**
-  > * Every evaluation on a finite sample has sampling noise. In statistics, standard deviation measures how much our observed percentage would bounce around if we tested a different random sample.
-  > * The textbook standard error formula (the Wald normal approximation) completely breaks down on small datasets or percentages near 100%—often generating impossible bounds wider than 100% or zero standard error.
-  > * To solve this, we use the **Wilson Score Interval**. The Wilson interval inverts the score test and anchors around sample size, using the standard deviation computed at the true parameter rather than the sample estimate. It gives us a mathematically sound 95% confidence interval strictly bounded between 0% and 100%."*
+  > * **Statistical Uncertainty & The Wilson Interval:**
+  > * Whenever we test on a limited batch of conversations, there is always some random noise.
+  > * Standard textbook formulas assume you have thousands of data points. When you only have a dozen cases, those standard formulas fail and can give impossible results.
+  > * The **Wilson Interval** is specifically designed for smaller datasets. It calculates a realistic 95% confidence bracket, showing us the true range of where our judge's performance actually lies in production."*
 
 ---
 
@@ -117,9 +117,11 @@ This guide provides the exact timing, screen navigation, talking points, and spe
   > * **True Positive Rate (Pass Agreement): 84.6%** — 33 out of 39 passes agreed, with 95% Wilson interval **[70.3%, 92.8%]**.
   > * **Overall Test Agreement: 86.3%** — 44 out of 51 traces matched.
   >
-  > **Explaining the Wilson Standard Deviation difference:**
-  > * Notice that the Wilson interval for TNR ([64.6% to 98.5%]) is 34 points wide, while for TPR ([70.3% to 92.8%]) it is only 22 points wide.
-  > * Why? Because our test split contains only **12 defect traces**, compared to **39 pass traces**. Standard error shrinks in proportion to the square root of sample size. With only 12 defect trials, standard error is higher, widening our uncertainty band.
+  > **Why is the defect interval wider than the pass interval?**
+  > * Notice that our defect catch interval ([64.6% to 98.5%]) has a 34-point spread, while the pass interval is much tighter (22 points).
+  > * Why? Because in our test split, we only had **12 real defect conversations**, compared to **39 pass conversations**.
+  > * When you only test on 12 cases, every single conversation carries over 8% of the entire grade! Just one trace flipping swings the score wildly, which makes our margin of error wider.
+  > * On the passes, we tested 39 conversations—more than three times as much data. With more conversations, individual flukes smooth out, giving us a much tighter and more reliable range.
   >
   > **Now let's examine a live GPT-4o Disagreement: `support-0229`:**
   > *(Point to right panel card 1 vs card 2)*
