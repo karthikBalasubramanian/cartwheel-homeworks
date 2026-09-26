@@ -8,17 +8,18 @@ This guide provides the exact timing, screen navigation, talking points, and liv
 
 | Segment | Time | Screen to Show | What to Say / Do |
 | :--- | :--- | :--- | :--- |
-| **1. Definition & Active Learning** | `0:00 - 1:00` | Review App (`http://localhost:8000`) | Define `unverified_store_override`. Explain starting with 7 failures in HW4 and manually labeling 50+ candidates to reach 30+ failures. |
-| **2. Prompt Iteration (v0 $\to$ v1)** | `1:00 - 2:05` | Review App filtered to **`Dev Split`** | Explain v0 baseline (86%), walk through 1 specific disagreement (`support-0244`), show how v1 boundary rules reached 94%. |
-| **3. Held-Out Test Evaluation** | `2:05 - 3:15` | Review App filtered to **`Test Split`** | Show frozen v1 results: TNR = 91.7%, TPR = 84.6%, explain Wilson confidence intervals and why the judge cries wolf. |
-| **4. Live Terminal Recalculation** | `3:15 - 3:50` | Terminal | Run the live Python recalculation one-liner to prove test metrics live on camera. |
-| **5. Multi-Judge (Jev) & Adoption Verdict** | `3:50 - 5:00` | Review App 3-Judge Console (Right Panel) | Compare GPT-4o-mini with TypeSafe AI Jev (System-1 Noul), discuss `support-0084`, and state your deployment verdict. |
+| **1. Definition & Active Learning** | `0:00 - 0:50` | Review App (`http://localhost:8000`) | Define `unverified_store_override`. Explain starting with 7 failures in HW4 and manually labeling 50+ candidates to reach 30+ failures. |
+| **2. Metric Framework (TPR, TNR, Agreement)** | `0:50 - 1:30` | Review App | Define Label 1 (Pass) vs 0 (Fail). Explain Raw Agreement, TPR (Pass match / false alarm rate), and TNR (Defect catch rate). |
+| **3. Prompt Iteration (v0 $\to$ v1)** | `1:30 - 2:30` | Review App filtered to **`Dev Split`** | Explain v0 baseline (86%), walk through 1 specific disagreement (`support-0244`), show how v1 boundary rules reached 94%. |
+| **4. Held-Out Test Evaluation** | `2:30 - 3:30` | Review App filtered to **`Test Split`** | Show frozen v1 results: TNR = 91.7%, TPR = 84.6%, explain Wilson confidence intervals and why the judge cries wolf. |
+| **5. Live Terminal Recalculation** | `3:30 - 4:00` | Terminal | Run the live Python recalculation one-liner to prove test metrics live on camera. |
+| **6. Multi-Judge (Jev) & Adoption Verdict** | `4:00 - 5:00` | Review App 3-Judge Console (Right Panel) | Compare GPT-4o-mini with TypeSafe AI Jev (System-1 Noul), discuss `support-0084`, and state your deployment verdict. |
 
 ---
 
 ## 🎬 Minute-by-Minute Teleprompter Script
 
-### 0:00 – 1:00 | Part 1: Failure Mode Definition & Active Learning Label Collection
+### 0:00 – 0:50 | Part 1: Failure Mode Definition & Active Learning Label Collection
 * **On Screen:** Open the Review App at `http://localhost:8000`. Point to the header: Mode: `unverified_store_override`.
 * **Talking Points:**
   > *"Hi everyone. For Homework 5, I built and evaluated an LLM judge for the failure mode **`unverified_store_override`**.*
@@ -34,7 +35,34 @@ This guide provides the exact timing, screen navigation, talking points, and liv
 
 ---
 
-### 1:00 – 2:05 | Part 2: Development Hill-Climbing (Prompt v0 $\to$ v1)
+### 0:50 – 1:30 | Part 2: Evaluation Metrics Framework (TPR, TNR, Agreement)
+* **On Screen:** Point to the split metrics in the Review App console or report.
+* **Talking Points:**
+  > *"Before looking at the evaluation results, here is how our metrics are defined:*
+  >
+  > *In Homework 5, our binary label convention is:*
+  > * **Label 1 = Positive = PASS** (Conforming conversation — defect is absent).
+  > * **Label 0 = Negative = FAIL** (Defect present — `unverified_store_override` occurred).
+  >
+  > *We track three key metrics:*
+  > 
+  > 1. **Overall Agreement (Accuracy):**
+  >    * `Agreement = (Agreed Passes + Agreed Bugs) / Total Traces = (TP + TN) / Total`
+  >    * *Why Agreement alone is not enough:* In real support workloads, the vast majority of calls are clean passes. A dummy judge that always says 'Pass' could get 85% agreement while catching zero bugs. That is why we must decompose it into TPR and TNR.
+  >
+  > 2. **True Positive Rate (TPR) — Pass Agreement / Crying Wolf:**
+  >    * `TPR = Agreed Passes / Total Human Passes = TP / (TP + FN)`
+  >    * When the human says a conversation passed, how often does the judge agree?
+  >    * When TPR is low, the judge is **'crying wolf'**—it is over-policing and falsely flagging innocent conversations as defects.
+  >
+  > 3. **True Negative Rate (TNR) — Defect Catch Rate:**
+  >    * `TNR = Caught Bugs / Total Human Bugs = TN / (TN + FP)`
+  >    * When an actual defect occurs, how often does the judge catch it?
+  >    * When TNR is low, the judge is **'sleeping on the job'**—it misses real violations and lets defective behavior slip into production."*
+
+---
+
+### 1:30 – 2:30 | Part 3: Development Hill-Climbing (Prompt v0 $\to$ v1)
 * **On Screen:** In the Review App, select the filter: **`🤖 ⚠️ GPT-4o Disagreements (Dev Split) [3]`**.
 * **Talking Points:**
   > *"With our 50 Dev traces, we evaluated our baseline prompt, **Prompt v0**. It scored **86.0% agreement** with 7 disagreements.*
@@ -54,7 +82,7 @@ This guide provides the exact timing, screen navigation, talking points, and liv
 
 ---
 
-### 2:00 – 3:15 | Part 3: Frozen Held-Out Test Evaluation
+### 2:30 – 3:30 | Part 4: Frozen Held-Out Test Evaluation
 * **On Screen:** In the Review App, select the filter: **`🔒 Test Split (51) [Held-out Freeze]`**.
 * **Talking Points:**
   > *"Once development reached 94% agreement, we **froze Prompt v1** and evaluated our 51 held-out test traces that the prompt had never seen.*
@@ -72,7 +100,7 @@ This guide provides the exact timing, screen navigation, talking points, and liv
 
 ---
 
-### 3:15 – 3:50 | Part 4: Live Metric Recalculation Live on Camera
+### 3:30 – 4:00 | Part 5: Live Metric Recalculation Live on Camera
 * **On Screen:** Switch window to your Terminal and run this one-line command:
 ```bash
 uv run python -c "from analysis.helpers import judge_alignment; print(judge_alignment('unverified_store_override-v1', split='test'))"
@@ -90,7 +118,7 @@ uv run python -c "from analysis.helpers import judge_alignment; print(judge_alig
 
 ---
 
-### 3:50 – 5:00 | Part 5: Multi-Judge Comparison (TypeSafe AI Jev) & Deployment Verdict
+### 4:00 – 5:00 | Part 6: Multi-Judge Comparison (TypeSafe AI Jev) & Deployment Verdict
 * **On Screen:** Switch back to Review App at `http://localhost:8000/?scenario=support-0084`. Show the right panel: **1. Human**, **2. GPT-4o-mini**, **3. TypeSafe AI Jev**.
 * **Talking Points:**
   > *"As an extension, we also integrated **TypeSafe AI's Jev** model using the `Noul` binary classification primitive via Vercel AI Gateway.*
