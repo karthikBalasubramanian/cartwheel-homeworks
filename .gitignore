@@ -13,11 +13,12 @@ data/cartwheel.db
 *.db-shm
 scenarios/results/
 replay/results/
+.harbor/
 
 # Python
 __pycache__/
 *.pyc
 .venv/
 .pytest_cache/
-
 .scout
+scenarios/demo_pilot_gt.json
