@@ -51,12 +51,21 @@ def fetch_trace_from_langfuse(trace_id: str, host: str | None = None) -> dict[st
 def render_trace_summary(record: dict[str, Any], trace_detail: dict[str, Any] | None = None) -> None:
     meta_attrs = {}
     if trace_detail and isinstance(trace_detail.get("metadata"), dict):
-        meta_attrs = trace_detail["metadata"].get("attributes", {})
+        meta_attrs = dict(trace_detail["metadata"].get("attributes", {}))
+
+    # Also inspect root span (cartwheel.session_message) for application attributes
+    if trace_detail and "observations" in trace_detail:
+        for obs in trace_detail.get("observations", []):
+            if obs.get("name") == "cartwheel.session_message" and isinstance(obs.get("metadata"), dict):
+                obs_attrs = obs["metadata"].get("attributes", {})
+                for k, v in obs_attrs.items():
+                    meta_attrs.setdefault(k, v)
 
     trace_id = record.get("trace_id") or (trace_detail.get("id") if trace_detail else "unknown")
     role = meta_attrs.get("cartwheel.user_role") or record.get("user_role", "unknown")
     user_id = meta_attrs.get("cartwheel.user_id") or record.get("user_id", "unknown")
     version = meta_attrs.get("cartwheel.prompt_version") or record.get("prompt_version", "unknown")
+    scenario_id = meta_attrs.get("cartwheel.scenario_id") or record.get("scenario_id")
     status = record.get("final_status", "completed")
     permalink = record.get("permalink") or f"http://localhost:3000/project/cartwheel-dev/traces/{trace_id}"
     tools = record.get("tool_order", [])
@@ -84,6 +93,8 @@ def render_trace_summary(record: dict[str, Any], trace_detail: dict[str, Any] | 
     print(f"  \033[1mStatus:\033[0m                  \033[92m{status.upper()}\033[0m")
     print(f"  \033[1mcartwheel.prompt_version:\033[0m \033[93m{version}\033[0m")
     print(f"  \033[1mcartwheel.session_id:\033[0m     {session_id}")
+    if scenario_id:
+        print(f"  \033[1mcartwheel.scenario_id:\033[0m   \033[96m{scenario_id}\033[0m")
     print(f"  \033[1mAuthenticated Identity (cartwheel.*):\033[0m")
     print(f"    - cartwheel.user_role: \033[94m{role}\033[0m")
     print(f"    - cartwheel.user_id:   \033[94m{user_id}\033[0m")

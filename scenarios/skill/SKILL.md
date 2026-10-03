@@ -169,6 +169,14 @@ The model might produce: "Can I return the vase I got a while ago? I never used 
 
 The message leaves out the order number, the exact delivery date, and the return window, because a real user would not know or state those facts.
 
+Provide few-shot examples in the generation prompt to ensure the model varies its phrasing and obeys the assigned `user_style` rather than repeating static sentence templates:
+- `neutral_conversational`: "Hi! Can you let me know what the status is for order #1?"
+- `terse_fragmentary`: "order #2 status?"
+- `typo_heavy`: "Helo, could u check status of order #3?"
+- `frustrated_impatient`: "Where is my order #5?? It was supposed to be here days ago."
+- `operational_shorthand`: "Status lookup for PO #7 please."
+
+
 ### Multi-turn conversations
 
 For scenarios with more than one turn, write one opening message and an ordered list of exact followup messages. Each followup must be plausible without knowing the agent's preceding response, because the followups are scripted before the agent runs. A followup like "Yes, go ahead with the refund" assumes the agent offered a refund, which it might not have. Instead, write followups that develop one coherent issue through clarification, correction, or added detail, such as "Actually, I think it was the desk organizer, not the vase."
