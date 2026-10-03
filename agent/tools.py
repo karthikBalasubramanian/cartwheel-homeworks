@@ -339,16 +339,13 @@ def find_order(ctx: AuthContext, query: str) -> dict[str, Any]:
 
     with db.connection() as conn:
         if ctx.role == "shopper":
-            candidate_orders = db.list_orders_for_user(conn, ctx.user_id, limit=500)
+            candidate_orders = db.list_order_search_candidates(conn, user_id=ctx.user_id)
         elif ctx.role == "merchant":
             if ctx.store_id is None:
                 return {"ok": True, "orders": []}
-            candidate_orders = db.list_orders_for_store(conn, ctx.store_id, limit=500)
+            candidate_orders = db.list_order_search_candidates(conn, store_id=ctx.store_id)
         elif ctx.role == "support":
-            rows = conn.execute(
-                "SELECT * FROM orders ORDER BY ordered_at DESC, id DESC LIMIT 500"
-            ).fetchall()
-            candidate_orders = [db._order_from_row(row) for row in rows]
+            candidate_orders = db.list_order_search_candidates(conn, all_orders=True)
         else:
             return {"ok": True, "orders": []}
 

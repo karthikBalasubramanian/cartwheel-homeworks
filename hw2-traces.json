@@ -1,0 +1,38 @@
+[
+  {
+    "trace_id": "028028c1d974942ecd1d2a14dda1f52d",
+    "permalink": "http://localhost:3000/project/cartwheel-dev/traces/028028c1d974942ecd1d2a14dda1f52d",
+    "prompt_version": "b85117ddf6c8",
+    "user_role": "shopper",
+    "user_id": 1,
+    "request": "Can you check the details and current status of my order 4127?",
+    "final_status": "completed"
+  },
+  {
+    "trace_id": "ca985361741a2de5ba76e9912e39fd04",
+    "permalink": "http://localhost:3000/project/cartwheel-dev/traces/ca985361741a2de5ba76e9912e39fd04",
+    "prompt_version": "e6a48e0fba44",
+    "user_role": "shopper",
+    "user_id": 1,
+    "request": "Can you check the details and current status of my order 4127?",
+    "final_status": "completed"
+  },
+  {
+    "trace_id": "8fce7914e361c34964db68f4a35b912e",
+    "permalink": "http://localhost:3000/project/cartwheel-dev/traces/8fce7914e361c34964db68f4a35b912e",
+    "prompt_version": "b85117ddf6c8",
+    "user_role": "shopper",
+    "user_id": 1,
+    "request": "<PERSON>. Call me at <PHONE_NUMBER> about my refund for order 3980.",
+    "final_status": "completed"
+  },
+  {
+    "trace_id": "dd0cacc0fc2f550fd925dea08e0421d3",
+    "permalink": "http://localhost:3000/project/cartwheel-dev/traces/dd0cacc0fc2f550fd925dea08e0421d3",
+    "prompt_version": "b85117ddf6c8",
+    "user_role": "shopper",
+    "user_id": 1,
+    "request": "Hi, my email is <EMAIL_ADDRESS> and my secret key is <REDACTED_API_KEY>. Please check order 4455.",
+    "final_status": "completed"
+  }
+]
