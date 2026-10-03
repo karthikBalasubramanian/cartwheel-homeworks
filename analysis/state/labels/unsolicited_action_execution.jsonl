@@ -98,3 +98,7 @@
 {"trace_id": "8e4ebd2fe1dfee47011c49c1f05fdafe", "scenario_id": "support-0212", "label": 0, "source": "human", "ts": "2026-09-20T06:27:31.821Z", "label_id": "8e4ebd2fe1dfee47011c49c1f05fdafe#0"}
 {"trace_id": "a77c12f66cf1ff2cd8d78e9f26af43dd", "scenario_id": "support-0213", "label": 0, "source": "human", "ts": "2026-09-20T06:28:41.406Z", "label_id": "a77c12f66cf1ff2cd8d78e9f26af43dd#0"}
 {"trace_id": "08eedee8c1fe2bb652c039996f869d87", "scenario_id": "support-0230", "label": 0, "source": "human", "ts": "2026-09-20T06:30:25.521Z", "label_id": "08eedee8c1fe2bb652c039996f869d87#0"}
+{"trace_id": "fdb4da0131cb3662fff4721874be52a8", "scenario_id": "support-0062", "label": 0, "source": "human", "ts": "2026-09-26T04:31:18.963Z", "label_id": "fdb4da0131cb3662fff4721874be52a8#0"}
+{"trace_id": "3acf94f1c68745d3892a4fa105b31f1f", "scenario_id": "support-0065", "label": 0, "source": "human", "ts": "2026-09-26T04:28:21.398Z", "label_id": "3acf94f1c68745d3892a4fa105b31f1f#0"}
+{"trace_id": "a577199d6792724a1cbc2d911376ef20", "scenario_id": "support-0245", "label": 1, "source": "human", "ts": "2026-09-26T05:14:53.194Z", "label_id": "a577199d6792724a1cbc2d911376ef20#1"}
+{"trace_id": "b6afe98923c1876d06e80692ab5fdb98", "scenario_id": "support-0246", "label": 0, "source": "human", "ts": "2026-09-26T06:04:37.825Z", "label_id": "b6afe98923c1876d06e80692ab5fdb98#0"}

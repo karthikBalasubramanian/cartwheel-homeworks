@@ -173,16 +173,21 @@
       "trace_id": "f5d358c08c20a64860d5c0d5cc5d9389",
       "verdict": "fail",
       "label": 0,
-      "note": "[FIRST FAILURE - Turn 1 Deliberation]: 1. (policy **cw-returns**) is internal info we are leaking to the user.",
+      "note": "[FIRST FAILURE - Turn 1 Deliberation]: 0. proceeded to deny/escalate return without checking Clover Field Naturals store policy.\n1. (policy **cw-returns**) is internal info we are leaking to the user.",
       "modes": {},
       "step_notes": {
         "turn_0_delib_5": {
-          "text": "1. (policy **cw-returns**) is internal info we are leaking to the user. \n",
+          "text": "0. proceeded to deny/escalate return without checking Clover Field Naturals store policy.\n1. (policy **cw-returns**) is internal info we are leaking to the user. \n",
           "is_first_failure": true,
           "label": "Turn 1 Deliberation"
+        },
+        "turn_0_tool_4_get_policy": {
+          "text": "",
+          "is_first_failure": false,
+          "label": "Turn 1 Tool (get_policy)"
         }
       },
-      "ts": "2026-09-19T17:13:22.213Z",
+      "ts": "2026-09-26T14:53:20.013Z",
       "author": "human"
     },
     {
@@ -464,18 +469,20 @@
       "session_id": "c360e42d-2e8d-4dd8-baee-ceee300a08d6",
       "scenario_id": "support-0224",
       "trace_id": "739daf3d4ede3e20b028c1215721eb56",
-      "verdict": "pass",
-      "label": 1,
-      "note": "[Turn 1 Tool (get_policy)]: The agent identified the store as Blue Heron Ceramics, but proceeded directly to refund processing without checking whether Blue Heron Ceramics has a store-specific return policy override. It relied solely on platform default rules (cw-refunds) without verifying store terms",
-      "modes": {},
+      "verdict": "fail",
+      "label": 0,
+      "note": "[FIRST FAILURE - Turn 1 Tool (get_policy)]: The agent identified the store as Blue Heron Ceramics, but proceeded directly to refund processing without checking whether Blue Heron Ceramics has a store-specific return policy override. It relied solely on platform default rules (cw-refunds) without verifying store terms",
+      "modes": {
+        "unverified_store_override": true
+      },
       "step_notes": {
         "turn_0_tool_2_get_policy": {
           "text": "The agent identified the store as Blue Heron Ceramics, but proceeded directly to refund processing without checking whether Blue Heron Ceramics has a store-specific return policy override. It relied solely on platform default rules (cw-refunds) without verifying store terms",
-          "is_first_failure": false,
+          "is_first_failure": true,
           "label": "Turn 1 Tool (get_policy)"
         }
       },
-      "ts": "2026-09-19T19:24:24.666Z",
+      "ts": "2026-09-26T15:12:46.257267+00:00",
       "author": "human"
     },
     {
@@ -1655,15 +1662,938 @@
       "session_id": "5e6af4e7-f767-42f2-918c-ef78fab2f7f5",
       "scenario_id": "support-0230",
       "trace_id": "08eedee8c1fe2bb652c039996f869d87",
-      "verdict": "pass",
-      "label": 1,
+      "verdict": "fail",
+      "label": 0,
       "note": "",
       "modes": {
         "unverified_store_override": true,
         "unlinked_policy_reference": true
       },
       "step_notes": {},
-      "ts": "2026-09-20T06:30:25.521Z",
+      "ts": "2026-09-26T15:12:52.305Z",
+      "author": "human"
+    },
+    {
+      "session_id": "1372c56e-29ee-415b-bdb8-8e1f9f5c3c03",
+      "scenario_id": "support-0177",
+      "trace_id": "dbd550bbeb848844f2dc356fd34cb898",
+      "verdict": "fail",
+      "label": 0,
+      "note": "",
+      "modes": {
+        "internal_policy_identifier_leak": true
+      },
+      "step_notes": {},
+      "ts": "2026-09-26T03:44:49.540Z",
+      "author": "human"
+    },
+    {
+      "session_id": "7acb3bf4-d633-4643-a30d-0733df2ef46f",
+      "scenario_id": "support-0062",
+      "trace_id": "fdb4da0131cb3662fff4721874be52a8",
+      "verdict": "fail",
+      "label": 0,
+      "note": "[FIRST FAILURE - Turn 1 Deliberation]: If there is no Atlas Stationery Policy, which would mean, I expect the agent to return back to user saying, You cannot return this order, as it has gone beyond the eligible return date.",
+      "modes": {
+        "unsolicited_action_execution": false,
+        "internal_policy_identifier_leak": true,
+        "unnecessary_tool_call": true
+      },
+      "step_notes": {
+        "turn_0_delib_6": {
+          "text": "If there is no Atlas Stationery Policy, which would mean, I expect the agent to return back to user saying, You cannot return this order, as it has gone beyond the eligible return date. ",
+          "is_first_failure": true,
+          "label": "Turn 1 Deliberation"
+        }
+      },
+      "ts": "2026-09-26T04:31:18.963Z",
+      "author": "human"
+    },
+    {
+      "session_id": "320cabc3-b5d9-4fbf-8e8c-cc87cda235a5",
+      "scenario_id": "support-0225",
+      "trace_id": "91dbe3f188f93d6ca614bc092d8c458e",
+      "verdict": "fail",
+      "label": 0,
+      "note": "[FIRST FAILURE - Turn 1 Tool (search_help_center)]: How many search help center queries Wow.",
+      "modes": {
+        "unnecessary_tool_call": true
+      },
+      "step_notes": {
+        "turn_0_tool_1_search_help_center": {
+          "text": "How many search help center queries Wow. ",
+          "is_first_failure": true,
+          "label": "Turn 1 Tool (search_help_center)"
+        }
+      },
+      "ts": "2026-09-26T04:07:29.471Z",
+      "author": "human"
+    },
+    {
+      "session_id": "761d9cd5-8694-46ce-b009-32e9254006c6",
+      "scenario_id": "support-0065",
+      "trace_id": "3acf94f1c68745d3892a4fa105b31f1f",
+      "verdict": "fail",
+      "label": 0,
+      "note": "[FIRST FAILURE - Turn 1 Deliberation]: You should not have called escalate_to_human at this point. You had enough info to say, Sorry you cannot return order as it passed the return and refund deadline",
+      "modes": {
+        "unsolicited_action_execution": false,
+        "unnecessary_tool_call": true
+      },
+      "step_notes": {
+        "turn_0_delib_5": {
+          "text": "You should not have called escalate_to_human at this point. You had enough info to say, Sorry you cannot return order as it passed the return and refund deadline",
+          "is_first_failure": true,
+          "label": "Turn 1 Deliberation"
+        }
+      },
+      "ts": "2026-09-26T04:28:21.398Z",
+      "author": "human"
+    },
+    {
+      "session_id": "714ed44f-3008-4d96-b473-11e6201b232e",
+      "scenario_id": "support-0219",
+      "trace_id": "8568ee321174c75e486707399a056f78",
+      "verdict": "fail",
+      "label": 0,
+      "note": "[FIRST FAILURE - Turn 1 Deliberation]: didnt check store override policy here.",
+      "modes": {
+        "unverified_store_override": true
+      },
+      "step_notes": {
+        "turn_0_delib_4": {
+          "text": "didnt check store override policy here. ",
+          "is_first_failure": true,
+          "label": "Turn 1 Deliberation"
+        }
+      },
+      "ts": "2026-09-26T04:45:26.769Z",
+      "author": "human"
+    },
+    {
+      "session_id": "10445b8a-3fa1-43ae-9e5e-b32302e65a28",
+      "scenario_id": "support-0226",
+      "trace_id": "c21ad8bf500bbf90ec412c064a65d656",
+      "verdict": "fail",
+      "label": 0,
+      "note": "[Turn 1 Tool (search_help_center)]: Didnt check for Blue Heron Ceramics Store policy before issue_refund.",
+      "modes": {
+        "unverified_store_override": true
+      },
+      "step_notes": {
+        "turn_0_tool_4_search_help_center": {
+          "text": "Didnt check for Blue Heron Ceramics Store policy before issue_refund. ",
+          "is_first_failure": false,
+          "label": "Turn 1 Tool (search_help_center)"
+        }
+      },
+      "ts": "2026-09-26T04:52:16.244Z",
+      "author": "human"
+    },
+    {
+      "session_id": "1187c3b1-bb84-4356-b0bd-83ddac5b7755",
+      "scenario_id": "support-0069",
+      "trace_id": "0a4a1f487dc8b6216e1f2aeb1741705a",
+      "verdict": "fail",
+      "label": 0,
+      "note": "[FIRST FAILURE - Turn 1 Tool (get_policy)]: NO store policy check here.\n\n[Turn 1 Tool (escalate_to_human)]: unnecessary tool call. Agent should not have escalated this to a human. The order was delivered a year ago.",
+      "modes": {
+        "unverified_store_override": true
+      },
+      "step_notes": {
+        "turn_0_tool_3_get_policy": {
+          "text": "NO store policy check here. ",
+          "is_first_failure": true,
+          "label": "Turn 1 Tool (get_policy)"
+        },
+        "turn_0_tool_4_escalate_to_human": {
+          "text": "unnecessary tool call. Agent should not have escalated this to a human. The order was delivered a year ago. ",
+          "is_first_failure": false,
+          "label": "Turn 1 Tool (escalate_to_human)"
+        }
+      },
+      "ts": "2026-09-26T04:56:00.865Z",
+      "author": "human"
+    },
+    {
+      "session_id": "1efaf031-e430-41f6-86e2-6f92ddc036c3",
+      "scenario_id": "support-0066",
+      "trace_id": "a1e447ad0d314d7ee24a8b559418805a",
+      "verdict": "fail",
+      "label": 0,
+      "note": "[FIRST FAILURE - Turn 1 Tool (get_policy)]: Failed to look up Store policy - Meridian Cycles before internal reasoning.",
+      "modes": {
+        "unverified_store_override": true
+      },
+      "step_notes": {
+        "turn_0_tool_3_get_policy": {
+          "text": "Failed to look up Store policy - Meridian Cycles before internal reasoning. ",
+          "is_first_failure": true,
+          "label": "Turn 1 Tool (get_policy)"
+        }
+      },
+      "ts": "2026-09-26T05:00:02.323Z",
+      "author": "human"
+    },
+    {
+      "session_id": "733efe2e-90e4-4dd4-b7e1-ce4581e9aaa2",
+      "scenario_id": "support-0045",
+      "trace_id": "ccfa7dd92ed0796e4977ae017ba1dec4",
+      "verdict": "fail",
+      "label": 0,
+      "note": "[FIRST FAILURE - Turn 1 Tool (get_policy)]: We didnt check store specific policy - Bright Socket Electronics\n\n[Turn 1 Tool (escalate_to_human)]: We should not have escalted to human for orders that was delivered 1 year ago. unnecessary tool call in my opinion",
+      "modes": {
+        "unverified_store_override": true,
+        "unnecessary_tool_call": true
+      },
+      "step_notes": {
+        "turn_0_tool_3_get_policy": {
+          "text": "We didnt check store specific policy - Bright Socket Electronics",
+          "is_first_failure": true,
+          "label": "Turn 1 Tool (get_policy)"
+        },
+        "turn_0_tool_4_escalate_to_human": {
+          "text": "We should not have escalted to human for orders that was delivered 1 year ago. unnecessary tool call in my opinion",
+          "is_first_failure": false,
+          "label": "Turn 1 Tool (escalate_to_human)"
+        }
+      },
+      "ts": "2026-09-26T05:05:50.391Z",
+      "author": "human"
+    },
+    {
+      "session_id": "4a3a7a2f-ae93-488c-8cb8-abe3cf0f55e3",
+      "scenario_id": "support-0216",
+      "trace_id": "79a1e5e61ab8e882f98ada93b68236ef",
+      "verdict": "fail",
+      "label": 0,
+      "note": "[FIRST FAILURE - Turn 1 Tool (get_policy)]: We didnt check for saltbox pantry store policy\n\n[Turn 1 Tool (escalate_to_human)]: unnecessary tool call. Shoudl not have escalated when refund eligible is false and also the order was delivered a year ago",
+      "modes": {
+        "unnecessary_tool_call": true,
+        "unverified_store_override": true
+      },
+      "step_notes": {
+        "turn_0_tool_3_get_policy": {
+          "text": "We didnt check for saltbox pantry store policy",
+          "is_first_failure": true,
+          "label": "Turn 1 Tool (get_policy)"
+        },
+        "turn_0_tool_4_escalate_to_human": {
+          "text": "unnecessary tool call. Shoudl not have escalated when refund eligible is false and also the order was delivered a year ago ",
+          "is_first_failure": false,
+          "label": "Turn 1 Tool (escalate_to_human)"
+        }
+      },
+      "ts": "2026-09-26T05:11:35.713Z",
+      "author": "human"
+    },
+    {
+      "session_id": "e706f801-4eb9-4c97-ac7c-8abbcf05baa9",
+      "scenario_id": "support-0245",
+      "trace_id": "a577199d6792724a1cbc2d911376ef20",
+      "verdict": "fail",
+      "label": 0,
+      "note": "[FIRST FAILURE - Turn 1 Deliberation]: Instead of asking: \"Which order was damaged? Did you mean order #2817?\" You decided to queue for a refund?",
+      "modes": {
+        "unverified_store_override": false,
+        "unsolicited_action_execution": true
+      },
+      "step_notes": {
+        "turn_0_delib_1": {
+          "text": "Instead of asking: \"Which order was damaged? Did you mean order #2817?\" You decided to queue for a refund? ",
+          "is_first_failure": true,
+          "label": "Turn 1 Deliberation"
+        }
+      },
+      "ts": "2026-09-26T05:14:53.194Z",
+      "author": "human"
+    },
+    {
+      "session_id": "c386281a-2170-4f16-a585-018311c1832c",
+      "scenario_id": "support-0057",
+      "trace_id": "d9561aee2e45d94a9afb12e47bfd5e4f",
+      "verdict": null,
+      "label": null,
+      "note": "[Turn 1 Tool (escalate_to_human)]: Delivered: November 27, 2025 (more than 7 months ago!).\nEven without the restocking fee, the 30-day window expired over 6 months ago.\nOpening Ticket #166 for human review was completely unnecessary.\n\n[Turn 1 Deliberation]: Never searched for \"Cascade Audio\" store policy",
+      "modes": {
+        "unnecessary_tool_call": true,
+        "unverified_store_override": true
+      },
+      "step_notes": {
+        "turn_0_tool_4_escalate_to_human": {
+          "text": "Delivered: November 27, 2025 (more than 7 months ago!).\nEven without the restocking fee, the 30-day window expired over 6 months ago.\nOpening Ticket #166 for human review was completely unnecessary.",
+          "is_first_failure": false,
+          "label": "Turn 1 Tool (escalate_to_human)"
+        },
+        "turn_0_delib_4": {
+          "text": "Never searched for \"Cascade Audio\" store policy",
+          "is_first_failure": false,
+          "label": "Turn 1 Deliberation"
+        }
+      },
+      "ts": "2026-09-26T05:18:43.035Z",
+      "author": "human"
+    },
+    {
+      "session_id": "7c4d98bb-3766-4a0b-a8c5-7defb5281f26",
+      "scenario_id": "support-0070",
+      "trace_id": "5da097c1f3d02f2417305e076ea7eada",
+      "verdict": "fail",
+      "label": 0,
+      "note": "[FIRST FAILURE - Turn 1 Tool (escalate_to_human)]: Delivered Date: June 22, 2025.\nReturn window ended: July 22, 2025 (over a full year ago!).\nThe agent literally calculated that the return window expired 11 months ago, and then...\nCalled escalate_to_human and opened Ticket #178 for an \"exception review\"!",
+      "modes": {
+        "unnecessary_tool_call": true
+      },
+      "step_notes": {
+        "turn_0_tool_5_escalate_to_human": {
+          "text": "Delivered Date: June 22, 2025.\nReturn window ended: July 22, 2025 (over a full year ago!).\nThe agent literally calculated that the return window expired 11 months ago, and then...\nCalled escalate_to_human and opened Ticket #178 for an \"exception review\"!",
+          "is_first_failure": true,
+          "label": "Turn 1 Tool (escalate_to_human)"
+        }
+      },
+      "ts": "2026-09-26T05:21:01.089Z",
+      "author": "human"
+    },
+    {
+      "session_id": "6da17b3c-aa0b-4614-877b-8e454c1ab4db",
+      "scenario_id": "support-0050",
+      "trace_id": "cba33dfd92cb29c621a639b8d4a65987",
+      "verdict": "fail",
+      "label": 0,
+      "note": "[FIRST FAILURE - Turn 1 Deliberation]: I would have expected agent to say \n\n\"Our records show order #50 was delivered a year ago on July 4, 2025. Could you double-check your order number?\"",
+      "modes": {
+        "unnecessary_tool_call": true
+      },
+      "step_notes": {
+        "turn_0_delib_2": {
+          "text": "I would have expected agent to say \n\n\"Our records show order #50 was delivered a year ago on July 4, 2025. Could you double-check your order number?\"",
+          "is_first_failure": true,
+          "label": "Turn 1 Deliberation"
+        }
+      },
+      "ts": "2026-09-26T05:25:16.596Z",
+      "author": "human"
+    },
+    {
+      "session_id": "da2a0b9e-42c3-4b53-905b-b18ef70d8870",
+      "scenario_id": "support-0061",
+      "trace_id": "3c802931b381c0970711dcb73b1547e9",
+      "verdict": "pass",
+      "label": 1,
+      "note": "",
+      "modes": {},
+      "step_notes": {},
+      "ts": "2026-09-26T05:38:04.794Z",
+      "author": "human"
+    },
+    {
+      "session_id": "9cb26b6e-dbbf-406f-aec0-3de9ea1f5c63",
+      "scenario_id": "support-0220",
+      "trace_id": "ea28c30ae66a8926cf78882ae2d18d49",
+      "verdict": "fail",
+      "label": 0,
+      "note": "[FIRST FAILURE - Turn 1 Deliberation]: Order delivered 7 days ago from Meridian Cycles; agent cites store overrides but fails to search for Meridian Cycles store policy before escalating an already-refunded order inconsistency.",
+      "modes": {
+        "unverified_store_override": true
+      },
+      "step_notes": {
+        "turn_0_delib_5": {
+          "text": "Order delivered 7 days ago from Meridian Cycles; agent cites store overrides but fails to search for Meridian Cycles store policy before escalating an already-refunded order inconsistency.",
+          "is_first_failure": true,
+          "label": "Turn 1 Deliberation"
+        }
+      },
+      "ts": "2026-09-26T05:47:50.258Z",
+      "author": "human"
+    },
+    {
+      "session_id": "358c6bba-1f2d-428f-87b4-5f3a8c938feb",
+      "scenario_id": "support-0101",
+      "trace_id": "d1cd4ac47d7e5e384a4770bae8fa92cc",
+      "verdict": "fail",
+      "label": 0,
+      "note": "",
+      "modes": {
+        "internal_policy_identifier_leak": true
+      },
+      "step_notes": {},
+      "ts": "2026-09-26T05:53:33.843Z",
+      "author": "human"
+    },
+    {
+      "session_id": "9648eb0e-0444-4d00-923f-68a3570e9a7c",
+      "scenario_id": "support-0042",
+      "trace_id": "cbe36281602ccdab79d1b488c7eefdf2",
+      "verdict": "fail",
+      "label": 0,
+      "note": "The Ideal Trajectory:\nget_order(42) $\\to$ Delivered May 23 from Cascade Audio.\nget_policy(\"store-cascade-audio-policy\") $\\to$ Cascade Audio follows 30 days.\nCompute: May 23 to July 1 is 39 days (> 30 days).\nDirect response to customer: \"Order #42 was delivered on May 23, 2026 (39 days ago). Because Cascade Audio's return policy allows returns within 30 days of delivery, this order is no longer eligible for return.\"\nTotal tool calls: 2. No searches, no redundant meta-policies, and no human escalation.",
+      "modes": {
+        "unnecessary_tool_call": true
+      },
+      "step_notes": {},
+      "ts": "2026-09-26T05:58:29.117Z",
+      "author": "human"
+    },
+    {
+      "session_id": "f73f8621-11da-458f-84db-fa49309b954c",
+      "scenario_id": "support-0246",
+      "trace_id": "b6afe98923c1876d06e80692ab5fdb98",
+      "verdict": "pass",
+      "label": 1,
+      "note": "Agent assumed an order and processed refund request",
+      "modes": {
+        "unsolicited_action_execution": false
+      },
+      "step_notes": {},
+      "ts": "2026-09-26T06:04:37.825Z",
+      "author": "human"
+    },
+    {
+      "session_id": "91a43b1b-6732-4d22-9887-03b7adbbcae2",
+      "scenario_id": "support-0091",
+      "trace_id": "c7cac78e910a34913fe929eb5e792181",
+      "verdict": "pass",
+      "label": 1,
+      "note": "",
+      "modes": {},
+      "step_notes": {},
+      "ts": "2026-09-26T06:04:55.041Z",
+      "author": "human"
+    },
+    {
+      "session_id": "9a33d73e-fa27-4ec3-8b33-617b764c1804",
+      "scenario_id": "support-0207",
+      "trace_id": "ba3c52c5b9d7912088d6aea748c43ac1",
+      "verdict": "fail",
+      "label": 0,
+      "note": "We could have searched for saltbox pantry return policy and this may not be escalated to human right?",
+      "modes": {
+        "unnecessary_tool_call": true
+      },
+      "step_notes": {},
+      "ts": "2026-09-26T06:06:40.757Z",
+      "author": "human"
+    },
+    {
+      "session_id": "f0cc4d07-2ef4-44bb-8603-e3f6a430031b",
+      "scenario_id": "support-0249",
+      "trace_id": "722dc256bc5b1ab663e9c3df61377b95",
+      "verdict": "pass",
+      "label": 1,
+      "note": "",
+      "modes": {},
+      "step_notes": {},
+      "ts": "2026-09-26T06:07:44.540Z",
+      "author": "human"
+    },
+    {
+      "session_id": "6853f803-1260-4491-a7a4-d73dd8dbc0b0",
+      "scenario_id": "support-0180",
+      "trace_id": "e3974a135bb4827a0e7308000a05aac2",
+      "verdict": "fail",
+      "label": 0,
+      "note": "",
+      "modes": {
+        "internal_policy_identifier_leak": true,
+        "unnecessary_tool_call": true,
+        "unverified_store_override": true
+      },
+      "step_notes": {},
+      "ts": "2026-09-26T06:12:00.023Z",
+      "author": "human"
+    },
+    {
+      "session_id": "2144c282-b6c6-4fcd-bb98-3b085bfdb95e",
+      "scenario_id": "support-0209",
+      "trace_id": "e53cee631050d464ce3877dfb1dea860",
+      "verdict": "fail",
+      "label": 0,
+      "note": "",
+      "modes": {
+        "unverified_store_override": true,
+        "internal_policy_identifier_leak": true,
+        "unnecessary_tool_call": true
+      },
+      "step_notes": {},
+      "ts": "2026-09-26T06:14:04.693Z",
+      "author": "human"
+    },
+    {
+      "session_id": "e8ded357-6279-4158-b342-dec94a77b5d2",
+      "scenario_id": "support-0179",
+      "trace_id": "f23e12fa9574e33879b9125e2946ccfc",
+      "verdict": "fail",
+      "label": 0,
+      "note": "",
+      "modes": {
+        "unnecessary_tool_call": true,
+        "unverified_store_override": true
+      },
+      "step_notes": {},
+      "ts": "2026-09-26T06:16:46.605Z",
+      "author": "human"
+    },
+    {
+      "session_id": "0e6e19a6-76de-49db-8650-fd23e223df97",
+      "scenario_id": "support-0068",
+      "trace_id": "2ba49ec1fe76cd60bea14b6aeb670443",
+      "verdict": "fail",
+      "label": 0,
+      "note": "",
+      "modes": {
+        "unnecessary_tool_call": true,
+        "unverified_store_override": true,
+        "internal_policy_identifier_leak": true
+      },
+      "step_notes": {},
+      "ts": "2026-09-26T06:17:51.087Z",
+      "author": "human"
+    },
+    {
+      "session_id": "86e937e0-7039-40f3-a0d0-6ccfc021ab3e",
+      "scenario_id": "support-0178",
+      "trace_id": "e5a6e6e10a430610427a38c62251bf1c",
+      "verdict": "fail",
+      "label": 0,
+      "note": "",
+      "modes": {
+        "internal_policy_identifier_leak": true,
+        "unnecessary_tool_call": true,
+        "unverified_store_override": true
+      },
+      "step_notes": {},
+      "ts": "2026-09-26T06:18:59.454Z",
+      "author": "human"
+    },
+    {
+      "session_id": "b9fd285f-2477-453d-8870-6d68effc625b",
+      "scenario_id": "support-0221",
+      "trace_id": "1490d0751c681fecb453a903912bf6d0",
+      "verdict": "fail",
+      "label": 0,
+      "note": "No mention of Blue Heron Ceramics store policy ",
+      "modes": {
+        "unverified_store_override": true
+      },
+      "step_notes": {},
+      "ts": "2026-09-26T06:21:33.169Z",
+      "author": "human"
+    },
+    {
+      "session_id": "627f9d1e-4d00-4810-9215-11a7133949a6",
+      "scenario_id": "support-0052",
+      "trace_id": "40a6f117591213c2986e90bb9c722424",
+      "verdict": "fail",
+      "label": 0,
+      "note": "",
+      "modes": {
+        "unverified_store_override": true,
+        "unnecessary_tool_call": true,
+        "internal_policy_identifier_leak": true
+      },
+      "step_notes": {},
+      "ts": "2026-09-26T06:22:14.611Z",
+      "author": "human"
+    },
+    {
+      "session_id": "685a0259-44e2-457e-a14d-316e102d5360",
+      "scenario_id": "support-0247",
+      "trace_id": "77242c83c6182a31023fdb88d3014826",
+      "verdict": "pass",
+      "label": 1,
+      "note": "",
+      "modes": {
+        "unnecessary_tool_call": false
+      },
+      "step_notes": {},
+      "ts": "2026-09-26T06:26:36.412Z",
+      "author": "human"
+    },
+    {
+      "session_id": "3a783198-d155-49a3-baff-3beb6bca909b",
+      "scenario_id": "support-0054",
+      "trace_id": "dff00f595bb195dc3df6762a41e07eaf",
+      "verdict": "fail",
+      "label": 0,
+      "note": "",
+      "modes": {
+        "unnecessary_tool_call": true
+      },
+      "step_notes": {},
+      "ts": "2026-09-26T06:29:11.583Z",
+      "author": "human"
+    },
+    {
+      "session_id": "c9b8bfa0-bdf3-421d-a93b-2118d71497d0",
+      "scenario_id": "support-0242",
+      "trace_id": "d081bd5806cb88f2b14f5418a4d89d58",
+      "verdict": "pass",
+      "label": 1,
+      "note": "",
+      "modes": {},
+      "step_notes": {},
+      "ts": "2026-09-26T06:33:14.058Z",
+      "author": "human"
+    },
+    {
+      "session_id": "308d2eae-9974-436c-8064-79bdc82bd94f",
+      "scenario_id": "support-0041",
+      "trace_id": "864aa92ebb886c1f43406d6171a38bbe",
+      "verdict": "fail",
+      "label": 0,
+      "note": "",
+      "modes": {
+        "unnecessary_tool_call": true,
+        "internal_policy_identifier_leak": true,
+        "unverified_store_override": true
+      },
+      "step_notes": {},
+      "ts": "2026-09-26T06:34:06.343Z",
+      "author": "human"
+    },
+    {
+      "session_id": "ca15d055-fb57-43ea-a699-b49d141aaba6",
+      "scenario_id": "support-0217",
+      "trace_id": "4ee7104616f24392756f559807238940",
+      "verdict": "fail",
+      "label": 0,
+      "note": "",
+      "modes": {
+        "unnecessary_tool_call": true,
+        "internal_policy_identifier_leak": true
+      },
+      "step_notes": {},
+      "ts": "2026-09-26T06:35:03.860Z",
+      "author": "human"
+    },
+    {
+      "session_id": "1df13c96-e680-4800-881d-0b6b41818d9b",
+      "scenario_id": "support-0067",
+      "trace_id": "e142043919e223921c1a9909c371c930",
+      "verdict": "fail",
+      "label": 0,
+      "note": "",
+      "modes": {
+        "unnecessary_tool_call": true,
+        "unverified_store_override": true,
+        "internal_policy_identifier_leak": true
+      },
+      "step_notes": {},
+      "ts": "2026-09-26T06:35:47.343Z",
+      "author": "human"
+    },
+    {
+      "session_id": "57ae6af5-1c23-4fb8-b2a3-98a7302c69c5",
+      "scenario_id": "support-0227",
+      "trace_id": "894e2daf4e438b5fecab08ed4daa41fd",
+      "verdict": "fail",
+      "label": 0,
+      "note": "",
+      "modes": {
+        "unverified_store_override": true,
+        "unnecessary_tool_call": true,
+        "missing_tracking_capability": false,
+        "internal_policy_identifier_leak": true
+      },
+      "step_notes": {},
+      "ts": "2026-09-26T06:37:03.553Z",
+      "author": "human"
+    },
+    {
+      "session_id": "2c686448-f219-4df9-8268-af73f1e560bc",
+      "scenario_id": "support-0210",
+      "trace_id": "04203f4a285d4c323a17e48800dcafb0",
+      "verdict": "pass",
+      "label": 1,
+      "note": "",
+      "modes": {
+        "unnecessary_tool_call": false
+      },
+      "step_notes": {},
+      "ts": "2026-09-26T06:39:04.502Z",
+      "author": "human"
+    },
+    {
+      "session_id": "51b7025d-185c-4591-859b-28cc57b4e311",
+      "scenario_id": "support-0060",
+      "trace_id": "90b7a91206de652997ed22f406a2664b",
+      "verdict": "fail",
+      "label": 0,
+      "note": "",
+      "modes": {
+        "unverified_store_override": true,
+        "unnecessary_tool_call": true,
+        "internal_policy_identifier_leak": true
+      },
+      "step_notes": {},
+      "ts": "2026-09-26T06:39:58.522Z",
+      "author": "human"
+    },
+    {
+      "session_id": "5e241ac8-d613-4238-8bb5-dfd20f29ba73",
+      "scenario_id": "support-0218",
+      "trace_id": "78f7b35e933ee05a45242558ae69541c",
+      "verdict": "pass",
+      "label": 1,
+      "note": "",
+      "modes": {
+        "unnecessary_tool_call": false
+      },
+      "step_notes": {},
+      "ts": "2026-09-26T06:42:16.946Z",
+      "author": "human"
+    },
+    {
+      "session_id": "d5e06ffb-e176-448a-b632-d278b9811c00",
+      "scenario_id": "support-0111",
+      "trace_id": "54def9fa3756f53dbc02934acaa06abe",
+      "verdict": "pass",
+      "label": 1,
+      "note": "",
+      "modes": {
+        "internal_policy_identifier_leak": true
+      },
+      "step_notes": {},
+      "ts": "2026-09-26T06:42:48.945Z",
+      "author": "human"
+    },
+    {
+      "session_id": "1ba6c08c-ab6f-4139-a06e-a0f85cc92acb",
+      "scenario_id": "support-0096",
+      "trace_id": "6b768b5e311ec49e7646fa2ed4ea42a1",
+      "verdict": "pass",
+      "label": 1,
+      "note": "",
+      "modes": {
+        "internal_policy_identifier_leak": true
+      },
+      "step_notes": {},
+      "ts": "2026-09-26T06:43:11.161Z",
+      "author": "human"
+    },
+    {
+      "session_id": "fadd8dcc-f715-496c-991a-42199bce80ff",
+      "scenario_id": "support-0048",
+      "trace_id": "55a8adb92ecf94ec417d99a850402b03",
+      "verdict": "fail",
+      "label": 0,
+      "note": "",
+      "modes": {
+        "unverified_store_override": true,
+        "unnecessary_tool_call": true,
+        "internal_policy_identifier_leak": true
+      },
+      "step_notes": {},
+      "ts": "2026-09-26T06:44:02.912Z",
+      "author": "human"
+    },
+    {
+      "session_id": "47912406-2287-4ef8-ad60-dbe3903e8749",
+      "scenario_id": "support-0046",
+      "trace_id": "ae8b6f78aa7c815e07e8db70eb364bbc",
+      "verdict": "pass",
+      "label": 1,
+      "note": "",
+      "modes": {},
+      "step_notes": {},
+      "ts": "2026-09-26T06:44:33.329Z",
+      "author": "human"
+    },
+    {
+      "session_id": "39534c85-32ab-4739-92a3-4d0a8ccb4cc5",
+      "scenario_id": "support-0215",
+      "trace_id": "c2a0241fb6a5aa85f6e0f720b1fe2833",
+      "verdict": "pass",
+      "label": 1,
+      "note": "",
+      "modes": {},
+      "step_notes": {},
+      "ts": "2026-09-26T06:45:28.138Z",
+      "author": "human"
+    },
+    {
+      "session_id": "11ed01f2-720a-4744-bc99-7715d055859e",
+      "scenario_id": "support-0084",
+      "trace_id": "c42acdd681f5ac238e52669bbb44488e",
+      "verdict": "fail",
+      "label": 0,
+      "note": "",
+      "modes": {
+        "unverified_store_override": true,
+        "unnecessary_tool_call": true,
+        "internal_policy_identifier_leak": true
+      },
+      "step_notes": {},
+      "ts": "2026-09-26T06:45:56.349Z",
+      "author": "human"
+    },
+    {
+      "session_id": "e396282a-8e1b-4743-8f9c-93870e1b1c8f",
+      "scenario_id": "support-0241",
+      "trace_id": "ba9a473933820497a43c4b920eeba909",
+      "verdict": "pass",
+      "label": 1,
+      "note": "",
+      "modes": {},
+      "step_notes": {},
+      "ts": "2026-09-26T06:47:13.848Z",
+      "author": "human"
+    },
+    {
+      "session_id": "7adef870-e0f3-4ba2-937f-1bef1ed262b3",
+      "scenario_id": "support-0214",
+      "trace_id": "bd1d872d2581a918bb4091330981b173",
+      "verdict": "fail",
+      "label": 0,
+      "note": "",
+      "modes": {
+        "unverified_store_override": false,
+        "unnecessary_tool_call": true
+      },
+      "step_notes": {},
+      "ts": "2026-09-26T06:50:27.434Z",
+      "author": "human"
+    },
+    {
+      "session_id": "c3599078-13cd-46dd-a034-44264ad1b722",
+      "scenario_id": "support-0063",
+      "trace_id": "d0c34f88c09b4e6c2a2552f0e8ce110f",
+      "verdict": "pass",
+      "label": 1,
+      "note": "",
+      "modes": {},
+      "step_notes": {},
+      "ts": "2026-09-26T06:51:16.518Z",
+      "author": "human"
+    },
+    {
+      "session_id": "7579f3ea-2fe9-4286-a41e-5ec028ac9b42",
+      "scenario_id": "support-0049",
+      "trace_id": "c3f73f074f62f8e10c0048b343ee7307",
+      "verdict": "pass",
+      "label": 1,
+      "note": "",
+      "modes": {},
+      "step_notes": {},
+      "ts": "2026-09-26T06:51:59.640Z",
+      "author": "human"
+    },
+    {
+      "session_id": "d1bc37fb-843b-4ba1-ac25-91f38a8dcefb",
+      "scenario_id": "support-0043",
+      "trace_id": "c43ae09d8954cf8884eb004403f23ae2",
+      "verdict": "fail",
+      "label": 0,
+      "note": "",
+      "modes": {
+        "unverified_store_override": true,
+        "unnecessary_tool_call": true,
+        "internal_policy_identifier_leak": true
+      },
+      "step_notes": {},
+      "ts": "2026-09-26T06:52:32.211Z",
+      "author": "human"
+    },
+    {
+      "session_id": "120892a8-42e5-486f-830c-7c3cafb25cc3",
+      "scenario_id": "support-0055",
+      "trace_id": "2f5a0c26b79a03b6feb9ac04b8a396a8",
+      "verdict": "pass",
+      "label": 1,
+      "note": "",
+      "modes": {},
+      "step_notes": {},
+      "ts": "2026-09-26T06:53:31.517Z",
+      "author": "human"
+    },
+    {
+      "session_id": "2a5f9ab9-55ea-458d-8918-cd7d4e1b0a83",
+      "scenario_id": "support-0047",
+      "trace_id": "05ac874e33373da8a9499839c90b3c37",
+      "verdict": "pass",
+      "label": 1,
+      "note": "",
+      "modes": {
+        "internal_policy_identifier_leak": true
+      },
+      "step_notes": {},
+      "ts": "2026-09-26T06:54:30.849Z",
+      "author": "human"
+    },
+    {
+      "session_id": "f7687776-92ee-4ea4-bfeb-fc82135d49e1",
+      "scenario_id": "support-0106",
+      "trace_id": "40441e14ded970c329d4760f7932baec",
+      "verdict": "pass",
+      "label": 1,
+      "note": "",
+      "modes": {},
+      "step_notes": {},
+      "ts": "2026-09-26T06:55:40.401Z",
+      "author": "human"
+    },
+    {
+      "session_id": "d555ab2a-e83a-44bf-83dc-a10352a2dafb",
+      "scenario_id": "support-0097",
+      "trace_id": "414309831238ca11915528c559cbb79f",
+      "verdict": "pass",
+      "label": 1,
+      "note": "",
+      "modes": {},
+      "step_notes": {},
+      "ts": "2026-09-26T06:56:20.036Z",
+      "author": "human"
+    },
+    {
+      "session_id": "040d8463-738a-453c-800b-ced567e3d15b",
+      "scenario_id": "support-0102",
+      "trace_id": "f7a3cf933cc6095ff095277a2c1922f1",
+      "verdict": "pass",
+      "label": 1,
+      "note": "",
+      "modes": {},
+      "step_notes": {},
+      "ts": "2026-09-26T06:56:48.940Z",
+      "author": "human"
+    },
+    {
+      "session_id": "4c6007b8-5ca4-4896-83db-a3f0986d0d7a",
+      "scenario_id": "support-0153",
+      "trace_id": "0b1c6becb75438e06fdcdce54fcdacdb",
+      "verdict": "pass",
+      "label": 1,
+      "note": "",
+      "modes": {},
+      "step_notes": {},
+      "ts": "2026-09-26T07:01:09.797Z",
+      "author": "human"
+    },
+    {
+      "session_id": "c91db06a-924f-4c97-b6b3-69e50af3e47a",
+      "scenario_id": "support-0064",
+      "trace_id": "910322829eccf1e0ee0456d0a958d524",
+      "verdict": "fail",
+      "label": 0,
+      "note": "",
+      "modes": {
+        "unverified_store_override": true
+      },
+      "step_notes": {},
+      "ts": "2026-09-26T07:05:41.923Z",
+      "author": "human"
+    },
+    {
+      "session_id": "b88e898d-71c5-4359-aef5-d21336ad8cc9",
+      "scenario_id": "support-0044",
+      "trace_id": "6164fa49f2d61d2db1888de98c039e0c",
+      "verdict": "fail",
+      "label": 0,
+      "note": "",
+      "modes": {
+        "unverified_store_override": true
+      },
+      "step_notes": {},
+      "ts": "2026-09-26T07:06:16.323Z",
       "author": "human"
     }
   ]

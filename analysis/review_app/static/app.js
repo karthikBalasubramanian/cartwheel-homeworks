@@ -12,7 +12,9 @@ const AppState = {
     step_notes: {},
   },
   progress: null,
-  filter: "batch1",
+  filter: "candidates_unverified_store_override",
+  activeCandidates: {},
+  candidateStats: null,
 };
 
 // Initialize App
@@ -20,6 +22,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   setupEventListeners();
   await loadTaxonomy();
   await loadSessions();
+
+  if (AppState.filter.startsWith("candidates_")) {
+    await loadActiveCandidates(AppState.filter.replace("candidates_", ""));
+    renderSidebarList();
+  }
 
   // Check URL query parameters
   const urlParams = new URLSearchParams(window.location.search);
@@ -54,8 +61,15 @@ function setupEventListeners() {
 
   const filterSelect = document.getElementById("filter-select");
   if (filterSelect) {
-    filterSelect.addEventListener("change", (e) => {
+    filterSelect.addEventListener("change", async (e) => {
       AppState.filter = e.target.value;
+      document.querySelectorAll(".quick-pill-btn").forEach(btn => {
+        btn.classList.toggle("active", btn.dataset.filter === e.target.value);
+      });
+      if (AppState.filter.startsWith("candidates_")) {
+        const mode = AppState.filter.replace("candidates_", "");
+        await loadActiveCandidates(mode);
+      }
       renderSidebarList();
       const filtered = getFilteredSessions();
       if (filtered.length > 0) {
@@ -66,6 +80,24 @@ function setupEventListeners() {
       }
     });
   }
+
+  window.setQuickFilter = async function(filterKey) {
+    AppState.filter = filterKey;
+    const select = document.getElementById("filter-select");
+    if (select) select.value = filterKey;
+    document.querySelectorAll(".quick-pill-btn").forEach(btn => {
+      btn.classList.toggle("active", btn.dataset.filter === filterKey);
+    });
+    if (filterKey.startsWith("candidates_")) {
+      const mode = filterKey.replace("candidates_", "");
+      await loadActiveCandidates(mode);
+    }
+    renderSidebarList();
+    const filtered = getFilteredSessions();
+    if (filtered.length > 0) {
+      loadBySessionId(filtered[0].session_id);
+    }
+  };
 
   document.getElementById("btn-prev").addEventListener("click", () => navigate(-1));
   document.getElementById("btn-next").addEventListener("click", () => navigate(1));
@@ -121,6 +153,19 @@ async function loadSessions() {
     await updateProgress();
   } catch (err) {
     console.error("Failed to load sessions:", err);
+  }
+}
+
+async function loadActiveCandidates(mode) {
+  try {
+    const res = await fetch(`/api/candidates?mode=${encodeURIComponent(mode)}&k=40`);
+    if (res.ok) {
+      const data = await res.json();
+      AppState.activeCandidates[mode] = data.candidates || [];
+      AppState.candidateStats = data.stats;
+    }
+  } catch (err) {
+    console.error("Failed to load candidates:", err);
   }
 }
 
@@ -530,11 +575,129 @@ function renderAnnotationPanel() {
   // Notes textarea
   document.getElementById("notes-input").value = ann.note || "";
 
+  // Judge evaluation box
+  renderJudgeEvaluation();
+
   // Taxonomy checkboxes
   renderTaxonomySection();
 }
 
+function renderJudgeEvaluation() {
+  const gptCard = document.getElementById("gpt-judge-card");
+  const jevCard = document.getElementById("jev-judge-card");
+  const splitBadge = document.getElementById("judge-split-badge");
+  const modeTargetEl = document.getElementById("judge-mode-target");
+
+  const jeval = AppState.currentSession && AppState.currentSession.judge_evaluation;
+  const jevEval = AppState.currentSession && AppState.currentSession.jev_evaluation;
+  const split = (AppState.currentSession && AppState.currentSession.split) || (jeval && jeval.split) || (jevEval && jevEval.split) || "DEV";
+
+  if (modeTargetEl) {
+    modeTargetEl.textContent = (jeval && jeval.mode) || "unverified_store_override";
+  }
+
+  if (splitBadge) {
+    splitBadge.textContent = split.toUpperCase();
+    splitBadge.style.background = split === "dev" ? "#3b82f6" : split === "test" ? "#a855f7" : "#10b981";
+  }
+
+  // 1. Render GPT-4o-mini Card
+  if (gptCard) {
+    const matchTag = document.getElementById("gpt-match-tag");
+    const verdictPill = document.getElementById("gpt-verdict-pill");
+    const critiqueEl = document.getElementById("gpt-critique-text");
+
+    if (jeval && jeval.judge_verdict) {
+      gptCard.style.display = "flex";
+      if (verdictPill) {
+        verdictPill.textContent = `Verdict: ${jeval.judge_verdict}`;
+        verdictPill.className = `judge-verdict-tag ${jeval.judge_verdict === "Pass" ? "verdict-pass" : "verdict-fail"}`;
+      }
+      if (matchTag) {
+        if (jeval.is_disagreement) {
+          matchTag.textContent = "⚠️ Disagree with Human";
+          matchTag.className = "judge-verdict-tag verdict-disagree";
+        } else {
+          matchTag.textContent = "✓ Match with Human";
+          matchTag.className = "judge-verdict-tag verdict-match";
+        }
+      }
+      if (critiqueEl) {
+        critiqueEl.textContent = jeval.critique || "No critique available.";
+      }
+    } else {
+      if (verdictPill) {
+        verdictPill.textContent = "Verdict: Not Evaluated";
+        verdictPill.className = "judge-verdict-tag";
+      }
+      if (matchTag) {
+        matchTag.textContent = "Not Run";
+        matchTag.className = "judge-verdict-tag";
+      }
+      if (critiqueEl) {
+        critiqueEl.textContent = "No GPT-4o evaluation on this trace.";
+      }
+    }
+  }
+
+  // 2. Render Jev Judge Card
+  if (jevCard) {
+    const matchTag = document.getElementById("jev-match-tag");
+    const verdictPill = document.getElementById("jev-verdict-pill");
+    const probVal = document.getElementById("jev-prob-val");
+    const probFill = document.getElementById("jev-prob-fill");
+    const confVal = document.getElementById("jev-confidence-val");
+    const latVal = document.getElementById("jev-latency-val");
+
+    if (jevEval && jevEval.jev_verdict) {
+      jevCard.style.display = "flex";
+      if (verdictPill) {
+        verdictPill.textContent = `Verdict: ${jevEval.jev_verdict}`;
+        verdictPill.className = `judge-verdict-tag ${jevEval.jev_verdict === "Pass" ? "verdict-pass" : "verdict-fail"}`;
+      }
+      if (matchTag) {
+        if (jevEval.is_disagreement) {
+          matchTag.textContent = "⚠️ Disagree with Human";
+          matchTag.className = "judge-verdict-tag verdict-disagree";
+        } else {
+          matchTag.textContent = "✓ Match with Human";
+          matchTag.className = "judge-verdict-tag verdict-match";
+        }
+      }
+
+      const prob = jevEval.defect_probability != null ? jevEval.defect_probability : 0.5;
+      const pct = Math.round(prob * 100);
+      if (probVal) {
+        probVal.textContent = `${pct}%`;
+        probVal.style.color = prob >= 0.5 ? "#f87171" : "#34d399";
+      }
+      if (probFill) {
+        probFill.style.width = `${Math.min(100, Math.max(0, pct))}%`;
+        probFill.style.background = prob >= 0.5 ? "linear-gradient(90deg, #f59e0b, #ef4444)" : "linear-gradient(90deg, #3b82f6, #10b981)";
+      }
+      if (confVal) {
+        confVal.textContent = `${Math.round((jevEval.confidence || (1 - prob)) * 100)}%`;
+      }
+      if (latVal) {
+        latVal.textContent = `~${Math.round(jevEval.latency_ms || 180)}ms`;
+      }
+    } else {
+      if (verdictPill) {
+        verdictPill.textContent = "Verdict: Not Evaluated";
+        verdictPill.className = "judge-verdict-tag";
+      }
+      if (matchTag) {
+        matchTag.textContent = "Not Run";
+        matchTag.className = "judge-verdict-tag";
+      }
+      if (probVal) probVal.textContent = "N/A";
+      if (probFill) probFill.style.width = "0%";
+    }
+  }
+}
+
 function renderTaxonomySection() {
+
   const container = document.getElementById("taxonomy-checkboxes");
   if (!container) return;
   container.innerHTML = "";
@@ -633,6 +796,10 @@ async function saveAndAdvance() {
         sItem.verdict = ann.verdict;
         renderSidebarList();
       }
+      if (AppState.filter.startsWith("candidates_")) {
+        const mode = AppState.filter.replace("candidates_", "");
+        await loadActiveCandidates(mode);
+      }
       await updateProgress();
       // Advance to next
       navigate(1);
@@ -644,7 +811,32 @@ async function saveAndAdvance() {
 
 function getFilteredSessions() {
   const f = AppState.filter;
+  if (f.startsWith("candidates_")) {
+    const mode = f.replace("candidates_", "");
+    const candList = AppState.activeCandidates[mode] || [];
+    const sessionMap = new Map(AppState.sessions.map((s) => [s.session_id, s]));
+    const result = [];
+    for (const c of candList) {
+      const s = sessionMap.get(c.session_id);
+      if (s) {
+        s.candidate_signal = c.signal;
+        result.push(s);
+      }
+    }
+    return result;
+  }
   return AppState.sessions.filter((s) => {
+    if (f === "gpt_disagreements") return !!s.is_disagreement;
+    if (f === "gpt_dev_disagreements") return !!s.is_disagreement && s.split === "dev";
+    if (f === "gpt_test_disagreements") return !!s.is_disagreement && s.split === "test";
+    if (f === "jev_disagreements") return !!s.jev_disagreement;
+    if (f === "jev_dev_disagreements") return !!s.jev_disagreement && s.split === "dev";
+    if (f === "jev_test_disagreements") return !!s.jev_disagreement && s.split === "test";
+    if (f === "inter_judge_disagreements") return s.judge_verdict && s.jev_verdict && s.judge_verdict !== s.jev_verdict;
+    if (f === "dev_disagreements") return !!s.is_disagreement && s.split === "dev";
+    if (f === "dev_split") return s.split === "dev";
+    if (f === "train_split") return s.split === "train";
+    if (f === "test_split") return s.split === "test";
     if (f === "batch1") return !!s.batch1;
     if (f === "batch2") return !!s.batch2;
     if (f === "batch3") return !!s.batch3;
@@ -672,8 +864,44 @@ function renderSidebarList() {
 
   const filtered = getFilteredSessions();
   const countEl = document.getElementById("filtered-count");
+  const statsEl = document.getElementById("active-learning-stats");
+  if (statsEl) {
+    if (AppState.filter.startsWith("candidates_") && AppState.candidateStats) {
+      const st = AppState.candidateStats;
+      statsEl.style.display = "block";
+      statsEl.innerHTML = `<strong>🎯 ${escapeHtml(st.mode)}:</strong> <span style="color:#f87171; font-weight:700;">${st.fails} Fails</span> / ${st.target_fails} goal &nbsp;|&nbsp; <span style="color:#34d399; font-weight:700;">${st.passes} Passes</span> / ${st.target_passes} goal`;
+    } else {
+      statsEl.style.display = "none";
+    }
+  }
+
   if (countEl) {
-    if (AppState.filter === "batch1") {
+    if (AppState.filter === "gpt_disagreements") {
+      countEl.textContent = `GPT Disagree: ${filtered.length} traces`;
+    } else if (AppState.filter === "gpt_dev_disagreements") {
+      countEl.textContent = `GPT Dev Disagree: ${filtered.length} traces`;
+    } else if (AppState.filter === "gpt_test_disagreements") {
+      countEl.textContent = `GPT Test Disagree: ${filtered.length} traces`;
+    } else if (AppState.filter === "jev_disagreements") {
+      countEl.textContent = `Jev Disagree: ${filtered.length} traces`;
+    } else if (AppState.filter === "jev_dev_disagreements") {
+      countEl.textContent = `Jev Dev Disagree: ${filtered.length} traces`;
+    } else if (AppState.filter === "jev_test_disagreements") {
+      countEl.textContent = `Jev Test Disagree: ${filtered.length} traces`;
+    } else if (AppState.filter === "inter_judge_disagreements") {
+      countEl.textContent = `GPT vs Jev: ${filtered.length} traces`;
+    } else if (AppState.filter === "dev_disagreements") {
+      countEl.textContent = `Disagreements: ${filtered.length} traces`;
+    } else if (AppState.filter === "dev_split") {
+      countEl.textContent = `Dev Split: ${filtered.length} traces`;
+    } else if (AppState.filter === "train_split") {
+      countEl.textContent = `Train Split: ${filtered.length} traces`;
+    } else if (AppState.filter === "test_split") {
+      countEl.textContent = `Test Split: ${filtered.length} traces`;
+    } else if (AppState.filter.startsWith("candidates_")) {
+      const revCount = filtered.filter((s) => s.is_reviewed).length;
+      countEl.textContent = `Candidates: ${revCount} / ${filtered.length}`;
+    } else if (AppState.filter === "batch1") {
       const reviewedCount = filtered.filter((s) => s.is_reviewed).length;
       countEl.textContent = `Batch 1: ${reviewedCount} / ${filtered.length} (${filtered.length} total)`;
     } else if (AppState.filter === "batch2") {
@@ -706,8 +934,31 @@ function renderSidebarList() {
     else if (s.verdict === "fail") verdictDot = '<span class="dot-status dot-fail" title="Fail"></span>';
     else if (s.verdict === "defer") verdictDot = '<span class="dot-status dot-defer" title="Deferred"></span>';
 
+    let judgeBadge = "";
+    const gptDis = !!s.is_disagreement;
+    const jevDis = !!s.jev_disagreement;
+    const modelsDis = s.judge_verdict && s.jev_verdict && (s.judge_verdict !== s.jev_verdict);
+
+    if (gptDis || jevDis) {
+      const label = gptDis && jevDis ? "⚠️ Both Disagree" : gptDis ? "⚠️ GPT Disagree" : "⚠️ Jev Disagree";
+      judgeBadge = `<span style="font-size: 10px; padding: 2px 6px; border-radius: 4px; background: rgba(239, 68, 68, 0.25); color: #f87171; font-weight: 700; border: 1px solid rgba(239, 68, 68, 0.4);" title="Disagrees with human ground truth">${label}</span>`;
+    }
+    if (s.judge_verdict) {
+      const col = s.judge_verdict === "Pass" ? "#34d399" : "#f87171";
+      const jevCol = s.jev_verdict === "Pass" ? "#34d399" : s.jev_verdict === "Fail" ? "#f87171" : "#94a3b8";
+      judgeBadge += ` <span style="font-size: 10px; padding: 1.5px 5px; border-radius: 3px; background: rgba(56, 189, 248, 0.15); color: ${col}; font-weight: 600;" title="GPT-4o: ${s.judge_verdict}">GPT:${s.judge_verdict}</span>`;
+      if (s.jev_verdict) {
+        judgeBadge += ` <span style="font-size: 10px; padding: 1.5px 5px; border-radius: 3px; background: rgba(168, 85, 247, 0.15); color: ${jevCol}; font-weight: 600;" title="Jev: ${s.jev_verdict} (Defect Prob: ${Math.round((s.jev_probability || 0)*100)}%)">Jev:${s.jev_verdict}</span>`;
+      }
+    }
+    if (modelsDis) {
+      judgeBadge += ` <span style="font-size: 9.5px; padding: 1.5px 4px; border-radius: 3px; background: rgba(245, 158, 11, 0.2); color: #fbbf24; font-weight: 700; border: 1px solid rgba(245, 158, 11, 0.4);" title="Models disagree with each other (GPT vs Jev)">⚔️ Model Split</span>`;
+    }
+
     let batchBadge = "";
-    if (s.batch1_reason && AppState.filter === "batch1") {
+    if (AppState.filter.startsWith("candidates_")) {
+      batchBadge = `<span style="font-size: 10px; padding: 2px 6px; border-radius: 4px; background: rgba(245, 158, 11, 0.15); color: #fbbf24; font-weight: 600;" title="${escapeHtml(s.candidate_signal || 'Semantic neighbor')}">[🎯 Candidate]</span>`;
+    } else if (s.batch1_reason && AppState.filter === "batch1") {
       const isCluster = s.batch1_type === "cluster_rep";
       const color = isCluster ? "var(--primary)" : "var(--accent-cyan)";
       batchBadge = `<span style="font-size: 10px; padding: 2px 6px; border-radius: 4px; background: rgba(99, 102, 241, 0.15); color: ${color}; font-weight: 600;">[${escapeHtml(s.batch1_reason)}]</span>`;
@@ -727,6 +978,7 @@ function renderSidebarList() {
       <div class="session-preview">${escapeHtml(s.preview_text || "No preview")}</div>
       <div class="session-status-dots">
         ${verdictDot}
+        ${judgeBadge}
         ${batchBadge}
         ${s.has_permission_denied ? '<span class="dot-status dot-denied" title="Permission Denied"></span>' : ""}
         ${s.has_escalation ? '<span style="font-size: 10px; color: var(--accent-amber); font-weight: 600;">[Escalated]</span>' : ""}
@@ -734,6 +986,7 @@ function renderSidebarList() {
         ${s.total_spans ? `<span style="font-size: 10px; color: #a78bfa; font-weight: 600; background: rgba(167, 139, 250, 0.12); padding: 1px 5px; border-radius: 3px;" title="${s.total_spans} total spans (${s.tool_spans || 0} tool, ${s.gen_spans || 0} gen)">${s.total_spans} spans</span>` : ""}
       </div>
     `;
+
 
     li.addEventListener("click", () => {
       const origIdx = AppState.sessions.findIndex((item) => item.session_id === s.session_id);
