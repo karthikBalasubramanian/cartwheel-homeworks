@@ -1,0 +1,713 @@
+{
+  "source": "/Users/kabalasu/Documents/work/study/ai-evals/cartwheel-homeworks/traces/support_traces.json",
+  "total_reviewed": 100,
+  "batches": {
+    "batch_1_discovery": 30,
+    "batch_2_stratified": 30,
+    "batch_3_targeted": 25,
+    "batch_4_holdout": 15
+  },
+  "generated_at": "2026-09-20T07:26:24.981199+00:00",
+  "picks": [
+    {
+      "trace_id": "13123dfb0cdf25d95f5a65aec1090c2f",
+      "scenario_id": "support-0002",
+      "batch": "batch_1_discovery",
+      "strategy": "cluster_rep_and_uniform",
+      "verdict": "pass"
+    },
+    {
+      "trace_id": "78a97e803af521b441ba2e2ee320aed2",
+      "scenario_id": "support-0004",
+      "batch": "batch_1_discovery",
+      "strategy": "cluster_rep_and_uniform",
+      "verdict": "fail"
+    },
+    {
+      "trace_id": "f1bc56e83fe103b2eeef2a9ff55e71e2",
+      "scenario_id": "support-0006",
+      "batch": "batch_1_discovery",
+      "strategy": "cluster_rep_and_uniform",
+      "verdict": "fail"
+    },
+    {
+      "trace_id": "db64baf2f8a300d9d2df9575e619e074",
+      "scenario_id": "support-0012",
+      "batch": "batch_1_discovery",
+      "strategy": "cluster_rep_and_uniform",
+      "verdict": "fail"
+    },
+    {
+      "trace_id": "08c6649d0761cec702e3d114dfd6e3f0",
+      "scenario_id": "support-0013",
+      "batch": "batch_1_discovery",
+      "strategy": "cluster_rep_and_uniform",
+      "verdict": "fail"
+    },
+    {
+      "trace_id": "c5c6b508a89f8f1e009daa935f584d2f",
+      "scenario_id": "support-0015",
+      "batch": "batch_1_discovery",
+      "strategy": "cluster_rep_and_uniform",
+      "verdict": "fail"
+    },
+    {
+      "trace_id": "a2d989448c9d805ed9b2318a263bb0a7",
+      "scenario_id": "support-0020",
+      "batch": "batch_1_discovery",
+      "strategy": "cluster_rep_and_uniform",
+      "verdict": "fail"
+    },
+    {
+      "trace_id": "9fd3695373514eb1e07e03f01c44fd8d",
+      "scenario_id": "support-0021",
+      "batch": "batch_1_discovery",
+      "strategy": "cluster_rep_and_uniform",
+      "verdict": "fail"
+    },
+    {
+      "trace_id": "7156c0a4a9567cc474a5496369640aaa",
+      "scenario_id": "support-0022",
+      "batch": "batch_1_discovery",
+      "strategy": "cluster_rep_and_uniform",
+      "verdict": "fail"
+    },
+    {
+      "trace_id": "f5d358c08c20a64860d5c0d5cc5d9389",
+      "scenario_id": "support-0051",
+      "batch": "batch_1_discovery",
+      "strategy": "cluster_rep_and_uniform",
+      "verdict": "fail"
+    },
+    {
+      "trace_id": "2656695dc182189292d3d9dbcc5df0a8",
+      "scenario_id": "support-0058",
+      "batch": "batch_1_discovery",
+      "strategy": "cluster_rep_and_uniform",
+      "verdict": "fail"
+    },
+    {
+      "trace_id": "3eff691d6e86b23c8cb760e9d7c63aac",
+      "scenario_id": "support-0059",
+      "batch": "batch_1_discovery",
+      "strategy": "cluster_rep_and_uniform",
+      "verdict": "fail"
+    },
+    {
+      "trace_id": "cf95025a3d5af1ea455c07c81b3340f7",
+      "scenario_id": "support-0094",
+      "batch": "batch_1_discovery",
+      "strategy": "cluster_rep_and_uniform",
+      "verdict": "fail"
+    },
+    {
+      "trace_id": "45f85bd1177995082ccd80bbb3c38b2a",
+      "scenario_id": "support-0108",
+      "batch": "batch_1_discovery",
+      "strategy": "cluster_rep_and_uniform",
+      "verdict": "fail"
+    },
+    {
+      "trace_id": "734481a229f798650b5b597843c6c30d",
+      "scenario_id": "support-0131",
+      "batch": "batch_1_discovery",
+      "strategy": "cluster_rep_and_uniform",
+      "verdict": "pass"
+    },
+    {
+      "trace_id": "acff65896d677ba90255f706f53f9733",
+      "scenario_id": "support-0133",
+      "batch": "batch_1_discovery",
+      "strategy": "cluster_rep_and_uniform",
+      "verdict": "pass"
+    },
+    {
+      "trace_id": "fa7b5dfb9ef02f11805704e73fa43485",
+      "scenario_id": "support-0138",
+      "batch": "batch_1_discovery",
+      "strategy": "cluster_rep_and_uniform",
+      "verdict": "pass"
+    },
+    {
+      "trace_id": "131a5d676680e1eb8a5e730ec3bf7e48",
+      "scenario_id": "support-0139",
+      "batch": "batch_1_discovery",
+      "strategy": "cluster_rep_and_uniform",
+      "verdict": "fail"
+    },
+    {
+      "trace_id": "2f160bd6d263b32ce7b42d04e21be9c2",
+      "scenario_id": "support-0140",
+      "batch": "batch_1_discovery",
+      "strategy": "cluster_rep_and_uniform",
+      "verdict": "fail"
+    },
+    {
+      "trace_id": "b283c6a9d6c3e3403c5206f273cca9a0",
+      "scenario_id": "support-0175",
+      "batch": "batch_1_discovery",
+      "strategy": "cluster_rep_and_uniform",
+      "verdict": "pass"
+    },
+    {
+      "trace_id": "41faaa7ba53dc881fa2dbe3e153316ff",
+      "scenario_id": "support-0176",
+      "batch": "batch_1_discovery",
+      "strategy": "cluster_rep_and_uniform",
+      "verdict": "fail"
+    },
+    {
+      "trace_id": "2ef051cd5f52d5f453b856a4385c13b7",
+      "scenario_id": "support-0182",
+      "batch": "batch_1_discovery",
+      "strategy": "cluster_rep_and_uniform",
+      "verdict": "pass"
+    },
+    {
+      "trace_id": "ec3a54e45c2cd95c92b86f98e24b4fb1",
+      "scenario_id": "support-0197",
+      "batch": "batch_1_discovery",
+      "strategy": "cluster_rep_and_uniform",
+      "verdict": "fail"
+    },
+    {
+      "trace_id": "c5aaa33b0b3b7475969b02d605be00de",
+      "scenario_id": "support-0199",
+      "batch": "batch_1_discovery",
+      "strategy": "cluster_rep_and_uniform",
+      "verdict": null
+    },
+    {
+      "trace_id": "6a165c95ae18160f284c80b8313487d6",
+      "scenario_id": "support-0211",
+      "batch": "batch_1_discovery",
+      "strategy": "cluster_rep_and_uniform",
+      "verdict": "fail"
+    },
+    {
+      "trace_id": "0dbc2107f0fc977fc04730513b945aad",
+      "scenario_id": "support-0222",
+      "batch": "batch_1_discovery",
+      "strategy": "cluster_rep_and_uniform",
+      "verdict": "pass"
+    },
+    {
+      "trace_id": "739daf3d4ede3e20b028c1215721eb56",
+      "scenario_id": "support-0224",
+      "batch": "batch_1_discovery",
+      "strategy": "cluster_rep_and_uniform",
+      "verdict": "pass"
+    },
+    {
+      "trace_id": "a299cdf8d86689d2eac8897b30a0d253",
+      "scenario_id": "support-0231",
+      "batch": "batch_1_discovery",
+      "strategy": "cluster_rep_and_uniform",
+      "verdict": "pass"
+    },
+    {
+      "trace_id": "f3975ff529a6a95c4a9715a4e3e54370",
+      "scenario_id": "support-0236",
+      "batch": "batch_1_discovery",
+      "strategy": "cluster_rep_and_uniform",
+      "verdict": "pass"
+    },
+    {
+      "trace_id": "c3494503389bbb9a6c196e2d334f0c82",
+      "scenario_id": "support-0244",
+      "batch": "batch_1_discovery",
+      "strategy": "cluster_rep_and_uniform",
+      "verdict": "fail"
+    },
+    {
+      "trace_id": "3ab62b6444b66b225004be46726fa728",
+      "scenario_id": "support-0005",
+      "batch": "batch_2_stratified",
+      "strategy": "role_stratification",
+      "verdict": "fail"
+    },
+    {
+      "trace_id": "56a8a380c7b43c25c544679405fd223f",
+      "scenario_id": "support-0190",
+      "batch": "batch_2_stratified",
+      "strategy": "role_stratification",
+      "verdict": "pass"
+    },
+    {
+      "trace_id": "9e7bd78fce79267d4af80e23c3887341",
+      "scenario_id": "support-0174",
+      "batch": "batch_2_stratified",
+      "strategy": "role_stratification",
+      "verdict": "pass"
+    },
+    {
+      "trace_id": "9c4381ed181f4cde39902a81771c9dc9",
+      "scenario_id": "support-0173",
+      "batch": "batch_2_stratified",
+      "strategy": "role_stratification",
+      "verdict": "fail"
+    },
+    {
+      "trace_id": "e6a4aaa07b4714bddbc36dfba14cc8dc",
+      "scenario_id": "support-0172",
+      "batch": "batch_2_stratified",
+      "strategy": "role_stratification",
+      "verdict": "pass"
+    },
+    {
+      "trace_id": "b5db77545e6360732b9b7db6ef657ea3",
+      "scenario_id": "support-0121",
+      "batch": "batch_2_stratified",
+      "strategy": "role_stratification",
+      "verdict": "pass"
+    },
+    {
+      "trace_id": "c3bc9e1c00a9633da8eea58f6391705c",
+      "scenario_id": "support-0119",
+      "batch": "batch_2_stratified",
+      "strategy": "role_stratification",
+      "verdict": "pass"
+    },
+    {
+      "trace_id": "fb6f92ce543e70f54fe2cce8a21c137d",
+      "scenario_id": "support-0098",
+      "batch": "batch_2_stratified",
+      "strategy": "role_stratification",
+      "verdict": "pass"
+    },
+    {
+      "trace_id": "55552ffb5c9815dd2dce932069fe06a8",
+      "scenario_id": "support-0086",
+      "batch": "batch_2_stratified",
+      "strategy": "role_stratification",
+      "verdict": "fail"
+    },
+    {
+      "trace_id": "4612305aa9974eb2c8d51383a54ef2d9",
+      "scenario_id": "support-0056",
+      "batch": "batch_2_stratified",
+      "strategy": "role_stratification",
+      "verdict": "fail"
+    },
+    {
+      "trace_id": "13e5cc2c3a45092264c94310d23a1578",
+      "scenario_id": "support-0053",
+      "batch": "batch_2_stratified",
+      "strategy": "role_stratification",
+      "verdict": "fail"
+    },
+    {
+      "trace_id": "48b5d21ded64722cf64d3776e4e93500",
+      "scenario_id": "support-0144",
+      "batch": "batch_2_stratified",
+      "strategy": "role_stratification",
+      "verdict": "pass"
+    },
+    {
+      "trace_id": "2e5614258b21c007d60ab5b1da2c5c18",
+      "scenario_id": "support-0145",
+      "batch": "batch_2_stratified",
+      "strategy": "role_stratification",
+      "verdict": "pass"
+    },
+    {
+      "trace_id": "c205dcca14012f7ead0d94c9efa7f380",
+      "scenario_id": "support-0148",
+      "batch": "batch_2_stratified",
+      "strategy": "role_stratification",
+      "verdict": "pass"
+    },
+    {
+      "trace_id": "3d94099cb062d9c4dd7f98d01c21c24a",
+      "scenario_id": "support-0149",
+      "batch": "batch_2_stratified",
+      "strategy": "role_stratification",
+      "verdict": "pass"
+    },
+    {
+      "trace_id": "6f834a5d460b2469afcc48f6ccfa9ba0",
+      "scenario_id": "support-0151",
+      "batch": "batch_2_stratified",
+      "strategy": "role_stratification",
+      "verdict": "pass"
+    },
+    {
+      "trace_id": "f6653ae5dc7938d19479fcaa993b3397",
+      "scenario_id": "support-0154",
+      "batch": "batch_2_stratified",
+      "strategy": "role_stratification",
+      "verdict": "pass"
+    },
+    {
+      "trace_id": "76c9e2672ed45e5dd0b3b186166b2e0d",
+      "scenario_id": "support-0155",
+      "batch": "batch_2_stratified",
+      "strategy": "role_stratification",
+      "verdict": "pass"
+    },
+    {
+      "trace_id": "14ca608f3cd6e2bf5370d51f07d6be3f",
+      "scenario_id": "support-0232",
+      "batch": "batch_2_stratified",
+      "strategy": "role_stratification",
+      "verdict": "pass"
+    },
+    {
+      "trace_id": "09ad50abba9f1b7b124d3d2b85986e0d",
+      "scenario_id": "support-0233",
+      "batch": "batch_2_stratified",
+      "strategy": "role_stratification",
+      "verdict": "pass"
+    },
+    {
+      "trace_id": "55bd6a89715d2e73b26a338b71d0dd11",
+      "scenario_id": "support-0158",
+      "batch": "batch_2_stratified",
+      "strategy": "role_stratification",
+      "verdict": "pass"
+    },
+    {
+      "trace_id": "871058e8b5b998dbf5532cef9e6a3389",
+      "scenario_id": "support-0162",
+      "batch": "batch_2_stratified",
+      "strategy": "role_stratification",
+      "verdict": "pass"
+    },
+    {
+      "trace_id": "7a48372789e1a9fd4063f84a9a6e0693",
+      "scenario_id": "support-0164",
+      "batch": "batch_2_stratified",
+      "strategy": "role_stratification",
+      "verdict": "fail"
+    },
+    {
+      "trace_id": "ef3e1ab89ffb218721cd8b3c51f97e0e",
+      "scenario_id": "support-0166",
+      "batch": "batch_2_stratified",
+      "strategy": "role_stratification",
+      "verdict": "pass"
+    },
+    {
+      "trace_id": "3530da707697debe328c6bfa7de5c814",
+      "scenario_id": "support-0167",
+      "batch": "batch_2_stratified",
+      "strategy": "role_stratification",
+      "verdict": "fail"
+    },
+    {
+      "trace_id": "5fbff0bdfe294cc6266eac13c7974114",
+      "scenario_id": "support-0168",
+      "batch": "batch_2_stratified",
+      "strategy": "role_stratification",
+      "verdict": "pass"
+    },
+    {
+      "trace_id": "a41b640b98b5f78d91ee8bb1e5d098e8",
+      "scenario_id": "support-0169",
+      "batch": "batch_2_stratified",
+      "strategy": "role_stratification",
+      "verdict": "pass"
+    },
+    {
+      "trace_id": "9fec9be7a34a658d2870263bc669e4f4",
+      "scenario_id": "support-0235",
+      "batch": "batch_2_stratified",
+      "strategy": "role_stratification",
+      "verdict": "pass"
+    },
+    {
+      "trace_id": "a649e74bf3f30f8d5fff50eecc759916",
+      "scenario_id": "support-0240",
+      "batch": "batch_2_stratified",
+      "strategy": "role_stratification",
+      "verdict": "fail"
+    },
+    {
+      "trace_id": "422ba8bbef264d50e51ff00c29676684",
+      "scenario_id": "support-0171",
+      "batch": "batch_2_stratified",
+      "strategy": "role_stratification",
+      "verdict": "pass"
+    },
+    {
+      "trace_id": "0674722be75835158aab271e4996c122",
+      "scenario_id": "support-0029",
+      "batch": "batch_3_targeted",
+      "strategy": "depth_search_similarity",
+      "verdict": "fail"
+    },
+    {
+      "trace_id": "1212b7d247683d70272affdd6fa0afa2",
+      "scenario_id": "support-0033",
+      "batch": "batch_3_targeted",
+      "strategy": "depth_search_similarity",
+      "verdict": "pass"
+    },
+    {
+      "trace_id": "b0d93701437036b8b5e3b52cc8275983",
+      "scenario_id": "support-0037",
+      "batch": "batch_3_targeted",
+      "strategy": "depth_search_similarity",
+      "verdict": "fail"
+    },
+    {
+      "trace_id": "293dc89397b77ea5b065aafc7e920454",
+      "scenario_id": "support-0038",
+      "batch": "batch_3_targeted",
+      "strategy": "depth_search_similarity",
+      "verdict": "pass"
+    },
+    {
+      "trace_id": "152fc5e96691ff5da3e3061368dddd46",
+      "scenario_id": "support-0074",
+      "batch": "batch_3_targeted",
+      "strategy": "depth_search_similarity",
+      "verdict": "pass"
+    },
+    {
+      "trace_id": "7fd2e5dfbf00948936c842f6c546e427",
+      "scenario_id": "support-0078",
+      "batch": "batch_3_targeted",
+      "strategy": "depth_search_similarity",
+      "verdict": "pass"
+    },
+    {
+      "trace_id": "95867ba6a09dc51540f8e20b2f2a947f",
+      "scenario_id": "support-0136",
+      "batch": "batch_3_targeted",
+      "strategy": "depth_search_similarity",
+      "verdict": "pass"
+    },
+    {
+      "trace_id": "a4b1b8d8df038d5fe1bd5b96c7e7c0b7",
+      "scenario_id": "support-0137",
+      "batch": "batch_3_targeted",
+      "strategy": "depth_search_similarity",
+      "verdict": "pass"
+    },
+    {
+      "trace_id": "cf0cfc72cd96bd202166e4578b57a0d4",
+      "scenario_id": "support-0142",
+      "batch": "batch_3_targeted",
+      "strategy": "depth_search_similarity",
+      "verdict": "pass"
+    },
+    {
+      "trace_id": "4981b3b9d868585be3ce2124de6d9fa0",
+      "scenario_id": "support-0143",
+      "batch": "batch_3_targeted",
+      "strategy": "depth_search_similarity",
+      "verdict": "pass"
+    },
+    {
+      "trace_id": "0703b29c958d3c1173f7b7b3ae38bf80",
+      "scenario_id": "support-0146",
+      "batch": "batch_3_targeted",
+      "strategy": "depth_search_similarity",
+      "verdict": "pass"
+    },
+    {
+      "trace_id": "40c7abdd1634e7c48544d4651a987bcd",
+      "scenario_id": "support-0147",
+      "batch": "batch_3_targeted",
+      "strategy": "depth_search_similarity",
+      "verdict": "pass"
+    },
+    {
+      "trace_id": "2792e421608b456fa2b2534d07676abb",
+      "scenario_id": "support-0152",
+      "batch": "batch_3_targeted",
+      "strategy": "depth_search_similarity",
+      "verdict": "pass"
+    },
+    {
+      "trace_id": "258bf1e4e9ef777cffaf5d30ff6838b9",
+      "scenario_id": "support-0157",
+      "batch": "batch_3_targeted",
+      "strategy": "depth_search_similarity",
+      "verdict": "pass"
+    },
+    {
+      "trace_id": "a2dca4d975ed6faad83ee672053100a4",
+      "scenario_id": "support-0159",
+      "batch": "batch_3_targeted",
+      "strategy": "depth_search_similarity",
+      "verdict": "fail"
+    },
+    {
+      "trace_id": "6cb5d7b6b047d940e3d338e08fa2263f",
+      "scenario_id": "support-0160",
+      "batch": "batch_3_targeted",
+      "strategy": "depth_search_similarity",
+      "verdict": "pass"
+    },
+    {
+      "trace_id": "8b6217d97dd3ef463271d1ebe98b37ce",
+      "scenario_id": "support-0161",
+      "batch": "batch_3_targeted",
+      "strategy": "depth_search_similarity",
+      "verdict": "pass"
+    },
+    {
+      "trace_id": "8a69567acf536541d5d7bdb2c2750d86",
+      "scenario_id": "support-0170",
+      "batch": "batch_3_targeted",
+      "strategy": "depth_search_similarity",
+      "verdict": "pass"
+    },
+    {
+      "trace_id": "de27a88ab4387550a59347884ac01586",
+      "scenario_id": "support-0201",
+      "batch": "batch_3_targeted",
+      "strategy": "depth_search_similarity",
+      "verdict": "pass"
+    },
+    {
+      "trace_id": "7be8554e6a48449e183294fbf057e8ff",
+      "scenario_id": "support-0229",
+      "batch": "batch_3_targeted",
+      "strategy": "depth_search_similarity",
+      "verdict": "fail"
+    },
+    {
+      "trace_id": "87c0be0172c9f1c9c730ac4f71b011e1",
+      "scenario_id": "support-0234",
+      "batch": "batch_3_targeted",
+      "strategy": "depth_search_similarity",
+      "verdict": "pass"
+    },
+    {
+      "trace_id": "58ee7e7f5b6f5a990e4519878a3d9e54",
+      "scenario_id": "support-0239",
+      "batch": "batch_3_targeted",
+      "strategy": "depth_search_similarity",
+      "verdict": "pass"
+    },
+    {
+      "trace_id": "d78da5c70abb9e44c5d5d587ed5245d9",
+      "scenario_id": "support-0243",
+      "batch": "batch_3_targeted",
+      "strategy": "depth_search_similarity",
+      "verdict": "fail"
+    },
+    {
+      "trace_id": "6c5511a592633cc25f639ae867886ec6",
+      "scenario_id": "support-0248",
+      "batch": "batch_3_targeted",
+      "strategy": "depth_search_similarity",
+      "verdict": "fail"
+    },
+    {
+      "trace_id": "d205ab5712bea0331100e4b302310d85",
+      "scenario_id": "support-0250",
+      "batch": "batch_3_targeted",
+      "strategy": "depth_search_similarity",
+      "verdict": "pass"
+    },
+    {
+      "trace_id": "9a7b03487594bf7d46c5f5b3f34408c6",
+      "scenario_id": "support-0003",
+      "batch": "batch_4_holdout",
+      "strategy": "uniform_random_holdout",
+      "verdict": "pass"
+    },
+    {
+      "trace_id": "a24196e1ba787f60c47122332e7a554e",
+      "scenario_id": "support-0024",
+      "batch": "batch_4_holdout",
+      "strategy": "uniform_random_holdout",
+      "verdict": "pass"
+    },
+    {
+      "trace_id": "f04d5d9956637684a2eb5ffe74b974a0",
+      "scenario_id": "support-0040",
+      "batch": "batch_4_holdout",
+      "strategy": "uniform_random_holdout",
+      "verdict": "pass"
+    },
+    {
+      "trace_id": "c96863185dd4e471b10e58a80fb58050",
+      "scenario_id": "support-0077",
+      "batch": "batch_4_holdout",
+      "strategy": "uniform_random_holdout",
+      "verdict": "pass"
+    },
+    {
+      "trace_id": "66492fd3d6525a8494e7c3e749724eb2",
+      "scenario_id": "support-0122",
+      "batch": "batch_4_holdout",
+      "strategy": "uniform_random_holdout",
+      "verdict": "pass"
+    },
+    {
+      "trace_id": "0055b3ee0d77bd90ecb3110c478a2e91",
+      "scenario_id": "support-0130",
+      "batch": "batch_4_holdout",
+      "strategy": "uniform_random_holdout",
+      "verdict": "pass"
+    },
+    {
+      "trace_id": "530db66ee01e8bbf746e3fe6871e849f",
+      "scenario_id": "support-0150",
+      "batch": "batch_4_holdout",
+      "strategy": "uniform_random_holdout",
+      "verdict": "fail"
+    },
+    {
+      "trace_id": "8ef1f38aa4bc8af79dfb3efe31409f1b",
+      "scenario_id": "support-0196",
+      "batch": "batch_4_holdout",
+      "strategy": "uniform_random_holdout",
+      "verdict": "fail"
+    },
+    {
+      "trace_id": "f920a3173350690d3a0624b8a41df18f",
+      "scenario_id": "support-0206",
+      "batch": "batch_4_holdout",
+      "strategy": "uniform_random_holdout",
+      "verdict": "fail"
+    },
+    {
+      "trace_id": "4b5f092eb0f072dbd2764f79fb6ff88d",
+      "scenario_id": "support-0238",
+      "batch": "batch_4_holdout",
+      "strategy": "uniform_random_holdout",
+      "verdict": "fail"
+    },
+    {
+      "trace_id": "370417e4c503eda6cbf47d6bc1311d54",
+      "scenario_id": "support-0237",
+      "batch": "batch_4_holdout",
+      "strategy": "uniform_random_holdout",
+      "verdict": "fail"
+    },
+    {
+      "trace_id": "478de07e6369b7af5b7310a1250f9189",
+      "scenario_id": "support-0208",
+      "batch": "batch_4_holdout",
+      "strategy": "uniform_random_holdout",
+      "verdict": "pass"
+    },
+    {
+      "trace_id": "8e4ebd2fe1dfee47011c49c1f05fdafe",
+      "scenario_id": "support-0212",
+      "batch": "batch_4_holdout",
+      "strategy": "uniform_random_holdout",
+      "verdict": "fail"
+    },
+    {
+      "trace_id": "a77c12f66cf1ff2cd8d78e9f26af43dd",
+      "scenario_id": "support-0213",
+      "batch": "batch_4_holdout",
+      "strategy": "uniform_random_holdout",
+      "verdict": "fail"
+    },
+    {
+      "trace_id": "08eedee8c1fe2bb652c039996f869d87",
+      "scenario_id": "support-0230",
+      "batch": "batch_4_holdout",
+      "strategy": "uniform_random_holdout",
+      "verdict": "pass"
+    }
+  ]
+}

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cartwheel HW4: Axial Coding & Semantic Clusters</title>
+  <link rel="stylesheet" href="/static/styles.css">
+  <link rel="stylesheet" href="/static/axial.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body class="axial-body">
+  <header class="app-header">
+    <div class="brand">
+      <span class="logo-icon">🎡</span>
+      <div class="brand-text">
+        <h1>Cartwheel Support Review</h1>
+        <span class="version-tag">Axial Coding &amp; Failure Mode Discovery</span>
+      </div>
+    </div>
+    
+    <nav class="header-nav">
+      <a href="/" class="nav-link">← Back to Trace Review</a>
+      <a href="/axial-codes" class="nav-link active">📊 Axial Clusters</a>
+    </nav>
+
+    <div class="header-actions">
+      <div class="k-selector">
+        <label for="k-slider">Clusters (k): <strong id="k-val-display">6</strong></label>
+        <input type="range" id="k-slider" min="4" max="8" value="6" step="1">
+      </div>
+      <button id="btn-recompute" class="btn btn-secondary">⚡ Re-cluster</button>
+      <button id="btn-export-taxonomy" class="btn btn-primary">💾 Save to Taxonomy</button>
+    </div>
+  </header>
+
+  <main class="axial-container">
+    <!-- Top Statistics Bar -->
+    <section class="stats-banner">
+      <div class="stat-card">
+        <span class="stat-label">Reviewed Notes Analyzed</span>
+        <strong id="stat-total-notes" class="stat-value">0</strong>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Failure Notes (Core Positives)</span>
+        <strong id="stat-fail-notes" class="stat-value fail-val">0</strong>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Pass Notes (Close Negatives)</span>
+        <div style="display: flex; align-items: baseline; gap: 8px;">
+          <strong id="stat-pass-notes" class="stat-value pass-val">0</strong>
+          <span id="stat-total-passes-sub" style="font-size: 11px; color: var(--text-muted); font-weight: 500;">(of 59 passes)</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Candidate Failure Modes</span>
+        <strong id="stat-clusters-count" class="stat-value accent-val">0</strong>
+      </div>
+    </section>
+
+    <!-- Main Workspace Layout -->
+    <div class="axial-workspace">
+      <!-- Left Column: Cluster Cards & Editing -->
+      <section class="clusters-panel">
+        <div class="panel-header">
+          <div class="panel-header-title-row">
+            <h2>Discovered Failure Clusters (Axial Codes)</h2>
+            <button id="btn-add-custom-code" class="btn btn-secondary btn-sm" title="Create a custom axial failure mode">
+              ➕ Add Custom Axial Code
+            </button>
+          </div>
+          <div class="filter-controls">
+            <label><input type="checkbox" id="show-positives" checked> Show Fails (Positives)</label>
+            <label><input type="checkbox" id="show-negatives" checked> Show Passes (Close Negatives)</label>
+          </div>
+        </div>
+
+        <div id="clusters-list" class="clusters-list">
+          <div class="loading-state">Computing semantic vectors and clustering observations...</div>
+        </div>
+      </section>
+
+      <!-- Right Column: Interactive 2D Semantic Map & Heatmap -->
+      <aside class="visual-panel">
+        <div class="panel-header">
+          <h2>Semantic Space &amp; Similarity Matrix</h2>
+          <div class="view-toggles">
+            <button id="toggle-map" class="btn-toggle active">2D Cluster Map</button>
+            <button id="toggle-matrix" class="btn-toggle">Similarity Matrix</button>
+          </div>
+        </div>
+
+        <!-- 2D Map Canvas View -->
+        <div id="map-view" class="view-container active">
+          <div class="map-controls-bar">
+            <div class="map-legend">
+              <span><span class="dot fail-dot"></span> Fail (Positive)</span>
+              <span><span class="dot pass-dot"></span> Pass (Close Neg)</span>
+              <span><span class="dot centroid-dot"></span> Centroid</span>
+            </div>
+            <div class="zoom-actions">
+              <button id="btn-zoom-in" class="btn-tool" title="Zoom In">+</button>
+              <button id="btn-zoom-out" class="btn-tool" title="Zoom Out">&minus;</button>
+              <button id="btn-zoom-reset" class="btn-tool" title="Reset & Center View">⟲ Reset View</button>
+            </div>
+          </div>
+          <div class="canvas-wrapper">
+            <svg id="cluster-svg" width="100%" height="520" viewBox="0 0 700 560">
+              <g id="svg-viewport"></g>
+            </svg>
+            <div id="node-tooltip" class="node-tooltip"></div>
+          </div>
+        </div>
+
+        <!-- Matrix Heatmap View -->
+        <div id="matrix-view" class="view-container">
+          <p class="matrix-hint">Hover cells to see pairwise cosine similarity between traces:</p>
+          <div class="matrix-wrapper">
+            <table id="similarity-table" class="similarity-table"></table>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="/static/axial.js?v=5"></script>
+</body>
+</html>
