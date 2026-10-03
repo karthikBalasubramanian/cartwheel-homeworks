@@ -20,7 +20,7 @@ In Homework 4, I analyzed traces from the Cartwheel AI support assistant and bui
 
 ## 2. Designing the Evaluator Mix & Probing Check Kinds
 
-When authoring cases, I examined the evaluation engine in [`replay/rollout.py`](file:///Users/kabalasu/Documents/work/study/ai-evals/cartwheel-homeworks/replay/rollout.py) to choose the right evaluator for each check:
+When authoring cases, I examined the evaluation engine in [`replay/rollout.py`](../../replay/rollout.py) to choose the right evaluator for each check:
 
 ### Probing Check Kinds:
 - I probed whether a `tool_not_called` check exists. I confirmed that `rollout.py` only supports:
@@ -131,7 +131,7 @@ Out of all 3,003 possible 5-trial groups, exactly 1,716 contain at least one con
 
 ---
 
-### Empirical 15-Run Results for `e-005` ([`eval_results/e-005-15.json`](file:///Users/kabalasu/Documents/work/study/ai-evals/cartwheel-homeworks/eval_results/e-005-15.json)):
+### Empirical 15-Run Results for `e-005` ([`eval_results/e-005-15.json`](../../eval_results/e-005-15.json)):
 
 | Observed Trials ($n$) | Successes ($c$) | pass@1 | pass@3 | pass@5 | pass@10 | pass@15 |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
@@ -148,7 +148,7 @@ Out of all 3,003 possible 5-trial groups, exactly 1,716 contain at least one con
 
 ## 7. Continuous Integration: Two Pull Request Runs (`ci-runs.json`)
 
-To prove my CI gating architecture works under real pull request conditions, I conducted an intentional regression test on GitHub Actions (recorded in [`ci-runs.json`](file:///Users/kabalasu/Documents/work/study/ai-evals/cartwheel-homeworks/ci-runs.json)):
+To prove my CI gating architecture works under real pull request conditions, I conducted an intentional regression test on GitHub Actions (recorded in [`ci-runs.json`](../../ci-runs.json)):
 
 ### Run 1: Intentional Regression Run (FAILED ❌)
 - **Workflow Run:** [Run 37135816765](https://github.com/karthikBalasubramanian/cartwheel-homeworks/actions/runs/37135816765)
