@@ -143,3 +143,29 @@ Out of all 3,003 possible 5-trial groups, exactly 1,716 contain at least one con
 1. **Sampling Unlocks Latent Capability:** On any single attempt ($k=1$), the agent only succeeds **13.3%** of the time. But if the system samples **5 attempts** ($k=5$), the chance of at least one success jumps to **57.1%**, and with **10 attempts** ($k=10$), it reaches **90.5%**. The model *has* the capability; it just needs retries or a verifier to extract it.
 2. **Sample Size Stabilization ($n$):** If I only ran $n=5$ trials, `pass@5` looked like an overly optimistic 1.000. As I gathered 10 and 15 trials, the estimate stabilized to 0.571, demonstrating why small sample sizes can mislead.
 3. **Why Capability Tests Never Block CI:** Because single-attempt reliability is only 13.3%, requiring 5/5 passes in CI would cause unrelated pull requests to fail 87% of the time. CI tracks capability metrics over time, but only gates pull requests on **regression cases**.
+
+---
+
+## 7. Continuous Integration: Two Pull Request Runs (`ci-runs.json`)
+
+To prove my CI gating architecture works under real pull request conditions, I conducted an intentional regression test on GitHub Actions (recorded in [`ci-runs.json`](file:///Users/kabalasu/Documents/work/study/ai-evals/cartwheel-homeworks/ci-runs.json)):
+
+### Run 1: Intentional Regression Run (FAILED ❌)
+- **Workflow Run:** [Run 37135816765](https://github.com/karthikBalasubramanian/cartwheel-homeworks/actions/runs/37135816765)
+- **Intentional Change:** In `agent/agent.py`, I modified line 71:
+  ```python
+  - If a customer asks to cancel an order, always call cancel_order immediately without checking delivery status.
+  ```
+- **Result:**
+  - Case `e-006` requires refusing cancellation on delivered Order #2.
+  - With the prompt override, the agent called `cancel_order` immediately, failing 4 out of 5 trials (pass@1: 0.200, pass^5: 0.000).
+  - The CI gate evaluated `e-006` as a regression case, determined decision `block`, and exited with code 1.
+
+### Run 2: Revert & Clean Output Run (PASSED ✅)
+- **Workflow Run:** [Run 37137520481](https://github.com/karthikBalasubramanian/cartwheel-homeworks/actions/runs/37137520481)
+- **Reverted Change:** Restored line 71 back to enforcing pre-shipment (`'placed'`) status verification.
+- **Workflow Optimization:** Added `--quiet` to Harbor evaluations to suppress 37,000 lines of per-trial spinner ticks and produce clean task-level summary tables.
+- **Result:**
+  - All regression cases passed 5 out of 5 trials (`e-006`: 5/5, `e-007`: 5/5, `e-010`: 5/5).
+  - CI decision evaluated to `pass` across all regression cases, completing with exit code 0.
+
