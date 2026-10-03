@@ -13,6 +13,7 @@ data/cartwheel.db
 *.db-shm
 scenarios/results/
 replay/results/
+.harbor/
 
 # Python
 __pycache__/
