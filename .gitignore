@@ -8,7 +8,9 @@
 data/cartwheel.db
 
 # Local conversation state and scenario/replay run outputs.
-.sessions.db
+.sessions.db*
+*.db-wal
+*.db-shm
 scenarios/results/
 replay/results/
 .harbor/
@@ -18,4 +20,5 @@ __pycache__/
 *.pyc
 .venv/
 .pytest_cache/
+.scout
 scenarios/demo_pilot_gt.json
