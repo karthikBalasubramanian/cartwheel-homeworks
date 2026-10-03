@@ -23,7 +23,7 @@ jobs:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     env:
-      CARTWHEEL_MODEL: ${{ vars.CARTWHEEL_MODEL }}
+      CARTWHEEL_MODEL: ${{ vars.CARTWHEEL_MODEL || 'gpt-4o-mini' }}
       PYTHONPATH: ${{ github.workspace }}
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
