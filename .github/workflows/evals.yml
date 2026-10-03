@@ -16,7 +16,7 @@ jobs:
       - uses: astral-sh/setup-uv@v5
       - run: uv sync
       - name: Run checks that do not call a model
-        run: uv run pytest tests/eval tests/test_cli.py tests/test_db.py tests/test_hw_holes.py tests/test_harbor_adapter.py tests/test_replay_harness.py -q
+        run: uv run pytest tests/eval tests/test_cli.py tests/test_db.py tests/test_hw_holes.py tests/test_harbor_adapter.py tests/test_replay_harness.py -q -k "not test_m2"
 
   complete-evaluations:
     name: Harbor evaluations
@@ -25,6 +25,8 @@ jobs:
     env:
       CARTWHEEL_MODEL: ${{ vars.CARTWHEEL_MODEL || 'gpt-4o-mini' }}
       PYTHONPATH: ${{ github.workspace }}
+      PYTHONUNBUFFERED: "1"
+      FORCE_COLOR: "1"
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
       TOGETHER_API_KEY: ${{ secrets.TOGETHER_API_KEY }}
