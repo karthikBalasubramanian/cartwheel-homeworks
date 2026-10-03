@@ -22,9 +22,15 @@ def analyze_capability_job(
     if not result_path.exists():
         raise FileNotFoundError(f"Harbor result not found: {result_path}")
     result = json.loads(result_path.read_text())
+    trial_results = result.get("trial_results")
+    if trial_results is None:
+        trial_results = [
+            json.loads(p.read_text())
+            for p in sorted(job_dir.glob("*/result.json"))
+        ]
     trials = [
         trial
-        for trial in result.get("trial_results", [])
+        for trial in trial_results
         if str(trial.get("task_name", "")).endswith(case_id)
     ]
     if len(trials) != expected_attempts:
